@@ -74,13 +74,39 @@ gql_template = """\
 
 # Define our query object that we'll re-use for github search
 class GitHubGraphQlQuery():
-    def __init__(self, query, display_progress=True):
+    def __init__(self, query, display_progress=True, auth=None):
+        """Run a GitHub GraphQL query and return the issue/PR data from it.
+
+        Parameters
+        ----------
+        query : string
+          The GitHub search query to run. This is similar to whatever you'd use
+          to search on GitHub.com.
+        display_progress : bool
+          Whether to display a progress bar as data is fetched.
+        auth : string | None
+          An authentication token for GitHub. If None, then the environment
+          variable `GITHUB_ACCESS_TOKEN` will be tried.
+        """
         self.query = query
-        self.headers = {"Authorization": "Bearer %s" % os.environ['GITHUB_ACCESS_TOKEN']}
+
+        # Authentication
+        headers = {}
+        auth = os.environ.get('GITHUB_ACCESS_TOKEN') if auth is None else auth
+        if auth is not None:
+          headers.update({"Authorization": "Bearer %s" % auth})
+
+        self.headers = headers
         self.gql_template = gql_template
         self.display_progress = display_progress
 
     def request(self, n_pages=100, n_per_page=50):
+        """Make a request to the GitHub GraphQL API.
+
+        This generates an attribute `self.data` with a pandas
+        DataFrame of the issue / PR activity corresponding to
+        the query you ran.
+        """
         self.raw_data = []
         for ii in range(n_pages):
             search_query = ["first: %s" % n_per_page, 'query: "%s"' % self.query, 'type: ISSUE']
