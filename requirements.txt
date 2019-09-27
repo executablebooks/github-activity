@@ -1,0 +1,6 @@
+pandas
+requests
+numpy
+IPython
+ipywidgets
+markdown
