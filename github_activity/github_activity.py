@@ -1,6 +1,7 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
 from .graphql import GitHubGraphQlQuery
 import pandas as pd
+import numpy as np
 
 def get_activity(target, since, before=None, repo=None, kind=None):
     """Return issues/PRs within a date window.
@@ -113,26 +114,57 @@ def generate_activity_md(target, since, before=None, kind=None):
     changelog_url = f"https://github.com/{org}/{repo}/compare/{closest_start_sha}...{closest_stop_sha}"
 
     # Define categories for a few labels
-    feature_tags = ["enhancement"]
-    mask_features = closed_prs['labels'].map(lambda a: any(ii in jj for ii in feature_tags for jj in a))
-    features = closed_prs.loc[mask_features]
+    tags_metadata = {
+        "enhancement": {
+            'tags': ["enhancement", "feature", "enhancements"],
+            'description': "Enhancements made",
+            'mask': None,
+            'md': [],
+            'data': None,
+        },
+        "bugs": {
+            'tags': ["bug", "bugfix", "bugs"],
+            'description': "Bugs fixed",
+            'mask': None,
+            'md': [],
+            'data': None,
+        },
+        "maintenance": {
+            'tags': ["maintenance", "maint"],
+            'description': "Maintenance and upkeep improvements",
+            'mask': None,
+            'md': [],
+            'data': None,
+        },
+        "documentation": {
+            'tags': ["documentation", "docs", "doc"],
+            'description': "Documentation improvements",
+            'mask': None,
+            'md': [],
+            'data': None,
+        },
+    }
 
-    bug_tags = ["bug", "bugfix"]
-    mask_bugs = closed_prs['labels'].map(lambda a: any(ii in jj for ii in bug_tags for jj in a))
-    bugs = closed_prs.loc[mask_bugs]
+    # Separate out items by their tag types
+    for kind, kindmeta in tags_metadata.items():
+        mask = closed_prs['labels'].map(lambda a: any(ii in jj for ii in kindmeta['tags'] for jj in a))
+        kindmeta['data'] = closed_prs.loc[mask]
+        kindmeta['mask'] = mask
 
     # All remaining PRs w/o a label go here
-    others = closed_prs.loc[(~mask_bugs.values) & (~mask_features)]
+    all_masks = np.array([~kindinfo['mask'].values for _, kindinfo in tags_metadata.items()])
+    mask_others = all_masks.all(0)
+    others = closed_prs.loc[mask_others]
 
     # Create the markdown file
-    prs = dict(
-        features={'title': "Enhancements made", "md": [], 'data': features},
-        bugs={'title': "Bugs fixed", "md": [], 'data': bugs},
-        others={'title': "Other closed PRs", "md": [], 'data': others},
-        closed_issues={'title': "Closed issues", "md": [], 'data': closed_issues},
-        opened_prs={'title': "Opened PRs", "md": [], 'data': opened_prs},
-        opened_issues={'title': "Opened issues", "md": [], 'data': opened_issues}
+    tags_metadata_update = dict(
+        others={'description': "Other closed PRs", "md": [], 'data': others},
+        closed_issues={'description': "Closed issues", "md": [], 'data': closed_issues},
+        opened_prs={'description': "Opened PRs", "md": [], 'data': opened_prs},
+        opened_issues={'description': "Opened issues", "md": [], 'data': opened_issues}
     )
+    tags_metadata.update(tags_metadata_update)
+    prs = tags_metadata
 
     for kind, items in prs.items():
         n_orgs = len(items['data']['org'].unique())
@@ -141,16 +173,16 @@ def generate_activity_md(target, since, before=None, kind=None):
                 items['md'].append(f'## {org}')
                 items['md'].append('')
 
-            for irow, idata in items['data'].iterrows():
-                author = idata['author']
-                this_md = f"* {idata['title']} [#{idata['number']}]({idata['url']}) ([@{author}](https://github.com/{author}))"
+            for irow, irowdata in items['data'].iterrows():
+                author = irowdata['author']
+                this_md = f"* {irowdata['title']} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
                 items['md'].append(this_md)
 
     md = [f"# {since}...{before}", f"([full changelog]({changelog_url}))", ""]
     for kind, info in prs.items():
         if len(info['md']) > 0:
             md += [""]
-            md.append(f"## {info['title']}")
+            md.append(f"## {info['description']}")
             md += info['md']
     md = '\n'.join(md)
     return md
