@@ -44,7 +44,7 @@ instructions to generate and use a GitHub access token for use with `github-acti
   you don't need to set any scopes on the token you create.
 * When using `github-activity` from the command line, use the `--auth` parameter and pass
   in your access token. This is easiest if you set it as an **environment variable**,
-  such as `GITHUB_ACCESS_TOKEN`. You can then add it to your call like so:
+  such as `MY_ACCESS_TOKEN`. You can then add it to your call like so:
 
   ```
   github-activity jupyter/notebook 2019-09-01 --auth $MY_ACCESS_TOKEN
