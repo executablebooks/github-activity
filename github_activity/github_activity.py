@@ -1,5 +1,5 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
-from .graphql import GitHubGraphQlQuery
+from .graphql import GitHubGraphQlQuery, get_tags
 import pandas as pd
 import numpy as np
 
@@ -32,6 +32,8 @@ def get_activity(target, since, before=None, repo=None, kind=None, auth=None):
         A munged collection of data returned from your query. This
         will be a combination of issues and PRs.
     """
+    since = pd.to_datetime(since)
+
     if before is None:
         time = f">={pd.to_datetime(since):%Y-%m-%d}"
     else:
@@ -93,9 +95,23 @@ def generate_activity_md(target, since, before=None, kind=None, auth=None):
     if before is None:
         before = 'today'
 
+    org, repo = _parse_target(target)
+    try:
+        since_name = since
+        since = pd.to_datetime(since)
+    except Exception:
+        # See if it's a tag
+        if repo is None:
+            raise ValueError("If `--since` is a tag, you must provide a repository name")
+        tags = get_tags(org, repo, auth=auth)
+        release = tags.query('tag == @since')
+        since_name = since
+        if len(release) == 0:
+            raise ValueError(f"--since argument is not a date or a tag, got {since}")
+        since = release['createdAt'].values[0]
+
     # Grab the data according to our query
     data = get_activity(target, since=since, before=before, kind=kind, auth=auth)
-    org, repo = _parse_target(target)
 
     # Clean up the data a bit
     data['labels'] = data['labels'].map(lambda a: [edge['node']['name'] for edge in a['edges']])
@@ -184,7 +200,7 @@ def generate_activity_md(target, since, before=None, kind=None, auth=None):
                 this_md = f"* {irowdata['title']} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
                 items['md'].append(this_md)
 
-    md = [f"# {since}...{before}", f"([full changelog]({changelog_url}))", ""]
+    md = [f"# {since_name}...{before}", f"([full changelog]({changelog_url}))", ""]
     for kind, info in prs.items():
         if len(info['md']) > 0:
             md += [""]

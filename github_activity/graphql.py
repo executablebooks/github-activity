@@ -6,6 +6,7 @@ from datetime import timedelta
 from ipywidgets import widgets
 from IPython.display import display
 
+
 comments_query = """\
         comments(last: 100) {
           edges {
@@ -162,3 +163,38 @@ class GitHubGraphQlQuery():
         self.data['author'] = self.data['author'].map(lambda a: a['login'] if a is not None else a)
         self.data['org'] = self.data['url'].map(lambda a: a.split('/')[3])
         self.data['repo'] = self.data['url'].map(lambda a: a.split('/')[4])
+
+
+def get_tags(org, repo, auth=None):
+  """Return a DataFrame of tags for releases in the repository."""
+  if auth is None:
+    auth = os.environ.get('GITHUB_API_TOKEN')
+
+  if auth is not None:
+    headers = {"Authorization": "Bearer %s" % auth}
+  else:
+    headers = None
+
+  tags_query = f"""\
+  query {{
+    repository(owner: "{org}", name: "{repo}") {{
+      releases(first: 10) {{
+        edges {{
+          node {{
+            id
+            name
+            createdAt
+            tag {{
+              name
+            }}
+          }}
+        }}
+      }}
+    }}
+  }}
+  """
+  request = requests.post('https://api.github.com/graphql', json={'query': tags_query}, headers=headers)
+  releases = [iedge['node'] for iedge in request.json()['data']['repository']['releases']['edges']]
+  releases = pd.DataFrame(releases)
+  releases['tag'] = releases['tag'].map(lambda a: a['name'])
+  return releases
