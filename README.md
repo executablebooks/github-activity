@@ -10,6 +10,7 @@ This package does two things:
 2. Render this activity as markdown, suitable for generating changelogs or
    community updates.
 
+*Note: This is a really young tool so it might change a bit over time.*
 
 ## Installation
 
@@ -21,12 +22,7 @@ pip install git+https://github.com/choldgraf/github-activity
 
 ## Usage
 
-`gitlab-activity` use of the GitHub API require you to set a
-`GITHUB_ACCESS_TOKEN` environment variable before use. To create one for use, go
-[here](https://github.com/settings/tokens/new), and note that while working with
-a public repository, you don't need to set any scopes on the token you create.
-
-The easiest way to use github-activity to generate activity markdown is to use
+The easiest way to use `github-activity` to generate activity markdown is to use
 the command-line interface. Here's an example on the
 [jupyter notebook repository](https://github.com/jupyter/notebook), grabbing all
 activity since September 2019 and outputting it to a markdown file.
@@ -37,8 +33,22 @@ github-activity jupyter/notebook 2019-09-01 -o notebook_activity.md
 
 You can find the [resulting markdown here](docs/notebook_activity.md).
 
-## Notes
+### Using a GitHub API token
 
-* This is a really young tool so it might change a bit over time.
-* You should really use a GitHub API token before running queries, as this will
-  chew up your rate limit quickly otherwise.
+`github-activity` uses the GitHub API to pull information about a repository's activity.
+You will quickly hit your API limit unless you use a personal access token. Here are
+instructions to generate and use a GitHub access token for use with `github-activity`.
+
+* Create your own access token. Go to the [new GitHub access token page](https://github.com/settings/tokens/new)
+  and follow the instructions. Note that while working with a public repository,
+  you don't need to set any scopes on the token you create.
+* When using `github-activity` from the command line, use the `--auth` parameter and pass
+  in your access token. This is easiest if you set it as an **environment variable**,
+  such as `GITHUB_ACCESS_TOKEN`. You can then add it to your call like so:
+
+  ```
+  github-activity jupyter/notebook 2019-09-01 --auth $MY_ACCESS_TOKEN
+  ```
+* If you do not explicitly pass an access token to `github-activity`, it will search
+  for an environment variable called `GITHUB_ACCESS_TOKEN`. If it finds this variable,
+  it will use this in the API calls to GitHub.

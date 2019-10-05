@@ -3,7 +3,7 @@ from .graphql import GitHubGraphQlQuery
 import pandas as pd
 import numpy as np
 
-def get_activity(target, since, before=None, repo=None, kind=None):
+def get_activity(target, since, before=None, repo=None, kind=None, auth=None):
     """Return issues/PRs within a date window.
 
     Parameters
@@ -22,6 +22,9 @@ def get_activity(target, since, before=None, repo=None, kind=None):
         parsed with pd.to_datetime. If none, today's date will be used.
     kind : ["issue", "pr"] | None
         Return only issues or PRs. If None, both will be returned.
+    auth : string | None
+        An authentication token for GitHub. If None, then the environment
+        variable `GITHUB_ACCESS_TOKEN` will be tried.
 
     Returns
     -------
@@ -51,13 +54,13 @@ def get_activity(target, since, before=None, repo=None, kind=None):
         query += f" type:{kind}"
 
     print(f'Running query:\n{query}\n\n')
-    qu = GitHubGraphQlQuery(query)
+    qu = GitHubGraphQlQuery(query, auth=auth)
     qu.request()
     query_data = qu.data
     return query_data
 
 
-def generate_activity_md(target, since, before=None, kind=None):
+def generate_activity_md(target, since, before=None, kind=None, auth=None):
     """Generate a markdown changelog of GitHub activity within a date window.
 
     Parameters
@@ -76,6 +79,9 @@ def generate_activity_md(target, since, before=None, kind=None):
         parsed with pd.to_datetime. If none, today's date will be used.
     kind : ["issue", "pr"] | None
         Return only issues or PRs. If None, both will be returned.
+    auth : string | None
+        An authentication token for GitHub. If None, then the environment
+        variable `GITHUB_ACCESS_TOKEN` will be tried.
 
     Returns
     -------
@@ -88,7 +94,7 @@ def generate_activity_md(target, since, before=None, kind=None):
         before = 'today'
 
     # Grab the data according to our query
-    data = get_activity(target, since=since, before=before, kind=kind)
+    data = get_activity(target, since=since, before=before, kind=kind, auth=auth)
     org, repo = _parse_target(target)
 
     # Clean up the data a bit
