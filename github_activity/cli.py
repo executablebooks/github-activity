@@ -12,9 +12,10 @@ parser.add_argument(
                    "organization and repo (e.g., `jupyter/notebook`). If the former, all"
                    "repositories for that org will be used. If the latter, only the specified"
                    "repository will be used.")
-parser.add_argument(
-    "since", help="Return issues/PRs with activity since this date. Can "
-                    "be any string that is parsed with pd.to_datetime.")
+parser.add_argument("-s", "--since", default=None,
+                    help="Return issues/PRs with activity since this date or tag name. Can "
+                         "be any string that is parsed with pd.to_datetime, or a tag name. "
+                         "If not given, then the date from the latest tag will be used.")
 parser.add_argument("-o", "--output", default=None,
                     help="Write the markdown to a file if desired.")
 parser.add_argument("--before", default=None,

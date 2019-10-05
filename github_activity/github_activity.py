@@ -62,7 +62,7 @@ def get_activity(target, since, before=None, repo=None, kind=None, auth=None):
     return query_data
 
 
-def generate_activity_md(target, since, before=None, kind=None, auth=None):
+def generate_activity_md(target, since=None, before=None, kind=None, auth=None):
     """Generate a markdown changelog of GitHub activity within a date window.
 
     Parameters
@@ -73,7 +73,7 @@ def generate_activity_md(target, since, before=None, kind=None, auth=None):
         organization and repo (e.g., `jupyter/notebook`). If the former, all
         repositories for that org will be used. If the latter, only the specified
         repository will be used.
-    since : string
+    since : string | None
         Return issues/PRs with activity since this date. Can be any string that is
         parsed with pd.to_datetime.
     before : string | None
@@ -97,18 +97,26 @@ def generate_activity_md(target, since, before=None, kind=None, auth=None):
 
     org, repo = _parse_target(target)
     try:
+        if since is None:
+            # In case since is None, we should break (this is hacky)
+            raise Exception
         since_name = since
         since = pd.to_datetime(since)
     except Exception:
         # See if it's a tag
         if repo is None:
-            raise ValueError("If `--since` is a tag, you must provide a repository name")
+            raise ValueError("If `--since` is a tag or None, you must provide a repository name")
         tags = get_tags(org, repo, auth=auth)
-        release = tags.query('tag == @since')
-        since_name = since
-        if len(release) == 0:
-            raise ValueError(f"--since argument is not a date or a tag, got {since}")
-        since = release['createdAt'].values[0]
+        if since is None:
+            since = tags.iloc[-1]['createdAt']
+            since_name = tags.iloc[-1]['name']
+        else:
+            release = tags.query('tag == @since')
+            since_name = since
+            if len(release) == 0:
+                raise ValueError(f"--since argument is not a date or a tag, got {since}")
+            since = release['createdAt'].values[0]
+
 
     # Grab the data according to our query
     data = get_activity(target, since=since, before=before, kind=kind, auth=auth)
