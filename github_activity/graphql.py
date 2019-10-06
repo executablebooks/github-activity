@@ -1,10 +1,11 @@
-import requests
-import pandas as pd
-import numpy as np
 import os
+import requests
 from datetime import timedelta
-from ipywidgets import widgets
+
+import numpy as np
+import pandas as pd
 from IPython.display import display
+from ipywidgets import widgets
 
 comments_query = """\
         comments(last: 100) {
@@ -94,7 +95,7 @@ class GitHubGraphQlQuery():
         headers = {}
         auth = os.environ.get('GITHUB_ACCESS_TOKEN') if auth is None else auth
         if auth is not None:
-          headers.update({"Authorization": "Bearer %s" % auth})
+            headers.update({"Authorization": "Bearer %s" % auth})
 
         self.headers = headers
         self.gql_template = gql_template
@@ -107,28 +108,40 @@ class GitHubGraphQlQuery():
         DataFrame of the issue / PR activity corresponding to
         the query you ran.
         """
-        self.raw_data = []
+
+        # NOTE: This main search query has a type, but the query string also has a type.
+        # ref ("search"): https://developer.github.com/v4/query/#connections
+        # Collect paginated issues
+        self.issues_and_or_prs = []
         for ii in range(n_pages):
-            search_query = ["first: %s" % n_per_page, 'query: "%s"' % self.query, 'type: ISSUE']
-
+            github_search_query = [
+                'first: %s' % n_per_page,
+                'query: "%s"' % self.query,
+                'type: ISSUE',
+            ]
             if ii != 0:
-                search_query.append('after: "%s"' % pageInfo['endCursor'])
+                github_search_query.append('after: "%s"' % pageInfo['endCursor'])
 
-            this_query = self.gql_template.format(
-                query=', '.join(search_query),
+            ii_gql_query = self.gql_template.format(
+                query=', '.join(github_search_query),
                 comments=comments_query,
-                base_elements=base_elements
+                base_elements=base_elements,
             )
-            request = requests.post('https://api.github.com/graphql', json={'query': this_query}, headers=self.headers)
-            if request.status_code != 200:
-                raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, this_query))
-            if "errors" in request.json().keys():
-                raise Exception("Query failed to run with error {}. {}".format(request.json()['errors'], this_query))
-            self.request = request
+            ii_request = requests.post('https://api.github.com/graphql', json={'query': ii_gql_query}, headers=self.headers)
+            if ii_request.status_code != 200:
+                raise Exception("Query failed to run by returning code of {}. {}".format(ii_request.status_code, ii_gql_query))
+            if "errors" in ii_request.json().keys():
+                raise Exception("Query failed to run with error {}. {}".format(ii_request.json()['errors'], ii_gql_query))
+            self.last_request = ii_request
 
-            # Parse the response
-            json = request.json()['data']['search']
+            # Parse the response for this pagination
+            json = ii_request.json()['data']['search']
             if ii == 0:
+                if json['issueCount'] == 0:
+                    print("Found no entries for query.")
+                    self.data = pd.DataFrame()
+                    return
+
                 n_pages = int(np.ceil(json['issueCount'] / n_per_page))
                 print("Found {} items, which will take {} pages".format(json['issueCount'], n_pages))
                 prog = widgets.IntProgress(
@@ -142,9 +155,9 @@ class GitHubGraphQlQuery():
                     display(prog)
 
             # Add the JSON to the raw data list
-            self.raw_data.append(json)
+            self.issues_and_or_prs.extend(json['nodes'])
             pageInfo = json['pageInfo']
-            self.last_query = this_query
+            self.last_query = ii_gql_query
 
             # Update progress and should we stop?
             prog.value += 1
@@ -152,13 +165,10 @@ class GitHubGraphQlQuery():
                 prog.bar_style = 'success'
                 break
 
-        if self.raw_data[0]['issueCount'] == 0:
-            print("Found no entries for query {}".format(self.query))
-            self.data = None
-            return
+        # Create a dataframe of the issues and/or PRs
+        self.data = pd.DataFrame(self.issues_and_or_prs)
 
         # Add some extra fields
-        self.data = pd.DataFrame([jj for ii in self.raw_data for jj in ii['nodes']])
         self.data['author'] = self.data['author'].map(lambda a: a['login'] if a is not None else a)
         self.data['org'] = self.data['url'].map(lambda a: a.split('/')[3])
         self.data['repo'] = self.data['url'].map(lambda a: a.split('/')[4])

@@ -1,9 +1,16 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
+import datetime
+import dateutil
+import pytz
+import requests
+import urllib
+
 from .graphql import GitHubGraphQlQuery
 import pandas as pd
 import numpy as np
 
-def get_activity(target, since, before=None, repo=None, kind=None, auth=None):
+
+def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
     """Return issues/PRs within a date window.
 
     Parameters
@@ -15,11 +22,12 @@ def get_activity(target, since, before=None, repo=None, kind=None, auth=None):
         repositories for that org will be used. If the latter, only the specified
         repository will be used.
     since : string
-        Return issues/PRs with activity since this date. Can be any string that is
-        parsed with pd.to_datetime.
-    before : string | None
-        Return issues/PRs with activity before this date. Can be any string that is
-        parsed with pd.to_datetime. If none, today's date will be used.
+        Return issues/PRs with activity since this date or git reference. Can be
+        any string that is parsed with dateutil.parser.parse.
+    until : string | None
+        Return issues/PRs with activity until this date or git reference. Can be
+        any string that is parsed with dateutil.parser.parse. If none, today's
+        date will be used.
     kind : ["issue", "pr"] | None
         Return only issues or PRs. If None, both will be returned.
     auth : string | None
@@ -32,35 +40,41 @@ def get_activity(target, since, before=None, repo=None, kind=None, auth=None):
         A munged collection of data returned from your query. This
         will be a combination of issues and PRs.
     """
-    if before is None:
-        time = f">={pd.to_datetime(since):%Y-%m-%d}"
-    else:
-        time = f"{pd.to_datetime(since):%Y-%m-%d}..{pd.to_datetime(before):%Y-%m-%d}"
 
-    query = f'updated:{time}'
+    org, repo = _parse_target(target)
 
-    _, repo = _parse_target(target)
     if repo:
         # We have org/repo
-        query += f" repo:{target}"
+        search_query = f"repo:{target}"
     else:
         # We have just org
-        query += f" user:{target}"
+        search_query = f"user:{target}"
+
+    since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since)
+    until_dt, until_is_git_ref = _get_datetime_and_type(org, repo, until)
+    since_dt_str = f"{since_dt:%Y-%m-%dT%H:%M:%SZ}"
+    until_dt_str = f"{until_dt:%Y-%m-%dT%H:%M:%SZ}"
+    search_query += f' updated:{since_dt_str}..{until_dt_str}'
 
     if kind:
         allowed_kinds = ['issue', 'pr']
         if kind not in allowed_kinds:
             raise ValueError(f"Kind must be one of {allowed_kinds}")
-        query += f" type:{kind}"
+        search_query += f" type:{kind}"
 
-    print(f'Running query:\n{query}\n\n')
-    qu = GitHubGraphQlQuery(query, auth=auth)
+    print(f'Running search query:\n{search_query}\n\n')
+    qu = GitHubGraphQlQuery(search_query, auth=auth)
     qu.request()
-    query_data = qu.data
-    return query_data
+    qu.data.since_dt = since_dt
+    qu.data.until_dt = until_dt
+    qu.data.since_dt_str = since_dt_str
+    qu.data.until_dt_str = until_dt_str
+    qu.data.since_is_git_ref = since_is_git_ref
+    qu.data.until_is_git_ref = until_is_git_ref
+    return qu.data
 
 
-def generate_activity_md(target, since, before=None, kind=None, auth=None):
+def generate_activity_md(target, since, until=None, kind=None, auth=None):
     """Generate a markdown changelog of GitHub activity within a date window.
 
     Parameters
@@ -72,11 +86,12 @@ def generate_activity_md(target, since, before=None, kind=None, auth=None):
         repositories for that org will be used. If the latter, only the specified
         repository will be used.
     since : string
-        Return issues/PRs with activity since this date. Can be any string that is
-        parsed with pd.to_datetime.
-    before : string | None
-        Return issues/PRs with activity before this date. Can be any string that is
-        parsed with pd.to_datetime. If none, today's date will be used.
+        Return issues/PRs with activity since this date or git reference. Can be
+        any string that is parsed with dateutil.parser.parse.
+    until : string | None
+        Return issues/PRs with activity until this date or git reference. Can be
+        any string that is parsed with dateutil.parser.parse. If none, today's
+        date will be used.
     kind : ["issue", "pr"] | None
         Return only issues or PRs. If None, both will be returned.
     auth : string | None
@@ -89,12 +104,11 @@ def generate_activity_md(target, since, before=None, kind=None, auth=None):
         A munged collection of data returned from your query. This
         will be a combination of issues and PRs.
     """
-    # Parameter parsing
-    if before is None:
-        before = 'today'
-
     # Grab the data according to our query
-    data = get_activity(target, since=since, before=before, kind=kind, auth=auth)
+    data = get_activity(target, since=since, until=until, kind=kind, auth=auth)
+    if data.empty:
+        return
+
     org, repo = _parse_target(target)
 
     # Clean up the data a bit
@@ -102,22 +116,16 @@ def generate_activity_md(target, since, before=None, kind=None, auth=None):
     data['kind'] = data['url'].map(lambda a: "issue" if "issues/" in a else "pr")
 
     # Separate into closed and opened
-    closed = data.query('closedAt > @since and closedAt < @before')
-    opened = data.query('createdAt > @since and createdAt < @before')
+    until_dt_str = data.until_dt_str
+    since_dt_str = data.since_dt_str
+    closed = data.query('closedAt >= @since_dt_str and closedAt <= @until_dt_str')
+    opened = data.query('createdAt >= @since_dt_str and createdAt <= @until_dt_str')
 
     # Separate into PRs and issues
     closed_prs = closed.query("kind == 'pr'")
     closed_issues = closed.query("kind == 'issue'")
-
     opened_prs = opened.query("kind == 'pr'")
     opened_issues = opened.query("kind == 'issue'")
-
-    # SHAs for our dates to build the GitHub diff URL
-    closest_date_start = closed_prs.loc[abs(pd.to_datetime(closed_prs['closedAt'], utc=True) - pd.to_datetime(since, utc=True)).idxmin()]
-    closest_date_stop = closed_prs.loc[abs(pd.to_datetime(closed_prs['closedAt'], utc=True) - pd.to_datetime(before, utc=True)).idxmin()]
-    closest_start_sha = closest_date_start['mergeCommit']['oid']
-    closest_stop_sha = closest_date_stop['mergeCommit']['oid']
-    changelog_url = f"https://github.com/{org}/{repo}/compare/{closest_start_sha}...{closest_stop_sha}"
 
     # Define categories for a few labels
     tags_metadata = {
@@ -184,7 +192,12 @@ def generate_activity_md(target, since, before=None, kind=None, auth=None):
                 this_md = f"* {irowdata['title']} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
                 items['md'].append(this_md)
 
-    md = [f"# {since}...{before}", f"([full changelog]({changelog_url}))", ""]
+    # Get functional GitHub references: any git reference or master@{YY-mm-dd}
+    since = since if data.since_is_git_ref else f'master@{{{data.since_dt:%Y-%m-%d}}}'
+    until = until if data.until_is_git_ref else f'master@{{{data.until_dt:%Y-%m-%d}}}'
+    changelog_url = f'https://github.com/{org}/{repo}/compare/{since}...{until}'
+
+    md = [f"# {since}...{until}", f"([full changelog]({changelog_url}))", ""]
     for kind, info in prs.items():
         if len(info['md']) > 0:
             md += [""]
@@ -244,3 +257,30 @@ def _parse_target(target):
     else:
         raise ValueError(f"Invalid target. Target should be of the form org/repo. Got {target}")
     return org, repo
+
+
+def _get_datetime_and_type(org, repo, datetime_or_git_ref):
+    """Return a datetime object and bool."""
+
+    is_git_ref = False
+    if datetime_or_git_ref is None:
+        dt = datetime.datetime.now().astimezone(pytz.utc)
+    else:
+        try:
+            dt = dateutil.parser.parse(datetime_or_git_ref)
+        except ValueError as e:
+            if repo:
+                dt = _get_datetime_from_git_ref(org, repo, datetime_or_git_ref)
+                is_git_ref = True
+            else:
+                raise e
+
+    return dt, is_git_ref
+
+
+def _get_datetime_from_git_ref(org, repo, ref):
+    """Return a datetime from a git reference."""
+
+    response = requests.get(f"https://api.github.com/repos/{org}/{repo}/commits/{ref}")
+    response.raise_for_status()
+    return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
