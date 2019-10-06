@@ -30,12 +30,6 @@ parser.add_argument(
     date will be used.""",
 )
 parser.add_argument(
-    "--repo",
-    default=None,
-    help="""A GitHub repository for which you want to grab recent issues/PRs.
-    If None, all repositories for `org` will be used.""",
-)
-parser.add_argument(
     "--kind",
     default=None,
     help="""Return only issues or PRs. If None, both will be returned.""",
