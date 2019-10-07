@@ -139,6 +139,9 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
     opened_prs = opened_prs.loc[~mask_open_and_close_pr]
     opened_issues = opened_issues.loc[~mask_open_and_close_issue]
 
+    # Now remove the *closed* PRs (not merged) for our output list
+    closed_prs = closed_prs.query("state != 'CLOSED'")
+
     # Define categories for a few labels
     tags_metadata = {
         "enhancement": {
@@ -181,7 +184,7 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
     all_masks = np.array([~kindinfo['mask'].values for _, kindinfo in tags_metadata.items()])
     mask_others = all_masks.all(0)
     others = closed_prs.loc[mask_others]
-    other_description = "Other closed PRs" if len(others) != len(closed_prs) else "Closed PRs"
+    other_description = "Other merged PRs" if len(others) != len(closed_prs) else "Merged PRs"
 
     # Create the markdown file
     tags_metadata_update = dict(
