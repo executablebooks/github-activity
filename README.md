@@ -4,9 +4,9 @@ A tool to generate simple markdown changelogs for GitHub repositories written in
 
 This package does two things:
 
-1. Given a GitHub org, repository, and start date, use the [GitHub GraphQL
-   API](https://developer.github.com/v4/) to return a DataFrame of all issue and
-   PR activity for this time period.
+1. Given a GitHub org, repository, an initial git reference or date, use the
+   [GitHub GraphQL API](https://developer.github.com/v4/) to return a DataFrame
+   of all issue and PR activity for this time period.
 2. Render this activity as markdown, suitable for generating changelogs or
    community updates.
 
