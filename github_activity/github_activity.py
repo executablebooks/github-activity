@@ -21,7 +21,7 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
         organization and repo (e.g., `jupyter/notebook`). If the former, all
         repositories for that org will be used. If the latter, only the specified
         repository will be used.
-    since : string
+    since : string | None
         Return issues/PRs with activity since this date or git reference. Can be
         any string that is parsed with dateutil.parser.parse.
     until : string | None
@@ -50,6 +50,7 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
         # We have just org
         search_query = f"user:{target}"
 
+    # Figure out dates for our query
     since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since)
     until_dt, until_is_git_ref = _get_datetime_and_type(org, repo, until)
     since_dt_str = f"{since_dt:%Y-%m-%dT%H:%M:%SZ}"
@@ -74,7 +75,7 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
     return qu.data
 
 
-def generate_activity_md(target, since, until=None, kind=None, auth=None):
+def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
     """Generate a markdown changelog of GitHub activity within a date window.
 
     Parameters
@@ -85,9 +86,10 @@ def generate_activity_md(target, since, until=None, kind=None, auth=None):
         organization and repo (e.g., `jupyter/notebook`). If the former, all
         repositories for that org will be used. If the latter, only the specified
         repository will be used.
-    since : string
+    since : string | None
         Return issues/PRs with activity since this date or git reference. Can be
-        any string that is parsed with dateutil.parser.parse.
+        any string that is parsed with dateutil.parser.parse. If None, the date
+        of the latest release will be used.
     until : string | None
         Return issues/PRs with activity until this date or git reference. Can be
         any string that is parsed with dateutil.parser.parse. If none, today's
@@ -104,12 +106,16 @@ def generate_activity_md(target, since, until=None, kind=None, auth=None):
         A munged collection of data returned from your query. This
         will be a combination of issues and PRs.
     """
+    org, repo = _parse_target(target)
+
+    # If no since parameter is given, find the name of the latest release
+    if since is None:
+        since = _get_latest_tag(org, repo)
+
     # Grab the data according to our query
     data = get_activity(target, since=since, until=until, kind=kind, auth=auth)
     if data.empty:
         return
-
-    org, repo = _parse_target(target)
 
     # Clean up the data a bit
     data['labels'] = data['labels'].map(lambda a: [edge['node']['name'] for edge in a['edges']])
@@ -126,6 +132,12 @@ def generate_activity_md(target, since, until=None, kind=None, auth=None):
     closed_issues = closed.query("kind == 'issue'")
     opened_prs = opened.query("kind == 'pr'")
     opened_issues = opened.query("kind == 'issue'")
+
+    # Remove the PRs/Issues that from "opened" if they were also closed
+    mask_open_and_close_pr = opened_prs['id'].map(lambda iid: iid in closed_prs['id'].values)
+    mask_open_and_close_issue = opened_issues['id'].map(lambda iid: iid in closed_issues['id'].values)
+    opened_prs = opened_prs.loc[~mask_open_and_close_pr]
+    opened_issues = opened_issues.loc[~mask_open_and_close_issue]
 
     # Define categories for a few labels
     tags_metadata = {
@@ -169,10 +181,11 @@ def generate_activity_md(target, since, until=None, kind=None, auth=None):
     all_masks = np.array([~kindinfo['mask'].values for _, kindinfo in tags_metadata.items()])
     mask_others = all_masks.all(0)
     others = closed_prs.loc[mask_others]
+    other_description = "Other closed PRs" if len(others) != len(closed_prs) else "Closed PRs"
 
     # Create the markdown file
     tags_metadata_update = dict(
-        others={'description': "Other closed PRs", "md": [], 'data': others},
+        others={'description': other_description, "md": [], 'data': others},
         closed_issues={'description': "Closed issues", "md": [], 'data': closed_issues},
         opened_prs={'description': "Opened PRs", "md": [], 'data': opened_prs},
         opened_issues={'description': "Opened issues", "md": [], 'data': opened_issues}
@@ -284,3 +297,12 @@ def _get_datetime_from_git_ref(org, repo, ref):
     response = requests.get(f"https://api.github.com/repos/{org}/{repo}/commits/{ref}")
     response.raise_for_status()
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
+
+
+def _get_latest_tag(org, repo):
+    """Return the latest tag name for a given repository."""
+    response = requests.get(f"https://api.github.com/repos/{org}/{repo}/git/refs/tags")
+    response.raise_for_status()
+    tags = response.json()
+    latest_tag = list(tags)[-1]
+    return latest_tag['ref'].split('/tags/')[-1]

@@ -15,7 +15,9 @@ parser.add_argument(
     repository will be used.""",
 )
 parser.add_argument(
-    "since",
+    "-s",
+    "--since",
+    default=None,
     help="""Return issues/PRs with activity since this date or git reference. Can be
     any string that is parsed with dateutil.parser.parse.""",
 )
@@ -34,14 +36,21 @@ parser.add_argument(
     default=None,
     help="""Return only issues or PRs. If None, both will be returned.""",
 )
-parser.add_argument("--auth", default=None,
-                    help=("An authentication token for GitHub. If None, then the environment "
-                          "variable `GITHUB_ACCESS_TOKEN` will be tried."))
+parser.add_argument(
+    "--auth",
+    default=None,
+    help=(
+        "An authentication token for GitHub. If None, then the environment "
+        "variable `GITHUB_ACCESS_TOKEN` will be tried."
+    ),
+)
 
 
 def main():
     args = parser.parse_args(sys.argv[1:])
-    md = generate_activity_md(args.target, args.since, until=args.until, kind=args.kind, auth=args.auth)
+    md = generate_activity_md(
+        args.target, since=args.since, until=args.until, kind=args.kind, auth=args.auth
+    )
     if not md:
         return
 
