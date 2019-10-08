@@ -238,8 +238,11 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
 
     # Add a list of author contributions
     all_authors = sorted(set(all_authors), key=lambda a: str(a).lower())
-    author_md = ' | '.join([f"[@{iauthor}](https://github.com/{iauthor})"
-                            for iauthor in all_authors])
+    all_author_links = []
+    for iauthor in all_authors:
+        author_url = f"https://github.com/search?q=repo%3A{org}%2F{repo}+involves%3A{iauthor}+updated%3A{data.since_dt:%Y-%m-%d}..{data.until_dt:%Y-%m-%d}&type=Issues"
+        all_author_links.append(f"[@{iauthor}]({author_url})")
+    author_md = ' | '.join(all_author_links)
     gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
     md += [""]
     md += ["## Contributors for this release (commentors + issue/PR authors)"]
