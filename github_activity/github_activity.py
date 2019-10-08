@@ -117,6 +117,21 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
     if data.empty:
         return
 
+    # Collect authors of comments for our attribution list
+    comments = [
+        icomment
+        for iissue in data['comments'].values
+        for icomment in iissue['edges']
+        if icomment is not None
+    ]
+    comment_authors = [
+        icomment['node']['author']['login']
+        for icomment in comments
+        if icomment['node']['author'] is not None
+    ]
+    comment_author_counts = pd.value_counts(comment_authors)
+    all_authors = comment_author_counts[comment_author_counts > 1].index.tolist()
+
     # Clean up the data a bit
     data['labels'] = data['labels'].map(lambda a: [edge['node']['name'] for edge in a['edges']])
     data['kind'] = data['url'].map(lambda a: "issue" if "issues/" in a else "pr")
@@ -205,6 +220,7 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
 
             for irow, irowdata in items['data'].iterrows():
                 author = irowdata['author']
+                all_authors.append(author)
                 this_md = f"* {irowdata['title']} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
                 items['md'].append(this_md)
 
@@ -219,6 +235,20 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
             md += [""]
             md.append(f"## {info['description']}")
             md += info['md']
+
+    # Add a list of author contributions
+    all_authors = sorted(set(all_authors), key=lambda a: str(a).lower())
+    all_author_links = []
+    for iauthor in all_authors:
+        author_url = f"https://github.com/search?q=repo%3A{org}%2F{repo}+involves%3A{iauthor}+updated%3A{data.since_dt:%Y-%m-%d}..{data.until_dt:%Y-%m-%d}&type=Issues"
+        all_author_links.append(f"[@{iauthor}]({author_url})")
+    author_md = ' | '.join(all_author_links)
+    gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
+    md += [""]
+    md += ["## Contributors for this release (commentors + issue/PR authors)"]
+    md += [f"([GitHub contributors page for this release]({gh_contributors_link}))"]
+    md += [""]
+    md += [author_md]
     md = '\n'.join(md)
     return md
 
