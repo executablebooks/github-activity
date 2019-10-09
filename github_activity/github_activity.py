@@ -71,7 +71,7 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
         qu.request()
         query_data.append(qu.data)
 
-    query_data = pd.concat(query_data).drop_duplicates(subset=['id'])
+    query_data = pd.concat(query_data).drop_duplicates(subset=['id']).reset_index(drop=True)
     query_data.since_dt = since_dt
     query_data.until_dt = until_dt
     query_data.since_dt_str = since_dt_str
