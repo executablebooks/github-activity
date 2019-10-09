@@ -55,7 +55,6 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
     until_dt, until_is_git_ref = _get_datetime_and_type(org, repo, until)
     since_dt_str = f"{since_dt:%Y-%m-%dT%H:%M:%SZ}"
     until_dt_str = f"{until_dt:%Y-%m-%dT%H:%M:%SZ}"
-    search_query += f' updated:{since_dt_str}..{until_dt_str}'
 
     if kind:
         allowed_kinds = ['issue', 'pr']
@@ -63,16 +62,23 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
             raise ValueError(f"Kind must be one of {allowed_kinds}")
         search_query += f" type:{kind}"
 
+    # Query for both opened and closed issues/PRs in this window
     print(f'Running search query:\n{search_query}\n\n')
-    qu = GitHubGraphQlQuery(search_query, auth=auth)
-    qu.request()
-    qu.data.since_dt = since_dt
-    qu.data.until_dt = until_dt
-    qu.data.since_dt_str = since_dt_str
-    qu.data.until_dt_str = until_dt_str
-    qu.data.since_is_git_ref = since_is_git_ref
-    qu.data.until_is_git_ref = until_is_git_ref
-    return qu.data
+    query_data = []
+    for activity_type in ['created', 'closed']:
+        ii_search_query = search_query + f' {activity_type}:{since_dt_str}..{until_dt_str}'
+        qu = GitHubGraphQlQuery(ii_search_query, auth=auth)
+        qu.request()
+        query_data.append(qu.data)
+
+    query_data = pd.concat(query_data).drop_duplicates(subset=['id']).reset_index(drop=True)
+    query_data.since_dt = since_dt
+    query_data.until_dt = until_dt
+    query_data.since_dt_str = since_dt_str
+    query_data.until_dt_str = until_dt_str
+    query_data.since_is_git_ref = since_is_git_ref
+    query_data.until_is_git_ref = until_is_git_ref
+    return query_data
 
 
 def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
@@ -225,10 +231,23 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
                 items['md'].append(this_md)
 
     # Get functional GitHub references: any git reference or master@{YY-mm-dd}
-    since = since if data.since_is_git_ref else f'master@{{{data.since_dt:%Y-%m-%d}}}'
-    until = until if data.until_is_git_ref else f'master@{{{data.until_dt:%Y-%m-%d}}}'
-    changelog_url = f'https://github.com/{org}/{repo}/compare/{since}...{until}'
+    if not data.since_is_git_ref:
+        since = f'master@{{{data.since_dt:%Y-%m-%d}}}'
+        closest_date_start = closed_prs.loc[abs(pd.to_datetime(closed_prs['closedAt'], utc=True) - pd.to_datetime(data.since_dt, utc=True)).idxmin()]
+        since_ref = closest_date_start['mergeCommit']['oid'] 
+    else:
+        since_ref = since
 
+    if not data.until_is_git_ref:
+        until = f'master@{{{data.until_dt:%Y-%m-%d}}}'
+        closest_date_stop = closed_prs.loc[abs(pd.to_datetime(closed_prs['closedAt'], utc=True) - pd.to_datetime(data.until_dt, utc=True)).idxmin()]	
+        until_ref = closest_date_stop['mergeCommit']['oid']	
+    else:
+        until_ref = until
+    # SHAs for our dates to build the GitHub diff URL	
+    changelog_url = f"https://github.com/{org}/{repo}/compare/{since_ref}...{until_ref}"
+
+    # Build the Markdown
     md = [f"# {since}...{until}", f"([full changelog]({changelog_url}))", ""]
     for kind, info in prs.items():
         if len(info['md']) > 0:
