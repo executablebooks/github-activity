@@ -9,6 +9,29 @@ from .graphql import GitHubGraphQlQuery
 import pandas as pd
 import numpy as np
 
+# The tags and description to use in creating subsets of PRs
+TAGS_METADATA_BASE = {
+    "enhancement": {
+        'tags': ["enhancement", "feature", "enhancements"],
+        'description': "Enhancements made",
+    },
+    "bug": {
+        'tags': ["bug", "bugfix", "bugs"],
+        'description': "Bugs fixed",
+    },
+    "maintenance": {
+        'tags': ["maintenance", "maint"],
+        'description': "Maintenance and upkeep improvements",
+    },
+    "documentation": {
+        'tags': ["documentation", "docs", "doc"],
+        'description': "Documentation improvements",
+    },
+    "api_change": {
+        'tags': ["api-change", "apichange"],
+        'description': "API Changes",
+    },
+}
 
 def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
     """Return issues/PRs within a date window.
@@ -81,7 +104,9 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
     return query_data
 
 
-def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
+def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
+                         tags=None, include_issues=False, include_opened=False,
+                         strip_brackets=False):
     """Generate a markdown changelog of GitHub activity within a date window.
 
     Parameters
@@ -105,6 +130,20 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
     auth : string | None
         An authentication token for GitHub. If None, then the environment
         variable `GITHUB_ACCESS_TOKEN` will be tried.
+    tags : list of strings | None
+        A list of the tags to use in generating subsets of PRs for the markdown report.
+        Must be one of:
+
+            ['enhancement', 'bugs', 'maintenance', 'documentation', 'api_change']
+
+        If None, all of the above tags will be used.
+    include_issues : bool
+        Include Issues in the markdown output. Default is False.
+    include_opened : bool
+        Include a list of opened items in the markdown output. Default is False.
+    strip_brackets : bool
+        If True, strip any text between brackets at the beginning of the issue/PR title.
+        E.g., [MRG], [DOC], etc.
 
     Returns
     -------
@@ -164,36 +203,21 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
     closed_prs = closed_prs.query("state != 'CLOSED'")
 
     # Define categories for a few labels
-    tags_metadata = {
-        "enhancement": {
-            'tags': ["enhancement", "feature", "enhancements"],
-            'description': "Enhancements made",
+    if tags is None:
+        tags = TAGS_METADATA_BASE.keys()
+    if not all(tag in TAGS_METADATA_BASE for tag in tags):
+        raise ValueError("You provided an unsupported tag. Tags must be "
+                         f"one or more of {TAGS_METADATA_BASE.keys()}, You provided:\n"
+                         f"{tags}")
+    tags_metadata = {key: val for key, val in TAGS_METADATA_BASE.items() if key in tags}
+
+    # Initialize our tags with empty metadata
+    for key, vals in tags_metadata.items():
+        vals.update({
             'mask': None,
             'md': [],
             'data': None,
-        },
-        "bugs": {
-            'tags': ["bug", "bugfix", "bugs"],
-            'description': "Bugs fixed",
-            'mask': None,
-            'md': [],
-            'data': None,
-        },
-        "maintenance": {
-            'tags': ["maintenance", "maint"],
-            'description': "Maintenance and upkeep improvements",
-            'mask': None,
-            'md': [],
-            'data': None,
-        },
-        "documentation": {
-            'tags': ["documentation", "docs", "doc"],
-            'description': "Documentation improvements",
-            'mask': None,
-            'md': [],
-            'data': None,
-        },
-    }
+        })
 
     # Separate out items by their tag types
     for kind, kindmeta in tags_metadata.items():
@@ -207,14 +231,16 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
     others = closed_prs.loc[mask_others]
     other_description = "Other merged PRs" if len(others) != len(closed_prs) else "Merged PRs"
 
-    # Create the markdown file
-    tags_metadata_update = dict(
-        others={'description': other_description, "md": [], 'data': others},
-        closed_issues={'description': "Closed issues", "md": [], 'data': closed_issues},
-        opened_prs={'description': "Opened PRs", "md": [], 'data': opened_prs},
-        opened_issues={'description': "Opened issues", "md": [], 'data': opened_issues}
-    )
-    tags_metadata.update(tags_metadata_update)
+    # Add some optional kinds of PRs / issues
+    tags_metadata.update(dict(others={'description': other_description, "md": [], 'data': others}))
+    if include_issues:
+        tags_metadata.update(dict(closed_issues={'description': "Closed issues", "md": [], 'data': closed_issues}))
+        if include_opened:
+            tags_metadata.update(dict(opened_issues={'description': "Opened issues", "md": [], 'data': opened_issues}))
+    if include_opened:
+        tags_metadata.update(dict(opened_prs={'description': "Opened PRs", "md": [], 'data': opened_prs}))
+
+    # Generate the markdown
     prs = tags_metadata
 
     for kind, items in prs.items():
@@ -227,24 +253,27 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None):
             for irow, irowdata in items['data'].iterrows():
                 author = irowdata['author']
                 all_authors.append(author)
-                this_md = f"* {irowdata['title']} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
+                ititle = irowdata['title']
+                if strip_brackets and ititle.strip().startswith('[') and ']' in ititle:
+                    ititle = ititle.split(']', 1)[-1].strip()
+                this_md = f"* {ititle} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
                 items['md'].append(this_md)
 
     # Get functional GitHub references: any git reference or master@{YY-mm-dd}
     if not data.since_is_git_ref:
         since = f'master@{{{data.since_dt:%Y-%m-%d}}}'
         closest_date_start = closed_prs.loc[abs(pd.to_datetime(closed_prs['closedAt'], utc=True) - pd.to_datetime(data.since_dt, utc=True)).idxmin()]
-        since_ref = closest_date_start['mergeCommit']['oid'] 
+        since_ref = closest_date_start['mergeCommit']['oid']
     else:
         since_ref = since
 
     if not data.until_is_git_ref:
         until = f'master@{{{data.until_dt:%Y-%m-%d}}}'
-        closest_date_stop = closed_prs.loc[abs(pd.to_datetime(closed_prs['closedAt'], utc=True) - pd.to_datetime(data.until_dt, utc=True)).idxmin()]	
-        until_ref = closest_date_stop['mergeCommit']['oid']	
+        closest_date_stop = closed_prs.loc[abs(pd.to_datetime(closed_prs['closedAt'], utc=True) - pd.to_datetime(data.until_dt, utc=True)).idxmin()]
+        until_ref = closest_date_stop['mergeCommit']['oid']
     else:
         until_ref = until
-    # SHAs for our dates to build the GitHub diff URL	
+    # SHAs for our dates to build the GitHub diff URL
     changelog_url = f"https://github.com/{org}/{repo}/compare/{since_ref}...{until_ref}"
 
     # Build the Markdown
