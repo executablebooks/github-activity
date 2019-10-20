@@ -162,20 +162,31 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
     if data.empty:
         return
 
-    # Collect authors of comments for our attribution list
-    comments = [
-        icomment
-        for iissue in data['comments'].values
-        for icomment in iissue['edges']
-        if icomment is not None
-    ]
-    comment_authors = [
-        icomment['node']['author']['login']
-        for icomment in comments
-        if icomment['node']['author'] is not None
-    ]
-    comment_author_counts = pd.value_counts(comment_authors)
-    all_authors = comment_author_counts[comment_author_counts > 1].index.tolist()
+    # Collect authors of comments on issues/prs that they didn't open for our attribution list
+    comment_response_cutoff = 6  # Comments on a single issue
+    comment_others_cutoff = 2  # Comments on issues somebody else has authored
+    comment_helpers = []
+    all_contributors = []
+    for _, iitems in data.iterrows():
+        item_commentors = []
+        for icomment in iitems['comments']['edges']:
+            comment_author = icomment['node']['author']['login']
+
+            # Add to list of commentors on items they didn't author
+            if comment_author != iitems['author']:
+                comment_helpers.append(comment_author)
+
+            # Add to list of commentors for this item so we can see how many times they commented
+            item_commentors.append(comment_author)
+        
+        # Count any commentors that had enough comments on the issue to be a contributor
+        item_commentors_counts = pd.value_counts(item_commentors)
+        item_commentors_counts = item_commentors_counts[item_commentors_counts >= comment_response_cutoff].index.tolist()
+        for person in item_commentors_counts:
+            all_contributors.append(person)
+
+    comment_contributor_counts = pd.value_counts(comment_helpers)
+    all_contributors += comment_contributor_counts[comment_contributor_counts >= comment_others_cutoff].index.tolist()
 
     # Clean up the data a bit
     data['labels'] = data['labels'].map(lambda a: [edge['node']['name'] for edge in a['edges']])
@@ -202,6 +213,9 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
     # Now remove the *closed* PRs (not merged) for our output list
     closed_prs = closed_prs.query("state != 'CLOSED'")
 
+    # Add any author of a merged PR to our contributors list
+    all_contributors += closed_prs['author'].unique().tolist()
+    
     # Define categories for a few labels
     if tags is None:
         tags = TAGS_METADATA_BASE.keys()
@@ -252,7 +266,6 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
 
             for irow, irowdata in items['data'].iterrows():
                 author = irowdata['author']
-                all_authors.append(author)
                 ititle = irowdata['title']
                 if strip_brackets and ititle.strip().startswith('[') and ']' in ititle:
                     ititle = ititle.split(']', 1)[-1].strip()
@@ -285,18 +298,18 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
             md += info['md']
 
     # Add a list of author contributions
-    all_authors = sorted(set(all_authors), key=lambda a: str(a).lower())
-    all_author_links = []
-    for iauthor in all_authors:
+    all_contributors = sorted(set(all_contributors), key=lambda a: str(a).lower())
+    all_contributor_links = []
+    for iauthor in all_contributors:
         author_url = f"https://github.com/search?q=repo%3A{org}%2F{repo}+involves%3A{iauthor}+updated%3A{data.since_dt:%Y-%m-%d}..{data.until_dt:%Y-%m-%d}&type=Issues"
-        all_author_links.append(f"[@{iauthor}]({author_url})")
-    author_md = ' | '.join(all_author_links)
+        all_contributor_links.append(f"[@{iauthor}]({author_url})")
+    contributor_md = ' | '.join(all_contributor_links)
     gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
     md += [""]
     md += ["## Contributors for this release (commentors + issue/PR authors)"]
     md += [f"([GitHub contributors page for this release]({gh_contributors_link}))"]
     md += [""]
-    md += [author_md]
+    md += [contributor_md]
     md = '\n'.join(md)
     return md
 

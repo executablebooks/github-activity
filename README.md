@@ -62,3 +62,24 @@ instructions to generate and use a GitHub access token for use with `github-acti
 * If you do not explicitly pass an access token to `github-activity`, it will search
   for an environment variable called `GITHUB_ACCESS_TOKEN`. If it finds this variable,
   it will use this in the API calls to GitHub.
+
+
+## How does this tool define contributions in the reports?
+
+GitHub Activity tries to automatically determine the unique list of contributors within
+a given window of time. There are many ways to define this, and there isn't necessarily a
+"correct" method out there.
+
+We try to balance the two extremes of "anybody who shows up is recognized as contributing"
+and "nobody is recognized as contributing". We've chosen a few rules that try to reflect
+sustained engagement in issues/PRs, or contributions in the form of help in *others'* issues
+or contributing code.
+
+Here are the rules we follow for finding a list of contributors within a time window. A
+contributor is anyone who has:
+
+* Had their PR merged in that window
+* Commented on >= 2 issues that weren't theirs
+* Commented >= 6 times on any one issue
+
+We'd love feedback on whether this is a good set of rules to use.
