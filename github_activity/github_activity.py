@@ -170,7 +170,13 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
     for _, iitems in data.iterrows():
         item_commentors = []
         for icomment in iitems['comments']['edges']:
-            comment_author = icomment['node']['author']['login']
+            comment_author = icomment['node']['author']
+            if comment_author == None:
+                # This happens if the GitHub user has been deleted
+                # ref: https://github.com/jupyterhub/oauthenticator/pull/224#issuecomment-453211986
+                continue
+            else:
+                comment_author = comment_author['login']
 
             # Add to list of commentors on items they didn't author
             if comment_author != iitems['author']:
