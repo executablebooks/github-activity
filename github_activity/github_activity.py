@@ -312,7 +312,7 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
     contributor_md = ' | '.join(all_contributor_links)
     gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
     md += [""]
-    md += ["## Contributors for this release (commentors + issue/PR authors)"]
+    md += ["## Contributors to this release"]
     md += [f"([GitHub contributors page for this release]({gh_contributors_link}))"]
     md += [""]
     md += [contributor_md]
