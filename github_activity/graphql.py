@@ -62,6 +62,9 @@ gql_template = """\
         mergeCommit {{
           oid
         }}
+        deletions
+        additions
+        changedFiles
         {comments}
       }}
       ... on Issue {{
