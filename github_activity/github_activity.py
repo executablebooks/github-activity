@@ -4,10 +4,13 @@ import dateutil
 import pytz
 import requests
 import urllib
+from pathlib import Path
 
 from .graphql import GitHubGraphQlQuery
+from .cache import _cache_data
 import pandas as pd
 import numpy as np
+
 
 # The tags and description to use in creating subsets of PRs
 TAGS_METADATA_BASE = {
@@ -33,7 +36,8 @@ TAGS_METADATA_BASE = {
     },
 }
 
-def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
+def get_activity(target, since, until=None, repo=None, kind=None, auth=None,
+                 cache=None):
     """Return issues/PRs within a date window.
 
     Parameters
@@ -56,6 +60,12 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
     auth : string | None
         An authentication token for GitHub. If None, then the environment
         variable `GITHUB_ACCESS_TOKEN` will be tried.
+    cache : bool | str | None
+        Whether to cache the returned results. If None, no caching is
+        performed. If True, the cache is located at
+        ~/github_activity_data. It is organized as orgname/reponame folders
+        with CSV files inside that contain the latest data. If a string it
+        is treated as the path to a cache folder.
 
     Returns
     -------
@@ -101,6 +111,9 @@ def get_activity(target, since, until=None, repo=None, kind=None, auth=None):
     query_data.until_dt_str = until_dt_str
     query_data.since_is_git_ref = since_is_git_ref
     query_data.until_is_git_ref = until_is_git_ref
+
+    if cache:
+        _cache_data(query_data, cache)
     return query_data
 
 
@@ -158,7 +171,7 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
         since = _get_latest_tag(org, repo)
 
     # Grab the data according to our query
-    data = get_activity(target, since=since, until=until, kind=kind, auth=auth)
+    data = get_activity(target, since=since, until=until, kind=kind, auth=auth, cache=False)
     if data.empty:
         return
 
@@ -175,7 +188,7 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
                 # This happens if the GitHub user has been deleted
                 # ref: https://github.com/jupyterhub/oauthenticator/pull/224#issuecomment-453211986
                 continue
-            
+
             comment_author = comment_author['login']
 
             # Add to list of commentors on items they didn't author
@@ -184,7 +197,7 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
 
             # Add to list of commentors for this item so we can see how many times they commented
             item_commentors.append(comment_author)
-        
+
         # Count any commentors that had enough comments on the issue to be a contributor
         item_commentors_counts = pd.value_counts(item_commentors)
         item_commentors_counts = item_commentors_counts[item_commentors_counts >= comment_response_cutoff].index.tolist()
@@ -221,7 +234,7 @@ def generate_activity_md(target, since=None, until=None, kind=None, auth=None,
 
     # Add any author of a merged PR to our contributors list
     all_contributors += closed_prs['author'].unique().tolist()
-    
+
     # Define categories for a few labels
     if tags is None:
         tags = TAGS_METADATA_BASE.keys()
