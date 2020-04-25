@@ -1,6 +1,7 @@
 pandas
 requests
 numpy
+python-dateutil
 IPython
 ipywidgets
 markdown
