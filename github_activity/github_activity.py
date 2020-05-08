@@ -77,6 +77,7 @@ def get_activity(
     else:
         # We have just org
         search_query = f"user:{org}"
+
     # Figure out dates for our query
     since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since)
     until_dt, until_is_git_ref = _get_datetime_and_type(org, repo, until)
@@ -436,7 +437,7 @@ def _parse_target(target):
     if len(parts) == 2:
         org, repo = parts
     elif len(parts) == 1:
-        org = parts
+        (org,) = parts
         repo = None
     else:
         raise ValueError(
