@@ -26,7 +26,7 @@ def test_tags(tmpdir, file_regression):
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
 
-    url = "https://github.com/executablebookproject/sphinx-book-theme"
+    url = "https://github.com/executablebooks/sphinx-book-theme"
 
     # CLI with URL
     cmd = f"github-activity {url} -s v0.0.2 -u v0.0.4 -o {path_output}"

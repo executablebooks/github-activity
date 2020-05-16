@@ -92,12 +92,18 @@ class GitHubGraphQlQuery:
         self.query = query
 
         # Authentication
-        headers = {}
-        auth = os.environ.get("GITHUB_ACCESS_TOKEN") if auth is None else auth
-        if auth is not None:
-            headers.update({"Authorization": "Bearer %s" % auth})
+        auth = auth or os.environ.get("GITHUB_ACCESS_TOKEN")
+        if not auth:
+            raise ValueError(
+                "Either the environment variable GITHUB_ACCESS_TOKEN or the "
+                "--auth flag or must be used to pass a Personal Access Token "
+                "needed by the GitHub API. You can generate a token at "
+                "https://github.com/settings/tokens/new. Note that while "
+                "working with a public repository, you don’t need to set any "
+                "scopes on the token you create."
+            )
+        self.headers = {"Authorization": "Bearer %s" % auth}
 
-        self.headers = headers
         self.gql_template = gql_template
         self.display_progress = display_progress
 
