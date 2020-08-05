@@ -4,7 +4,7 @@ import os.path as op
 from glob import glob
 from pathlib import Path
 
-init = Path().joinpath('github_activity', '__init__.py')
+init = Path().joinpath("github_activity", "__init__.py")
 for line in init.read_text().split("\n"):
     if line.startswith("__version__ ="):
         version = line.split(" = ")[-1].strip('"')
@@ -33,5 +33,8 @@ setup(
     use_package_data=True,
     entry_points={"console_scripts": ["github-activity = github_activity.cli:main",]},
     install_requires=install_packages,
-    extras_require={"testing": ["pytest", "pytest-regressions"], "sphinx": ["sphinx", "myst_parser", "sphinx_book_theme"]},
+    extras_require={
+        "testing": ["pytest", "pytest-regressions"],
+        "sphinx": ["sphinx", "myst_parser", "sphinx_book_theme"],
+    },
 )

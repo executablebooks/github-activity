@@ -22,14 +22,16 @@ def test_cli(tmpdir, file_regression):
     file_regression.check(md, extension=".md")
 
 
-def test_tags(tmpdir, file_regression):
+def test_pr_split(tmpdir, file_regression):
+    """Test that PRs are properly split by tags/prefixes."""
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
 
-    url = "https://github.com/executablebooks/sphinx-book-theme"
+    url = "https://github.com/executablebooks/jupyter-book"
 
-    # CLI with URL
-    cmd = f"github-activity {url} -s v0.0.2 -u v0.0.4 -o {path_output}"
+    # This release range covers some PRs with tags, and some with prefixes
+    cmd = f"github-activity {url} -s v0.7.1 -u v0.7.3 -o {path_output}"
     out = run(cmd.split(), check=True)
     md = path_output.read_text()
+    md = md.split("## Contributors to this release")[0]
     file_regression.check(md, extension=".md")
