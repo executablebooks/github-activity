@@ -14,20 +14,41 @@ import numpy as np
 
 # The tags and description to use in creating subsets of PRs
 TAGS_METADATA_BASE = {
+    "new": {
+        "tags": ["feature", "new"],
+        "pre": ["NEW"],
+        "description": "New features added",
+    },
     "enhancement": {
         "tags": ["enhancement", "feature", "enhancements"],
+        "pre": ["NEW", "ENH"],
         "description": "Enhancements made",
     },
-    "bug": {"tags": ["bug", "bugfix", "bugs"], "description": "Bugs fixed",},
+    "bug": {
+        "tags": ["bug", "bugfix", "bugs"],
+        "pre": ["FIX", "BUG"],
+        "description": "Bugs fixed",
+    },
     "maintenance": {
         "tags": ["maintenance", "maint"],
+        "pre": ["MAINT"],
         "description": "Maintenance and upkeep improvements",
     },
     "documentation": {
         "tags": ["documentation", "docs", "doc"],
+        "pre": ["DOC", "DOCS"],
         "description": "Documentation improvements",
     },
-    "api_change": {"tags": ["api-change", "apichange"], "description": "API Changes",},
+    "api_change": {
+        "tags": ["api-change", "apichange"],
+        "tags": ["BREAK", "BREAKING", "UPGRADE"],
+        "description": "API and Breaking Changes",
+    },
+    "deprecate": {
+        "tags": ["deprecation", "deprecate"],
+        "tags": ["DEPRECATE", "DEPRECATION"],
+        "description": "Deprecated features",
+    },
 }
 
 
