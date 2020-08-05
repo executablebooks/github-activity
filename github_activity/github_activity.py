@@ -16,12 +16,12 @@ import numpy as np
 TAGS_METADATA_BASE = {
     "new": {
         "tags": ["feature", "new"],
-        "pre": ["NEW"],
+        "pre": ["NEW", "FEAT", "FEATURE"],
         "description": "New features added",
     },
     "enhancement": {
-        "tags": ["enhancement", "feature", "enhancements"],
-        "pre": ["NEW", "ENH"],
+        "tags": ["enhancement", "enhancements"],
+        "pre": ["NEW", "ENH", "ENHANCEMENT", "IMPROVE"],
         "description": "Enhancements made",
     },
     "bug": {
@@ -31,7 +31,7 @@ TAGS_METADATA_BASE = {
     },
     "maintenance": {
         "tags": ["maintenance", "maint"],
-        "pre": ["MAINT"],
+        "pre": ["MAINT", "MNT"],
         "description": "Maintenance and upkeep improvements",
     },
     "documentation": {
@@ -41,12 +41,12 @@ TAGS_METADATA_BASE = {
     },
     "api_change": {
         "tags": ["api-change", "apichange"],
-        "tags": ["BREAK", "BREAKING", "UPGRADE"],
+        "pre": ["BREAK", "BREAKING", "BRK", "UPGRADE"],
         "description": "API and Breaking Changes",
     },
     "deprecate": {
         "tags": ["deprecation", "deprecate"],
-        "tags": ["DEPRECATE", "DEPRECATION"],
+        "pre": ["DEPRECATE", "DEPRECATION", "DEP"],
         "description": "Deprecated features",
     },
 }
@@ -294,9 +294,16 @@ def generate_activity_md(
 
     # Separate out items by their tag types
     for kind, kindmeta in tags_metadata.items():
+        # First find the PRs based on tag
         mask = closed_prs["labels"].map(
             lambda a: any(ii in jj for ii in kindmeta["tags"] for jj in a)
         )
+        # Now find PRs based on prefix
+        mask_pre = closed_prs["title"].map(
+            lambda title: any(f"{ipre}:" in title for ipre in kindmeta["pre"])
+        )
+        mask = mask | mask_pre
+
         kindmeta["data"] = closed_prs.loc[mask]
         kindmeta["mask"] = mask
 

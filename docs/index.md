@@ -22,7 +22,7 @@ The easiest way to install this package is to do so directly from GitHub with `p
 pip install git+https://github.com/choldgraf/github-activity
 ```
 
-## Usage
+## Generate a markdown changelog
 
 The easiest way to use `github-activity` to generate activity markdown is to use
 the command-line interface. It takes the following form:
@@ -49,6 +49,11 @@ github-activity jupyter/notebook -s 6.0.0 -u 6.0.1 -o sample_notebook_activity.m
 ```
 
 You can find the [resulting markdown here](sample_notebook_activity).
+
+### Splitting PRs by tags and prefixes
+
+Often you wish to split your PRs into multiple categories. `github-activity`
+follows the [keepachangelog taxonomy of changes](https://keepachangelog.com/en/1.0.0/).
 
 ### Using a GitHub API token
 
