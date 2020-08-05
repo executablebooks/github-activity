@@ -52,8 +52,25 @@ You can find the [resulting markdown here](sample_notebook_activity).
 
 ### Splitting PRs by tags and prefixes
 
-Often you wish to split your PRs into multiple categories. `github-activity`
+Often you wish to split your PRs into multiple categories so that they are easier
+to scan and parse. You may also *only* want to keep some PRs (e.g. features, or API
+changes) while excluding others from your changelog.
+
+`github-activity` uses the GitHub tags as well as PR prefixes to automatically
+categorize each PR and display it in a section in your markdown. It roughly
 follows the [keepachangelog taxonomy of changes](https://keepachangelog.com/en/1.0.0/).
+
+Below is a list of the supported PR types, as well as the tags / title prefixes
+that will be used to identify the right category.
+
+```{include} tags_list.txt
+```
+
+```{tip}
+You can choose to *remove* some types of PRs from your changelog by passing the
+`--tags` parameter in the CLI. This is a list of a subset of names taken from the
+left-most column above.
+```
 
 ### Using a GitHub API token
 

@@ -50,3 +50,29 @@ html_theme_options = {"single_page": True}
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+# Add a table of the supported PR types, tags, etc
+from github_activity.github_activity import TAGS_METADATA_BASE
+
+table_content = []
+for key, vals in TAGS_METADATA_BASE.items():
+    cont = [
+        key,
+        " ".join(vals["tags"]),
+        " ".join(vals["pre"]),
+        f'"{vals["description"]}"',
+    ]
+    table_content.append(", ".join(cont))
+
+table_content = "\n".join(table_content)
+table_template = f"""
+```{{csv-table}} List of PR types
+:header: PR type, Tags, Prefix, Description
+
+{table_content}
+```
+"""
+
+from pathlib import Path
+
+Path("./tags_list.txt").write_text(table_template)
