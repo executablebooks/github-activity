@@ -14,20 +14,41 @@ import numpy as np
 
 # The tags and description to use in creating subsets of PRs
 TAGS_METADATA_BASE = {
+    "new": {
+        "tags": ["feature", "new"],
+        "pre": ["NEW", "FEAT", "FEATURE"],
+        "description": "New features added",
+    },
     "enhancement": {
-        "tags": ["enhancement", "feature", "enhancements"],
+        "tags": ["enhancement", "enhancements"],
+        "pre": ["NEW", "ENH", "ENHANCEMENT", "IMPROVE"],
         "description": "Enhancements made",
     },
-    "bug": {"tags": ["bug", "bugfix", "bugs"], "description": "Bugs fixed",},
+    "bug": {
+        "tags": ["bug", "bugfix", "bugs"],
+        "pre": ["FIX", "BUG"],
+        "description": "Bugs fixed",
+    },
     "maintenance": {
         "tags": ["maintenance", "maint"],
+        "pre": ["MAINT", "MNT"],
         "description": "Maintenance and upkeep improvements",
     },
     "documentation": {
         "tags": ["documentation", "docs", "doc"],
+        "pre": ["DOC", "DOCS"],
         "description": "Documentation improvements",
     },
-    "api_change": {"tags": ["api-change", "apichange"], "description": "API Changes",},
+    "api_change": {
+        "tags": ["api-change", "apichange"],
+        "pre": ["BREAK", "BREAKING", "BRK", "UPGRADE"],
+        "description": "API and Breaking Changes",
+    },
+    "deprecate": {
+        "tags": ["deprecation", "deprecate"],
+        "pre": ["DEPRECATE", "DEPRECATION", "DEP"],
+        "description": "Deprecated features",
+    },
 }
 
 
@@ -273,9 +294,16 @@ def generate_activity_md(
 
     # Separate out items by their tag types
     for kind, kindmeta in tags_metadata.items():
+        # First find the PRs based on tag
         mask = closed_prs["labels"].map(
             lambda a: any(ii in jj for ii in kindmeta["tags"] for jj in a)
         )
+        # Now find PRs based on prefix
+        mask_pre = closed_prs["title"].map(
+            lambda title: any(f"{ipre}:" in title for ipre in kindmeta["pre"])
+        )
+        mask = mask | mask_pre
+
         kindmeta["data"] = closed_prs.loc[mask]
         kindmeta["mask"] = mask
 
