@@ -43,6 +43,9 @@ base_elements = """\
         author {
           login
         }
+        reactions(content: THUMBS_UP) {
+          totalCount
+        }
 """
 
 gql_template = """\
@@ -196,3 +199,5 @@ class GitHubGraphQlQuery:
         )
         self.data["org"] = self.data["url"].map(lambda a: a.split("/")[3])
         self.data["repo"] = self.data["url"].map(lambda a: a.split("/")[4])
+        self.data["thumbsup"] = self.data["reactions"].map(lambda a: a["totalCount"])
+        self.data.drop(columns="reactions", inplace=True)
