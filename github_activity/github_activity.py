@@ -3,9 +3,11 @@ import datetime
 import dateutil
 import pytz
 import requests
+import sys
 import urllib
 from pathlib import Path
 
+from .git import _valid_git_reference_check
 from .graphql import GitHubGraphQlQuery
 from .cache import _cache_data
 import pandas as pd
@@ -475,22 +477,21 @@ def _parse_target(target):
 
 
 def _get_datetime_and_type(org, repo, datetime_or_git_ref):
-    """Return a datetime object and bool."""
+    """Return a datetime object and bool indicating if it is a git reference or
+    not."""
 
-    is_git_ref = False
+    # Default a blank datetime_or_git_ref to current UTC time, which makes sense
+    # to set the until flags default value.
     if datetime_or_git_ref is None:
         dt = datetime.datetime.now().astimezone(pytz.utc)
-    else:
-        try:
-            dt = dateutil.parser.parse(datetime_or_git_ref)
-        except ValueError as e:
-            if repo:
-                dt = _get_datetime_from_git_ref(org, repo, datetime_or_git_ref)
-                is_git_ref = True
-            else:
-                raise e
+        return (dt, False)
 
-    return dt, is_git_ref
+    if _valid_git_reference_check(datetime_or_git_ref):
+        dt = _get_datetime_from_git_ref(org, repo, datetime_or_git_ref)
+        return (dt, True)
+    else:
+        dt = dateutil.parser.parse(datetime_or_git_ref)
+        return (dt, False)
 
 
 def _get_datetime_from_git_ref(org, repo, ref):
