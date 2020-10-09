@@ -3,6 +3,7 @@ import os
 import sys
 
 from .github_activity import generate_activity_md
+from .git import _git_installed_check
 
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
 parser = argparse.ArgumentParser(description=DESCRIPTION)
@@ -83,6 +84,10 @@ parser.add_argument(
 
 
 def main():
+    if not _git_installed_check():
+        print("git is required to run github-activity")
+        sys.exit(1)
+
     args = parser.parse_args(sys.argv[1:])
     tags = args.tags.split(",") if args.tags is not None else args.tags
     md = generate_activity_md(

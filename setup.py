@@ -19,7 +19,7 @@ setup(
     name="github_activity",
     version=version,
     include_package_data=True,
-    python_requires=">=3.4",
+    python_requires=">=3.6",
     author="Chris Holdgraf",
     author_email="choldgraf@berkeley.edu",
     url="https://jupyter.org/",
