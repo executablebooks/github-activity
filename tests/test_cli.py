@@ -6,8 +6,8 @@ def test_cli(tmpdir, file_regression):
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
 
-    url = "https://github.com/choldgraf/github-activity"
-    org, repo = ("choldgraf", "github-activity")
+    url = "https://github.com/executablebooks/github-activity"
+    org, repo = ("executablebooks", "github-activity")
 
     # CLI with URL
     cmd = f"github-activity {url} -s 2019-09-01 -u 2019-11-01 -o {path_output}"

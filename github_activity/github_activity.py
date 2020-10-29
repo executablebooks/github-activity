@@ -394,11 +394,12 @@ def generate_activity_md(
     changelog_url = f"https://github.com/{org}/{repo}/compare/{since_ref}...{until_ref}"
 
     # Build the Markdown
-    md = [f"# {since}...{until}", f"([full changelog]({changelog_url}))", ""]
+    md = [f"# {since}...{until}", "", f"([full changelog]({changelog_url}))"]
     for kind, info in prs.items():
         if len(info["md"]) > 0:
             md += [""]
             md.append(f"## {info['description']}")
+            md += [""]
             md += info["md"]
 
     # Add a list of author contributions
@@ -411,9 +412,11 @@ def generate_activity_md(
     gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
     md += [""]
     md += ["## Contributors to this release"]
+    md += [""]
     md += [f"([GitHub contributors page for this release]({gh_contributors_link}))"]
     md += [""]
     md += [contributor_md]
+    md += [""]
     md = "\n".join(md)
     return md
 
@@ -486,12 +489,19 @@ def _get_datetime_and_type(org, repo, datetime_or_git_ref):
         dt = datetime.datetime.now().astimezone(pytz.utc)
         return (dt, False)
 
-    if _valid_git_reference_check(datetime_or_git_ref):
+    try:
         dt = _get_datetime_from_git_ref(org, repo, datetime_or_git_ref)
         return (dt, True)
-    else:
-        dt = dateutil.parser.parse(datetime_or_git_ref)
-        return (dt, False)
+    except Exception as ref_error:
+        try:
+            dt = dateutil.parser.parse(datetime_or_git_ref)
+            return (dt, False)
+        except Exception as datetime_error:
+            raise ValueError(
+                "{0} not found as a ref or valid date format".format(
+                    datetime_or_git_ref
+                )
+            )
 
 
 def _get_datetime_from_git_ref(org, repo, ref):
