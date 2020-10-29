@@ -7,7 +7,6 @@ import sys
 import urllib
 from pathlib import Path
 
-from .git import _valid_git_reference_check
 from .graphql import GitHubGraphQlQuery
 from .cache import _cache_data
 import pandas as pd
