@@ -486,12 +486,19 @@ def _get_datetime_and_type(org, repo, datetime_or_git_ref):
         dt = datetime.datetime.now().astimezone(pytz.utc)
         return (dt, False)
 
-    if _valid_git_reference_check(datetime_or_git_ref):
+    try:
         dt = _get_datetime_from_git_ref(org, repo, datetime_or_git_ref)
         return (dt, True)
-    else:
-        dt = dateutil.parser.parse(datetime_or_git_ref)
-        return (dt, False)
+    except Exception as ref_error:
+        try:
+            dt = dateutil.parser.parse(datetime_or_git_ref)
+            return (dt, False)
+        except Exception as datetime_error:
+            raise ValueError(
+                "{0} not found as a ref or valid date format".format(
+                    datetime_or_git_ref
+                )
+            )
 
 
 def _get_datetime_from_git_ref(org, repo, ref):
