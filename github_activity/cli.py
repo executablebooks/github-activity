@@ -81,6 +81,21 @@ parser.add_argument(
         "E.g., [MRG], [DOC], etc."
     ),
 )
+parser.add_argument(
+    "--heading-level",
+    default=1,
+    type=int,
+    help=(
+        """Base heading level to add when generating markdown.
+
+        Useful when including changelog output in an existing document.
+
+        By default, changelog is emitted with one h1 and an h2 heading for each section.
+
+        --heading-level=2 starts at h2, etc.
+        """
+    ),
+)
 
 
 def main():
@@ -100,6 +115,7 @@ def main():
         include_issues=bool(args.include_issues),
         include_opened=bool(args.include_opened),
         strip_brackets=bool(args.strip_brackets),
+        heading_level=args.heading_level,
     )
     if not md:
         return
