@@ -148,6 +148,7 @@ def generate_activity_md(
     include_issues=False,
     include_opened=False,
     strip_brackets=False,
+    heading_level=1,
 ):
     """Generate a markdown changelog of GitHub activity within a date window.
 
@@ -186,6 +187,10 @@ def generate_activity_md(
     strip_brackets : bool
         If True, strip any text between brackets at the beginning of the issue/PR title.
         E.g., [MRG], [DOC], etc.
+    heading_level : int
+        Base heading level to use.
+        By default, top-level heading is h1, sections are h2.
+        With heading_level=2 those are increased to h2 and h3, respectively.
 
     Returns
     -------
@@ -350,11 +355,13 @@ def generate_activity_md(
     # Generate the markdown
     prs = tags_metadata
 
+    extra_head = "#" * (heading_level - 1)
+
     for kind, items in prs.items():
         n_orgs = len(items["data"]["org"].unique())
         for org, idata in items["data"].groupby("org"):
             if n_orgs > 1:
-                items["md"].append(f"## {org}")
+                items["md"].append(f"{extra_head}## {org}")
                 items["md"].append("")
 
             for irow, irowdata in items["data"].iterrows():
@@ -393,11 +400,11 @@ def generate_activity_md(
     changelog_url = f"https://github.com/{org}/{repo}/compare/{since_ref}...{until_ref}"
 
     # Build the Markdown
-    md = [f"# {since}...{until}", "", f"([full changelog]({changelog_url}))"]
+    md = [f"{extra_head}# {since}...{until}", "", f"([full changelog]({changelog_url}))"]
     for kind, info in prs.items():
         if len(info["md"]) > 0:
             md += [""]
-            md.append(f"## {info['description']}")
+            md.append(f"{extra_head}## {info['description']}")
             md += [""]
             md += info["md"]
 
@@ -410,7 +417,7 @@ def generate_activity_md(
     contributor_md = " | ".join(all_contributor_links)
     gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
     md += [""]
-    md += ["## Contributors to this release"]
+    md += [f"{extra_head}## Contributors to this release"]
     md += [""]
     md += [f"([GitHub contributors page for this release]({gh_contributors_link}))"]
     md += [""]
