@@ -1,11 +1,10 @@
 import os
-import requests
-from datetime import timedelta
+import sys
 
 import numpy as np
 import pandas as pd
-from IPython.display import display
-from ipywidgets import widgets
+import requests
+from tqdm.auto import tqdm
 
 comments_query = """\
         comments(last: 100) {
@@ -159,7 +158,7 @@ class GitHubGraphQlQuery:
             json = ii_request.json()["data"]["search"]
             if ii == 0:
                 if json["issueCount"] == 0:
-                    print("Found no entries for query.")
+                    print("Found no entries for query.", file=sys.stderr)
                     self.data = pd.DataFrame()
                     return
 
@@ -167,17 +166,15 @@ class GitHubGraphQlQuery:
                 print(
                     "Found {} items, which will take {} pages".format(
                         json["issueCount"], n_pages
-                    )
+                    ),
+                    file=sys.stderr,
                 )
-                prog = widgets.IntProgress(
-                    value=0,
-                    min=0,
-                    max=n_pages,
-                    description="Downloading:",
-                    bar_style="",
+                prog = tqdm(
+                    total=json["issueCount"],
+                    desc="Downloading:",
+                    unit="issues",
+                    disable=n_pages == 1 or not self.display_progress,
                 )
-                if n_pages > 1 and self.display_progress:
-                    display(prog)
 
             # Add the JSON to the raw data list
             self.issues_and_or_prs.extend(json["nodes"])
@@ -185,9 +182,8 @@ class GitHubGraphQlQuery:
             self.last_query = ii_gql_query
 
             # Update progress and should we stop?
-            prog.value += 1
-            if pageInfo["hasNextPage"] is False:
-                prog.bar_style = "success"
+            prog.update(len(json["nodes"]))
+            if not pageInfo["hasNextPage"]:
                 break
 
         # Create a dataframe of the issues and/or PRs
