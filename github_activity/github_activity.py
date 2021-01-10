@@ -302,7 +302,7 @@ def generate_activity_md(
     for kind, kindmeta in tags_metadata.items():
         # First find the PRs based on tag
         mask = closed_prs["labels"].map(
-            lambda a: any(ii in jj for ii in kindmeta["tags"] for jj in a)
+            lambda a: any(ii == jj for ii in kindmeta["tags"] for jj in a)
         )
         # Now find PRs based on prefix
         mask_pre = closed_prs["title"].map(
