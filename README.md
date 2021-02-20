@@ -14,10 +14,10 @@ This package does two things:
 
 ## Installation
 
-The easiest way to install this package is to do so directly from GitHub with `pip`:
+The easiest way to install this package is via `pip`:
 
 ```
-pip install git+https://github.com/choldgraf/github-activity
+pip install github-activity
 ```
 
 ## Usage

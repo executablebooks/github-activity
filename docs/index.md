@@ -19,7 +19,7 @@ This is a really young tool so it might change a bit over time.
 The easiest way to install this package is to do so directly from GitHub with `pip`:
 
 ```
-pip install git+https://github.com/choldgraf/github-activity
+pip install github-activity
 ```
 
 ## Generate a markdown changelog
