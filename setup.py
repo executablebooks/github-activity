@@ -20,7 +20,7 @@ setup(
     version=version,
     include_package_data=True,
     python_requires=">=3.6",
-    author="Chris Holdgraf",
+    author="Executable Books Project",
     author_email="choldgraf@berkeley.edu",
     url="https://jupyter.org/",
     # this should be a whitespace separated string of keywords, not a list
