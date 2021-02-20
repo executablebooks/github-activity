@@ -50,6 +50,10 @@ github-activity jupyter/notebook -s 6.0.0 -u 6.0.1 -o sample_notebook_activity.m
 
 You can find the [resulting markdown here](sample_notebook_activity).
 
+```{tip}
+For repositories that use multiple branches, it may be necessary to filter PRs by a branch name.  This can be done using the `--branch` parameter in the CLI.   Other git references can be used as well in place of a branch name.
+```
+
 ### Splitting PRs by tags and prefixes
 
 Often you wish to split your PRs into multiple categories so that they are easier

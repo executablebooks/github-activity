@@ -64,6 +64,7 @@ gql_template = """\
         mergeCommit {{
           oid
         }}
+        baseRefName
         {comments}
       }}
       ... on Issue {{
