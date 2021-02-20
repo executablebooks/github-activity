@@ -96,6 +96,14 @@ parser.add_argument(
         """
     ),
 )
+parser.add_argument(
+    "--branch",
+    "-b",
+    default=None,
+    help=(
+        """The branch or reference name to filter pull requests by"""
+    ),
+)
 
 
 def main():
@@ -116,6 +124,7 @@ def main():
         include_opened=bool(args.include_opened),
         strip_brackets=bool(args.strip_brackets),
         heading_level=args.heading_level,
+        branch=args.branch
     )
     if not md:
         return
