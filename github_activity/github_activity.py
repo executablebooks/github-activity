@@ -379,7 +379,7 @@ def generate_activity_md(
                 ititle = irowdata["title"]
                 if strip_brackets and ititle.strip().startswith("[") and "]" in ititle:
                     ititle = ititle.split("]", 1)[-1].strip()
-                this_md = f"* {ititle} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
+                this_md = f"- {ititle} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
                 items["md"].append(this_md)
 
     # Get functional GitHub references: any git reference or master@{YY-mm-dd}
