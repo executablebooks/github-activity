@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+from subprocess import run, PIPE
 
 from .github_activity import generate_activity_md
 from .git import _git_installed_check
@@ -8,12 +9,16 @@ from .git import _git_installed_check
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
 parser = argparse.ArgumentParser(description=DESCRIPTION)
 parser.add_argument(
-    "target",
+    "-t",
+    "--target",
+    nargs="?",
+    default=None,
     help="""The GitHub organization/repo for which you want to grab recent issues/PRs.
     Can either be *just* an organization (e.g., `jupyter`), or a combination
     organization and repo (e.g., `jupyter/notebook`). If the former, all
     repositories for that org will be used. If the latter, only the specified
-    repository will be used. Can also be a GitHub URL to an organization or repo.""",
+    repository will be used. Can also be a GitHub URL to an organization or repo. If
+    None, the org/repo will attempt to be inferred from `git remote -v`.""",
 )
 parser.add_argument(
     "-s",
@@ -111,8 +116,34 @@ def main():
         print("git is required to run github-activity")
         sys.exit(1)
 
-    args = parser.parse_args(sys.argv[1:])
+    args, unknown = parser.parse_known_args()
+    # If we have unknown, it is the target
+    # TODO: this feels sub-optimal, we should be able to just treat positional args
+    # as optional.
+    if unknown and not args.target:
+        args.target = unknown[0]
+
     tags = args.tags.split(",") if args.tags is not None else args.tags
+    # Automatically detect the target from remotes if we haven't had one passed.
+    if not args.target:
+        err = "Could not automatically detect remote, and none was given."
+        try:
+            out = run("git remote -v".split(), stdout=PIPE)
+            remotes = out.stdout.decode().split('\n')
+            remotes = [ii for ii in remotes if ii]
+            remotes = {ii.split("\t")[0]: ii.split("\t")[1].split()[0] for ii in remotes}
+            if "upstream" in remotes:
+                ref = remotes["upstream"]
+            elif "origin" in remotes:
+                ref = remotes["origin"]
+            else:
+                ref = None
+            if not ref:
+                raise ValueError(err)
+            args.target = ref.split("/", 3)[-1]
+        except Exception:
+            raise ValueError(err)
+
     md = generate_activity_md(
         args.target,
         since=args.since,

@@ -6,6 +6,7 @@ import requests
 import sys
 import urllib
 from pathlib import Path
+from subprocess import run, PIPE
 
 from .graphql import GitHubGraphQlQuery
 from .cache import _cache_data
@@ -530,8 +531,6 @@ def _get_datetime_from_git_ref(org, repo, ref):
 
 def _get_latest_tag(org, repo):
     """Return the latest tag name for a given repository."""
-    response = requests.get(f"https://api.github.com/repos/{org}/{repo}/git/refs/tags")
-    response.raise_for_status()
-    tags = response.json()
-    latest_tag = list(tags)[-1]
-    return latest_tag["ref"].split("/tags/")[-1]
+    out = run("git describe --tags".split(), stdout=PIPE)
+    tag = out.stdout.decode().rsplit('-', 2)[0]
+    return tag
