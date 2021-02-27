@@ -1,5 +1,6 @@
 import subprocess
 
+
 def _git_installed_check():
     cmd = ["git", "--help"]
     try:

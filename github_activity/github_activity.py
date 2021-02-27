@@ -150,7 +150,7 @@ def generate_activity_md(
     include_opened=False,
     strip_brackets=False,
     heading_level=1,
-    branch=None
+    branch=None,
 ):
     """Generate a markdown changelog of GitHub activity within a date window.
 
@@ -259,7 +259,9 @@ def generate_activity_md(
 
     # Filter the PRs by branch (or ref) if given
     if branch is not None:
-        index_names = data[ (data["kind"] == "pr") & (data["baseRefName"] != branch)].index
+        index_names = data[
+            (data["kind"] == "pr") & (data["baseRefName"] != branch)
+        ].index
         data.drop(index_names, inplace=True)
         if data.empty:
             return
@@ -411,7 +413,11 @@ def generate_activity_md(
     changelog_url = f"https://github.com/{org}/{repo}/compare/{since_ref}...{until_ref}"
 
     # Build the Markdown
-    md = [f"{extra_head}# {since}...{until}", "", f"([full changelog]({changelog_url}))"]
+    md = [
+        f"{extra_head}# {since}...{until}",
+        "",
+        f"([full changelog]({changelog_url}))",
+    ]
     for kind, info in prs.items():
         if len(info["md"]) > 0:
             md += [""]
@@ -532,5 +538,5 @@ def _get_datetime_from_git_ref(org, repo, ref):
 def _get_latest_tag(org, repo):
     """Return the latest tag name for a given repository."""
     out = run("git describe --tags".split(), stdout=PIPE)
-    tag = out.stdout.decode().rsplit('-', 2)[0]
+    tag = out.stdout.decode().rsplit("-", 2)[0]
     return tag

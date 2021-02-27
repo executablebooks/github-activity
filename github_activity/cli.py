@@ -105,9 +105,7 @@ parser.add_argument(
     "--branch",
     "-b",
     default=None,
-    help=(
-        """The branch or reference name to filter pull requests by"""
-    ),
+    help=("""The branch or reference name to filter pull requests by"""),
 )
 
 
@@ -129,9 +127,11 @@ def main():
         err = "Could not automatically detect remote, and none was given."
         try:
             out = run("git remote -v".split(), stdout=PIPE)
-            remotes = out.stdout.decode().split('\n')
+            remotes = out.stdout.decode().split("\n")
             remotes = [ii for ii in remotes if ii]
-            remotes = {ii.split("\t")[0]: ii.split("\t")[1].split()[0] for ii in remotes}
+            remotes = {
+                ii.split("\t")[0]: ii.split("\t")[1].split()[0] for ii in remotes
+            }
             if "upstream" in remotes:
                 ref = remotes["upstream"]
             elif "origin" in remotes:
@@ -155,7 +155,7 @@ def main():
         include_opened=bool(args.include_opened),
         strip_brackets=bool(args.strip_brackets),
         heading_level=args.heading_level,
-        branch=args.branch
+        branch=args.branch,
     )
     if not md:
         return
