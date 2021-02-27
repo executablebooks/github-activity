@@ -23,7 +23,7 @@ TAGS_METADATA_BASE = {
     },
     "enhancement": {
         "tags": ["enhancement", "enhancements"],
-        "pre": ["NEW", "ENH", "ENHANCEMENT", "IMPROVE"],
+        "pre": ["ENH", "ENHANCEMENT", "IMPROVE", "IMP"],
         "description": "Enhancements made",
     },
     "bug": {
