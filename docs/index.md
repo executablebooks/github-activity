@@ -28,8 +28,11 @@ The easiest way to use `github-activity` to generate activity markdown is to use
 the command-line interface. It takes the following form:
 
 ```
-github-activity <org>/<repo> --since <date or ref> --until <date or ref>
+github-activity [<org>/<repo>] --since <date or ref> --until <date or ref>
 ```
+
+The `[<org>/<repo>]` argument is **optional**.
+If you do not give it, then `github-activity` will attempt to infer this value by running `git remote -v` and using either `upstream` or `origin` (whichever it finds first).
 
 The (optional) arguments in `--since` (or `-s`) and `--until` (or `-u`) can either be
 a date, or a ref (such as a commit hash or tag). `github-activity` will pull the activity
