@@ -32,7 +32,7 @@ github-activity [<org>/<repo>] --since <date or ref> --until <date or ref>
 ```
 
 The `[<org>/<repo>]` argument is **optional**.
-If you do not give it, then `github-activity` will attempt to infer this value by running `git remote -v` and using either `upstream` or `origin` (whichever it finds first).
+If you do not give it, then `github-activity` will attempt to infer this value by running `git remote -v` and using either `upstream` or `origin` (preferring `upstream` if both are available).
 
 The (optional) arguments in `--since` (or `-s`) and `--until` (or `-u`) can either be
 a date, or a ref (such as a commit hash or tag). `github-activity` will pull the activity
