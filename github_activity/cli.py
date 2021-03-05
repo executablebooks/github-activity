@@ -108,7 +108,7 @@ parser.add_argument(
 
 def main():
     if not _git_installed_check():
-        print("git is required to run github-activity")
+        print("git is required to run github-activity", file=sys.stderr)
         sys.exit(1)
 
     args = parser.parse_args(sys.argv[1:])
@@ -136,7 +136,7 @@ def main():
             os.makedirs(output_dir)
         with open(args.output, "w") as ff:
             ff.write(md)
-        print(f"Finished writing markdown to: {args.output}")
+        print(f"Finished writing markdown to: {args.output}", file=sys.stderr)
     else:
         print(md)
 
