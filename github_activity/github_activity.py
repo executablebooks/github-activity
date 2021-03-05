@@ -113,7 +113,7 @@ def get_activity(
         search_query += f" type:{kind}"
 
     # Query for both opened and closed issues/PRs in this window
-    print(f"Running search query:\n{search_query}\n\n")
+    print(f"Running search query:\n{search_query}\n\n", file=sys.stderr)
     query_data = []
     for activity_type in ["created", "closed"]:
         ii_search_query = (

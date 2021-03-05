@@ -9,7 +9,7 @@ def _cache_data(query_data, path_cache):
         path_cache = DEFAULT_PATH_CACHE
     path_cache = Path(path_cache)
     if not path_cache.exists():
-        print(f"Creating a new cache at {path_cache}")
+        print(f"Creating a new cache at {path_cache}", file=sys.stderr)
         path_cache.mkdir()
 
     for (org, repo), idata in query_data.groupby(["org", "repo"]):
