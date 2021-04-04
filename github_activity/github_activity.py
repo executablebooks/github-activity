@@ -6,6 +6,7 @@ import requests
 import sys
 import urllib
 from pathlib import Path
+from ghapi.all import GhApi
 
 from .graphql import GitHubGraphQlQuery
 from .cache import _cache_data
@@ -54,7 +55,7 @@ TAGS_METADATA_BASE = {
 
 
 def get_activity(
-    target, since, until=None, repo=None, kind=None, auth=None, cache=None
+    target, since, until=None, repo=None, kind=None, auth=None, cache=None, use_ghapi=True
 ):
     """Return issues/PRs within a date window.
 
@@ -84,6 +85,8 @@ def get_activity(
         ~/github_activity_data. It is organized as orgname/reponame folders
         with CSV files inside that contain the latest data. If a string it
         is treated as the path to a cache folder.
+    use_ghapi : bool
+        Whether to use `ghapi` as the tool for fetching activity.
 
     Returns
     -------
@@ -119,9 +122,21 @@ def get_activity(
         ii_search_query = (
             search_query + f" {activity_type}:{since_dt_str}..{until_dt_str}"
         )
-        qu = GitHubGraphQlQuery(ii_search_query, auth=auth)
-        qu.request()
-        query_data.append(qu.data)
+        if use_ghapi:
+            api = GhApi()
+            results = api.search.issues_and_pull_requests(ii_search_query, page=1)
+            total_count = results.total_count
+            data = results["items"]
+            ipage = 2
+            while len(data) < total_count:
+                results = api.search.issues_and_pull_requests(ii_search_query, page=ipage)
+                data += results["items"]
+                ipage += 1
+            query_data.append(pd.DataFrame(data))
+        else:
+            qu = GitHubGraphQlQuery(ii_search_query, auth=auth)
+            qu.request()
+            query_data.append(qu.data)
 
     query_data = (
         pd.concat(query_data).drop_duplicates(subset=["id"]).reset_index(drop=True)
