@@ -29,8 +29,7 @@
 - Link documentation for adding cell tags in Jupyter from "Hide or remove content" documentation section [#734](https://github.com/executablebooks/jupyter-book/pull/734) ([@MaxGhenis](https://github.com/MaxGhenis))
 - typo fix [#731](https://github.com/executablebooks/jupyter-book/pull/731) ([@MaxGhenis](https://github.com/MaxGhenis))
 
-## API and Breaking Changes
+## Other merged PRs
 
-- ✨ NEW: Adding - chapter entries to _toc.yml [#817](https://github.com/executablebooks/jupyter-book/pull/817) ([@choldgraf](https://github.com/choldgraf))
 - removing config file numbered sections to use toc file instead [#768](https://github.com/executablebooks/jupyter-book/pull/768) ([@choldgraf](https://github.com/choldgraf))
 
