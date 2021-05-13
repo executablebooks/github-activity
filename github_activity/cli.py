@@ -3,7 +3,7 @@ import os
 import sys
 from subprocess import run, PIPE
 
-from .github_activity import generate_activity_md
+from .github_activity import generate_activity_md, _parse_target
 from .git import _git_installed_check
 
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
@@ -140,7 +140,12 @@ def main():
                 ref = None
             if not ref:
                 raise ValueError(err)
-            args.target = ref.split("/", 3)[-1]
+
+            org, repo = _parse_target(ref)
+            if repo:
+                args.target = f"{org}/{repo}"
+            else:
+                args.target = f"{org}"
         except Exception:
             raise ValueError(err)
 

@@ -487,8 +487,21 @@ def extract_comments(comments):
 
 
 def _parse_target(target):
+    """
+    Returns (org, repo) based on input such as:
+
+    - executablebooks
+    - executablebooks/jupyter-book
+    - http(s)://github.com/executablebooks
+    - http(s)://github.com/executablebooks/jupyter-book(.git)
+    - git@github.com:executablebooks/jupyter-book(.git)
+    """
     if target.startswith("http"):
         target = target.split("github.com/")[-1]
+    elif "@github.com:" in target:
+        target = target.split("@github.com:")[-1]
+    if target.endswith(".git"):
+        target = target.rsplit(".git", 1)[0]
     parts = target.split("/")
     if len(parts) == 2:
         org, repo = parts
