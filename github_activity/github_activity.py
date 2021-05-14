@@ -269,12 +269,12 @@ def generate_activity_md(
         if data.since_is_git_ref:
             branch_commits = set(_get_commit_shas(org, repo, branch, since))
             index_names = data[
-                ~data.apply(
-                    lambda r: bool(
-                        r["kind"] != "pr"
-                        or (
-                            r["mergeCommit"]
-                            and r["mergeCommit"]["oid"] in branch_commits
+                data.apply(
+                    lambda r: (
+                        r["kind"] == "pr"
+                        and (
+                            not r["mergeCommit"]
+                            or r["mergeCommit"]["oid"] not in branch_commits
                         )
                     ),
                     axis=1,
