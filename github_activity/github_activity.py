@@ -258,10 +258,32 @@ def generate_activity_md(
     data["kind"] = data["url"].map(lambda a: "issue" if "issues/" in a else "pr")
 
     # Filter the PRs by branch (or ref) if given
+    #
+    # If `since` is a git ref then check commits instead of the PR base to handle
+    # multi-branch repos where multiple PRs are merged into one branch, and that
+    # branch is subsequently merged into the mainline in another PR.
+    #
+    # This is the equivalent of `git merge-base --is-ancestor $sha $branch`
+    # https://stackoverflow.com/questions/43535132/given-a-commit-id-how-to-determine-if-current-branch-contains-the-commit
     if branch is not None:
-        index_names = data[
-            (data["kind"] == "pr") & (data["baseRefName"] != branch)
-        ].index
+        if data.since_is_git_ref:
+            branch_commits = set(_get_commit_shas(org, repo, branch, since))
+            index_names = data[
+                ~data.apply(
+                    lambda r: bool(
+                        r["kind"] != "pr"
+                        or (
+                            r["mergeCommit"]
+                            and r["mergeCommit"]["oid"] in branch_commits
+                        )
+                    ),
+                    axis=1,
+                )
+            ].index
+        else:
+            index_names = data[
+                (data["kind"] == "pr") & (data["baseRefName"] != branch)
+            ].index
         data.drop(index_names, inplace=True)
         if data.empty:
             return
@@ -540,12 +562,19 @@ def _get_datetime_and_type(org, repo, datetime_or_git_ref):
             )
 
 
-def _get_datetime_from_git_ref(org, repo, ref):
-    """Return a datetime from a git reference."""
+def _get_commit_from_git_ref(org, repo, ref):
+    """Return a GitHub commit from a git reference."""
 
     response = requests.get(f"https://api.github.com/repos/{org}/{repo}/commits/{ref}")
     response.raise_for_status()
-    return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
+    return response.json()
+
+
+def _get_datetime_from_git_ref(org, repo, ref):
+    """Return a datetime from a git reference."""
+
+    commit = _get_commit_from_git_ref(org, repo, ref)
+    return dateutil.parser.parse(commit["commit"]["committer"]["date"])
 
 
 def _get_latest_tag(org, repo):
@@ -553,3 +582,27 @@ def _get_latest_tag(org, repo):
     out = run("git describe --tags".split(), stdout=PIPE)
     tag = out.stdout.decode().rsplit("-", 2)[0]
     return tag
+
+
+def _get_commit_shas(org, repo, branch, since):
+    """Return all commit SHAs in a branch after `since` which must be a git ref."""
+
+    since_sha = _get_commit_from_git_ref(org, repo, since)["sha"]
+    branch_shas = []
+    page_size = 100
+    page = 0
+    while True:
+        # https://docs.github.com/en/rest/reference/repos#commits
+        page += 1
+        response = requests.get(
+            f"https://api.github.com/repos/{org}/{repo}/commits?sha={branch}&per_page={page_size}&page={page}"
+        )
+        response.raise_for_status()
+        commits = response.json()
+        for c in commits:
+            if c["sha"] == since_sha:
+                return branch_shas
+            branch_shas.append(c["sha"])
+        if len(commits) < page_size:
+            break
+    raise ValueError(f"Git ref {since_sha} not found in {branch}")
