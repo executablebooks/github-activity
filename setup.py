@@ -31,7 +31,11 @@ setup(
     license="BSD",
     packages=find_packages(),
     use_package_data=True,
-    entry_points={"console_scripts": ["github-activity = github_activity.cli:main",]},
+    entry_points={
+        "console_scripts": [
+            "github-activity = github_activity.cli:main",
+        ]
+    },
     install_requires=install_packages,
     extras_require={
         "testing": ["pytest", "pytest-regressions"],

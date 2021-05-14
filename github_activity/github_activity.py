@@ -308,7 +308,11 @@ def generate_activity_md(
     # Initialize our tags with empty metadata
     for key, vals in tags_metadata.items():
         vals.update(
-            {"mask": None, "md": [], "data": None,}
+            {
+                "mask": None,
+                "md": [],
+                "data": None,
+            }
         )
 
     # Separate out items by their tag types
