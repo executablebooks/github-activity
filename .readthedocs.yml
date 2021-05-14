@@ -1,3 +1,7 @@
+# Read the Docs builds and publish our documentation
+#
+# Config reference: https://docs.readthedocs.io/en/stable/config-file/v2.html
+#
 version: 2
 
 python:
