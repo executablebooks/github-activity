@@ -1,5 +1,6 @@
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 DEFAULT_PATH_CACHE = Path("~/data_github_activity").expanduser()
 

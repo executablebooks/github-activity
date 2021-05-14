@@ -1,17 +1,19 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
 import datetime
-import dateutil
-import pytz
-import requests
 import sys
 import urllib
 from pathlib import Path
-from subprocess import run, PIPE
+from subprocess import PIPE
+from subprocess import run
 
-from .graphql import GitHubGraphQlQuery
-from .cache import _cache_data
-import pandas as pd
+import dateutil
 import numpy as np
+import pandas as pd
+import pytz
+import requests
+
+from .cache import _cache_data
+from .graphql import GitHubGraphQlQuery
 
 
 # The tags and description to use in creating subsets of PRs

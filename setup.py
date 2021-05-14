@@ -1,8 +1,10 @@
-from setuptools import setup, find_packages
 import os
 import os.path as op
 from glob import glob
 from pathlib import Path
+
+from setuptools import find_packages
+from setuptools import setup
 
 init = Path().joinpath("github_activity", "__init__.py")
 for line in init.read_text().split("\n"):
