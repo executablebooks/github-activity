@@ -60,7 +60,7 @@ For repositories that use multiple branches, it may be necessary to filter PRs b
 ### Splitting PRs by tags and prefixes
 
 Often you wish to split your PRs into multiple categories so that they are easier
-to scan and parse. You may also *only* want to keep some PRs (e.g. features, or API
+to scan and parse. You may also _only_ want to keep some PRs (e.g. features, or API
 changes) while excluding others from your changelog.
 
 `github-activity` uses the GitHub tags as well as PR prefixes to automatically
@@ -71,6 +71,7 @@ Below is a list of the supported PR types, as well as the tags / title prefixes
 that will be used to identify the right category.
 
 ```{include} tags_list.txt
+
 ```
 
 ```{tip}
@@ -85,20 +86,20 @@ left-most column above.
 You will quickly hit your API limit unless you use a personal access token. Here are
 instructions to generate and use a GitHub access token for use with `github-activity`.
 
-* Create your own access token. Go to the [new GitHub access token page](https://github.com/settings/tokens/new)
+- Create your own access token. Go to the [new GitHub access token page](https://github.com/settings/tokens/new)
   and follow the instructions. Note that while working with a public repository,
   you don't need to set any scopes on the token you create.
-* When using `github-activity` from the command line, use the `--auth` parameter and pass
+- When using `github-activity` from the command line, use the `--auth` parameter and pass
   in your access token. This is easiest if you set it as an **environment variable**,
   such as `MY_ACCESS_TOKEN`. You can then add it to your call like so:
 
   ```
   github-activity jupyter/notebook --since v2019-09-01 --auth $MY_ACCESS_TOKEN
   ```
-* If you do not explicitly pass an access token to `github-activity`, it will search
+
+- If you do not explicitly pass an access token to `github-activity`, it will search
   for an environment variable called `GITHUB_ACCESS_TOKEN`. If it finds this variable,
   it will use this in the API calls to GitHub.
-
 
 ## How does this tool define contributions in the reports?
 
@@ -108,14 +109,14 @@ a given window of time. There are many ways to define this, and there isn't nece
 
 We try to balance the two extremes of "anybody who shows up is recognized as contributing"
 and "nobody is recognized as contributing". We've chosen a few rules that try to reflect
-sustained engagement in issues/PRs, or contributions in the form of help in *others'* issues
+sustained engagement in issues/PRs, or contributions in the form of help in _others'_ issues
 or contributing code.
 
 Here are the rules we follow for finding a list of contributors within a time window. A
 contributor is anyone who has:
 
-* Had their PR merged in that window
-* Commented on >= 2 issues that weren't theirs
-* Commented >= 6 times on any one issue
+- Had their PR merged in that window
+- Commented on >= 2 issues that weren't theirs
+- Commented >= 6 times on any one issue
 
 We'd love feedback on whether this is a good set of rules to use.
