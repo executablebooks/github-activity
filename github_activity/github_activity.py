@@ -6,6 +6,7 @@ import requests
 import sys
 import urllib
 from pathlib import Path
+from subprocess import run, PIPE
 
 from .graphql import GitHubGraphQlQuery
 from .cache import _cache_data
@@ -22,7 +23,7 @@ TAGS_METADATA_BASE = {
     },
     "enhancement": {
         "tags": ["enhancement", "enhancements"],
-        "pre": ["NEW", "ENH", "ENHANCEMENT", "IMPROVE"],
+        "pre": ["ENH", "ENHANCEMENT", "IMPROVE", "IMP"],
         "description": "Enhancements made",
     },
     "bug": {
@@ -149,7 +150,7 @@ def generate_activity_md(
     include_opened=False,
     strip_brackets=False,
     heading_level=1,
-    branch=None
+    branch=None,
 ):
     """Generate a markdown changelog of GitHub activity within a date window.
 
@@ -258,7 +259,9 @@ def generate_activity_md(
 
     # Filter the PRs by branch (or ref) if given
     if branch is not None:
-        index_names = data[ (data["kind"] == "pr") & (data["baseRefName"] != branch)].index
+        index_names = data[
+            (data["kind"] == "pr") & (data["baseRefName"] != branch)
+        ].index
         data.drop(index_names, inplace=True)
         if data.empty:
             return
@@ -410,7 +413,11 @@ def generate_activity_md(
     changelog_url = f"https://github.com/{org}/{repo}/compare/{since_ref}...{until_ref}"
 
     # Build the Markdown
-    md = [f"{extra_head}# {since}...{until}", "", f"([full changelog]({changelog_url}))"]
+    md = [
+        f"{extra_head}# {since}...{until}",
+        "",
+        f"([full changelog]({changelog_url}))",
+    ]
     for kind, info in prs.items():
         if len(info["md"]) > 0:
             md += [""]
@@ -480,8 +487,21 @@ def extract_comments(comments):
 
 
 def _parse_target(target):
+    """
+    Returns (org, repo) based on input such as:
+
+    - executablebooks
+    - executablebooks/jupyter-book
+    - http(s)://github.com/executablebooks
+    - http(s)://github.com/executablebooks/jupyter-book(.git)
+    - git@github.com:executablebooks/jupyter-book(.git)
+    """
     if target.startswith("http"):
         target = target.split("github.com/")[-1]
+    elif "@github.com:" in target:
+        target = target.split("@github.com:")[-1]
+    if target.endswith(".git"):
+        target = target.rsplit(".git", 1)[0]
     parts = target.split("/")
     if len(parts) == 2:
         org, repo = parts
@@ -530,8 +550,6 @@ def _get_datetime_from_git_ref(org, repo, ref):
 
 def _get_latest_tag(org, repo):
     """Return the latest tag name for a given repository."""
-    response = requests.get(f"https://api.github.com/repos/{org}/{repo}/git/refs/tags")
-    response.raise_for_status()
-    tags = response.json()
-    latest_tag = list(tags)[-1]
-    return latest_tag["ref"].split("/tags/")[-1]
+    out = run("git describe --tags".split(), stdout=PIPE)
+    tag = out.stdout.decode().rsplit("-", 2)[0]
+    return tag

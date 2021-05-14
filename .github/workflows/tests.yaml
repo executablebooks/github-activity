@@ -19,9 +19,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -e .[testing]
-    # CURRENTLY NOT TESTING because it throws an API token error
-    # - name: Run tests
-    #   run: pytest
+    - name: Run tests
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: pytest
 
   docs:
 

@@ -26,7 +26,7 @@ The easiest way to use `github-activity` to generate activity markdown is to use
 the command-line interface. It takes the following form:
 
 ```
-github-activity <org>/<repo> --since <date or ref> --until <date or ref>
+github-activity [<org>/<repo>] --since <date or ref> --until <date or ref>
 ```
 
 See [the github-activity documentation](https://github-activity.readthedocs.io)
