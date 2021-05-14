@@ -1,6 +1,6 @@
-pandas
-requests
-numpy
-python-dateutil
 markdown
+numpy
+pandas
+python-dateutil
+requests
 tqdm
