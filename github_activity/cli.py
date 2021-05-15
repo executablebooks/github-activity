@@ -1,10 +1,12 @@
 import argparse
 import os
 import sys
-from subprocess import run, PIPE
+from subprocess import PIPE
+from subprocess import run
 
-from .github_activity import generate_activity_md, _parse_target
 from .git import _git_installed_check
+from .github_activity import _parse_target
+from .github_activity import generate_activity_md
 
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
 parser = argparse.ArgumentParser(description=DESCRIPTION)

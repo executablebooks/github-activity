@@ -1,5 +1,5 @@
-from subprocess import run
 from pathlib import Path
+from subprocess import run
 
 
 def test_cli(tmpdir, file_regression):
