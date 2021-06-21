@@ -207,8 +207,10 @@ def generate_activity_md(
     org, repo = _parse_target(target)
 
     # If no since parameter is given, find the name of the latest release
+    # using the _local_ git repostory
+    # TODO: Check that local repo matches org/repo
     if since is None:
-        since = _get_latest_tag(org, repo)
+        since = _get_latest_tag()
 
     # Grab the data according to our query
     data = get_activity(
@@ -554,8 +556,8 @@ def _get_datetime_from_git_ref(org, repo, ref):
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
 
 
-def _get_latest_tag(org, repo):
-    """Return the latest tag name for a given repository."""
+def _get_latest_tag():
+    """Return the latest tag name for a given repository by querying the local repo."""
     out = run("git describe --tags".split(), stdout=PIPE)
     tag = out.stdout.decode().rsplit("-", 2)[0]
     return tag
