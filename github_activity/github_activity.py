@@ -1,5 +1,6 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
 import datetime
+import os
 import sys
 import urllib
 from pathlib import Path
@@ -103,9 +104,20 @@ def get_activity(
         # We have just org
         search_query = f"user:{org}"
 
+    auth = auth or os.environ.get("GITHUB_ACCESS_TOKEN")
+    if not auth:
+        raise ValueError(
+            "Either the environment variable GITHUB_ACCESS_TOKEN or the "
+            "--auth flag or must be used to pass a Personal Access Token "
+            "needed by the GitHub API. You can generate a token at "
+            "https://github.com/settings/tokens/new. Note that while "
+            "working with a public repository, you don’t need to set any "
+            "scopes on the token you create."
+        )
+
     # Figure out dates for our query
-    since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since)
-    until_dt, until_is_git_ref = _get_datetime_and_type(org, repo, until)
+    since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since, auth)
+    until_dt, until_is_git_ref = _get_datetime_and_type(org, repo, until, auth)
     since_dt_str = f"{since_dt:%Y-%m-%dT%H:%M:%SZ}"
     until_dt_str = f"{until_dt:%Y-%m-%dT%H:%M:%SZ}"
 
@@ -523,7 +535,7 @@ def _parse_target(target):
     return org, repo
 
 
-def _get_datetime_and_type(org, repo, datetime_or_git_ref):
+def _get_datetime_and_type(org, repo, datetime_or_git_ref, auth):
     """Return a datetime object and bool indicating if it is a git reference or
     not."""
 
@@ -534,7 +546,7 @@ def _get_datetime_and_type(org, repo, datetime_or_git_ref):
         return (dt, False)
 
     try:
-        dt = _get_datetime_from_git_ref(org, repo, datetime_or_git_ref)
+        dt = _get_datetime_from_git_ref(org, repo, datetime_or_git_ref, auth)
         return (dt, True)
     except Exception as ref_error:
         try:
@@ -548,10 +560,11 @@ def _get_datetime_and_type(org, repo, datetime_or_git_ref):
             )
 
 
-def _get_datetime_from_git_ref(org, repo, ref):
+def _get_datetime_from_git_ref(org, repo, ref, auth):
     """Return a datetime from a git reference."""
-
-    response = requests.get(f"https://api.github.com/repos/{org}/{repo}/commits/{ref}")
+    headers = {"Authorization": "Bearer %s" % auth}
+    url = f"https://api.github.com/repos/{org}/{repo}/commits/{ref}"
+    response = requests.get(url, headers=headers)
     response.raise_for_status()
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
 
