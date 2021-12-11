@@ -1,15 +1,15 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
 import datetime
 import os
-import sys
-import urllib
-from pathlib import Path
 import re
 import shlex
 import subprocess
-from tempfile import TemporaryDirectory
+import sys
+import urllib
+from pathlib import Path
 from subprocess import PIPE
 from subprocess import run
+from tempfile import TemporaryDirectory
 
 import dateutil
 import numpy as np
@@ -159,7 +159,7 @@ def get_activity(
 
 def generate_all_activity_md(
     target,
-    pattern=r'(v?\d+\.\d+\.\d+)$',
+    pattern=r"(v?\d+\.\d+\.\d+)$",
     kind=None,
     auth=None,
     tags=None,
@@ -209,20 +209,26 @@ def generate_all_activity_md(
     """
     with TemporaryDirectory() as td:
 
-        subprocess.run(shlex.split(f'git clone git@github.com:{target}.git repo'), cwd=td)
-        repo = os.path.join(td, 'repo')
-        subprocess.run(shlex.split('git fetch upstream --tags'), cwd=repo)
+        subprocess.run(
+            shlex.split(f"git clone git@github.com:{target}.git repo"), cwd=td
+        )
+        repo = os.path.join(td, "repo")
+        subprocess.run(shlex.split("git fetch upstream --tags"), cwd=repo)
 
         cmd = 'git log --tags --simplify-by-decoration --pretty="format:%h | %D"'
-        data = subprocess.check_output(shlex.split(cmd), cwd=repo).decode('utf-8').splitlines()
+        data = (
+            subprocess.check_output(shlex.split(cmd), cwd=repo)
+            .decode("utf-8")
+            .splitlines()
+        )
 
-    pattern = f'tag: {pattern}'
+    pattern = f"tag: {pattern}"
 
     def filter(datum):
         _, tag = datum
         return re.match(pattern, tag) is not None
 
-    data = [d.split(' | ') for (i, d) in enumerate(data)]
+    data = [d.split(" | ") for (i, d) in enumerate(data)]
     data = [d for d in data if filter(d)]
     output = ""
 
@@ -236,25 +242,25 @@ def generate_all_activity_md(
         match = re.search(pattern, curr_data[1])
         tag = match.groups()[0]
 
-        print(f'\n({i + 1}/{len(data)})', since, until, tag, file=sys.stderr)
+        print(f"\n({i + 1}/{len(data)})", since, until, tag, file=sys.stderr)
         md = generate_activity_md(
-                target,
-                since=since,
-                heading_level=2,
-                until=until,
-                auth=auth,
-                kind=kind,
-                include_issues=include_issues,
-                include_opened=include_opened,
-                strip_brackets=strip_brackets,
-                branch=branch
-            )
+            target,
+            since=since,
+            heading_level=2,
+            until=until,
+            auth=auth,
+            kind=kind,
+            include_issues=include_issues,
+            include_opened=include_opened,
+            strip_brackets=strip_brackets,
+            branch=branch,
+        )
 
         if not md:
             continue
 
         # Replace the header line with our version tag
-        md = '\n'.join(md.splitlines()[1:])
+        md = "\n".join(md.splitlines()[1:])
 
         output += f"""
 ## {tag}
@@ -683,4 +689,3 @@ def _get_latest_tag():
     out = run("git describe --tags".split(), stdout=PIPE)
     tag = out.stdout.decode().rsplit("-", 2)[0]
     return tag
-

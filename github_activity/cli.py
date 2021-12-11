@@ -177,7 +177,7 @@ def main():
             since=args.since,
             until=args.until,
             heading_level=args.heading_level,
-            **common_kwargs
+            **common_kwargs,
         )
 
     if not md:
