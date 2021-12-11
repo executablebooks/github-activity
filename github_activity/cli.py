@@ -7,6 +7,7 @@ from subprocess import run
 from .git import _git_installed_check
 from .github_activity import _parse_target
 from .github_activity import generate_activity_md
+from .github_activity import generate_all_activity_md
 
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
 parser = argparse.ArgumentParser(description=DESCRIPTION)
@@ -109,6 +110,12 @@ parser.add_argument(
     default=None,
     help=("""The branch or reference name to filter pull requests by"""),
 )
+parser.add_argument(
+    "--all",
+    default=False,
+    action="store_true",
+    help=("""Whether to include all the GitHub tags"""),
+)
 
 
 def main():
@@ -151,19 +158,28 @@ def main():
         except Exception:
             raise ValueError(err)
 
-    md = generate_activity_md(
-        args.target,
-        since=args.since,
-        until=args.until,
+    common_kwargs = dict(
         kind=args.kind,
         auth=args.auth,
         tags=tags,
         include_issues=bool(args.include_issues),
         include_opened=bool(args.include_opened),
         strip_brackets=bool(args.strip_brackets),
-        heading_level=args.heading_level,
         branch=args.branch,
     )
+
+    if args.all:
+        md = generate_all_activity_md(args.target, **common_kwargs)
+
+    else:
+        md = generate_activity_md(
+            args.target,
+            since=args.since,
+            until=args.until,
+            heading_level=args.heading_level,
+            **common_kwargs
+        )
+
     if not md:
         return
 
