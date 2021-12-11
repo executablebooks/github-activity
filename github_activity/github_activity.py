@@ -213,7 +213,7 @@ def generate_all_activity_md(
             shlex.split(f"git clone git@github.com:{target}.git repo"), cwd=td
         )
         repo = os.path.join(td, "repo")
-        subprocess.run(shlex.split("git fetch upstream --tags"), cwd=repo)
+        subprocess.run(shlex.split("git fetch origin --tags"), cwd=repo)
 
         cmd = 'git log --tags --simplify-by-decoration --pretty="format:%h | %D"'
         data = (
