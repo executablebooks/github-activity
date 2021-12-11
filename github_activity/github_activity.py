@@ -179,7 +179,7 @@ def generate_all_activity_md(
         repositories for that org will be used. If the latter, only the specified
         repository will be used. Can also be a URL to a GitHub org or repo.
     pattern: str
-        The expression used to match a release tag
+        The expression used to match a release tag.
     kind : ["issue", "pr"] | None
         Return only issues or PRs. If None, both will be returned.
     auth : string | None
@@ -200,13 +200,14 @@ def generate_all_activity_md(
         If True, strip any text between brackets at the beginning of the issue/PR title.
         E.g., [MRG], [DOC], etc.
     branch : string | None
-        The branch or reference name to filter pull requests by
+        The branch or reference name to filter pull requests by.
 
     Returns
     -------
     entry: str
         The markdown changelog entry for all of the release tags in the repo.
     """
+    # Get the sha and tag name for each tag in the target repo
     with TemporaryDirectory() as td:
 
         subprocess.run(
@@ -222,6 +223,7 @@ def generate_all_activity_md(
             .splitlines()
         )
 
+    # Clean up the raw data
     pattern = f"tag: {pattern}"
 
     def filter(datum):
@@ -230,6 +232,8 @@ def generate_all_activity_md(
 
     data = [d.split(" | ") for (i, d) in enumerate(data)]
     data = [d for d in data if filter(d)]
+
+    # Generate a changelog entry for each version and sha range
     output = ""
 
     for i in range(len(data) - 1):
@@ -324,12 +328,12 @@ def generate_activity_md(
         By default, top-level heading is h1, sections are h2.
         With heading_level=2 those are increased to h2 and h3, respectively.
     branch : string | None
-        The branch or reference name to filter pull requests by
+        The branch or reference name to filter pull requests by.
 
     Returns
     -------
     entry: str
-        The markdown changelog entry
+        The markdown changelog entry.
     """
     org, repo = _parse_target(target)
 
