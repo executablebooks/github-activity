@@ -211,7 +211,7 @@ def generate_all_activity_md(
     with TemporaryDirectory() as td:
 
         subprocess.run(
-            shlex.split(f"git clone git@github.com:{target}.git repo"), cwd=td
+            shlex.split(f"git clone https://github.com/{target} repo"), cwd=td
         )
         repo = os.path.join(td, "repo")
         subprocess.run(shlex.split("git fetch origin --tags"), cwd=repo)
