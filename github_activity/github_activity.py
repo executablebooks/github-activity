@@ -228,6 +228,9 @@ def generate_all_activity_md(
 
     def filter(datum):
         _, tag = datum
+        # Handle the HEAD tag if it exists
+        if "," in tag:
+            tag = tag.split(", ")[1]
         return re.match(pattern, tag) is not None
 
     data = [d.split(" | ") for (i, d) in enumerate(data)]
@@ -242,6 +245,10 @@ def generate_all_activity_md(
 
         since = prev_data[0]
         until = curr_data[0]
+
+        # Handle the HEAD tag if it exists
+        if "," in curr_data[1]:
+            curr_data[1] = curr_data[1].split(",")[1]
 
         match = re.search(pattern, curr_data[1])
         tag = match.groups()[0]
