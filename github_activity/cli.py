@@ -53,7 +53,8 @@ parser.add_argument(
     default=None,
     help=(
         "An authentication token for GitHub. If None, then the environment "
-        "variable `GITHUB_ACCESS_TOKEN` will be tried."
+        "variable `GITHUB_ACCESS_TOKEN` will be tried. If it does not exist "
+        "then attempt to infer the token from `gh auth status -t`."
     ),
 )
 parser.add_argument(

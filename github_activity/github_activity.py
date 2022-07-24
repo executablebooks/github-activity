@@ -85,7 +85,8 @@ def get_activity(
         Return only issues or PRs. If None, both will be returned.
     auth : string | None
         An authentication token for GitHub. If None, then the environment
-        variable `GITHUB_ACCESS_TOKEN` will be tried.
+        variable `GITHUB_ACCESS_TOKEN` will be tried. If it does not exist,
+        then attempt to infer a token from `gh auth status -t`.
     cache : bool | str | None
         Whether to cache the returned results. If None, no caching is
         performed. If True, the cache is located at
@@ -108,16 +109,26 @@ def get_activity(
         # We have just org
         search_query = f"user:{org}"
 
-    auth = auth or os.environ.get("GITHUB_ACCESS_TOKEN")
     if not auth:
-        raise ValueError(
-            "Either the environment variable GITHUB_ACCESS_TOKEN or the "
-            "--auth flag or must be used to pass a Personal Access Token "
-            "needed by the GitHub API. You can generate a token at "
-            "https://github.com/settings/tokens/new. Note that while "
-            "working with a public repository, you don’t need to set any "
-            "scopes on the token you create."
-        )
+        if "GITHUB_ACCESS_TOKEN" in os.environ:
+            print("Using GH access token stored in `GITHUB_ACCESS_TOKEN`.")
+            auth = os.environ.get("GITHUB_ACCESS_TOKEN")
+        else:
+            out = run(shlex.split("gh auth status -t"), capture_output=True)
+            lines = [ii for ii in out.stderr.decode().split("\n") if "Token:" in ii]
+            if lines:
+                print("Using GH access token stored via GH CLI.")
+                auth = lines[0].split(": ")[-1].strip()
+            else:
+                raise ValueError(
+                    "Either the environment variable GITHUB_ACCESS_TOKEN or the "
+                    "--auth flag or must be used to pass a Personal Access Token "
+                    "needed by the GitHub API. You can generate a token at "
+                    "https://github.com/settings/tokens/new. Note that while "
+                    "working with a public repository, you don’t need to set any "
+                    "scopes on the token you create. Alternatively, you may log-in "
+                    "via the GitHub CLI (`gh auth login`)."
+                )
 
     # Figure out dates for our query
     since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since, auth)
