@@ -300,6 +300,7 @@ def generate_activity_md(
     tags=None,
     include_issues=False,
     include_opened=False,
+    include_release_notes=False,
     strip_brackets=False,
     heading_level=1,
     branch=None,
@@ -338,6 +339,9 @@ def generate_activity_md(
         Include Issues in the markdown output. Default is False.
     include_opened : bool
         Include a list of opened items in the markdown output. Default is False.
+    include_release_notes : bool
+        Search PR descriptions for a `# Release Notes` block. If found, include
+        the contents of this block with the changelog output for the PR.
     strip_brackets : bool
         If True, strip any text between brackets at the beginning of the issue/PR title.
         E.g., [MRG], [DOC], etc.
@@ -537,9 +541,27 @@ def generate_activity_md(
             for irow, irowdata in items["data"].iterrows():
                 author = irowdata["author"]
                 ititle = irowdata["title"]
+                description = irowdata["body"]
                 if strip_brackets and ititle.strip().startswith("[") and "]" in ititle:
                     ititle = ititle.split("]", 1)[-1].strip()
                 this_md = f"- {ititle} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
+
+                # Search the description for release notes and add them if they exist
+                if include_release_notes:
+                    lines = description.split("\n")
+                    headers = [ii.startswith("#") for ii in lines]
+                    release_notes = [ii for ii in headers if "# release notes" in ii.lower()]
+                    if release_notes:
+                        # Find the line of the next header to know when to stop
+                        release_notes_line = release_notes[0]
+                        next_header_ix = headers.index(release_notes_line) + 1
+                        next_header = headers[next_header_ix]
+                        release_notes_start = lines.index(release_notes_line)
+                        release_notes_stop = lines.index(next_header)
+
+                        # Append the release notes to our output markdown
+                        release_notes = "\n".join(lines[release_notes_start:release_notes_stop])
+                        this_md += f"\n   {release_notes}"
                 items["md"].append(this_md)
 
     # Get functional GitHub references: any git reference or master@{YY-mm-dd}

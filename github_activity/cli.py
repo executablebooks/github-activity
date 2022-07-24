@@ -82,6 +82,12 @@ parser.add_argument(
     help="Include a list of opened items in the markdown output",
 )
 parser.add_argument(
+    "--include-release-notes",
+    default=False,
+    action="store_true",
+    help="Include the `# release notes` block of each PR in the output markdown.",
+)
+parser.add_argument(
     "--strip-brackets",
     default=False,
     action="store_true",
@@ -165,6 +171,7 @@ def main():
         tags=tags,
         include_issues=bool(args.include_issues),
         include_opened=bool(args.include_opened),
+        include_release_notes=bool(args.include_release_notes),
         strip_brackets=bool(args.strip_brackets),
         branch=args.branch,
     )

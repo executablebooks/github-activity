@@ -27,6 +27,7 @@ base_elements = """\
         id
         title
         url
+        body
         createdAt
         updatedAt
         closedAt
