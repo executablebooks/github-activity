@@ -88,11 +88,11 @@ def test_release_notes(tmpdir, file_regression):
     path_output = path_tmp.joinpath("out.md")
     url = "https://github.com/executablebooks/jupyter-book"
 
-    # This release range covers PRs with 
+    # This release range covers PRs with
     cmd = f"github-activity {url} -s v0.7.1 -u v0.7.3 --include-release-notes -o {path_output}"
 
     run(cmd.split(), check=True)
 
     md = path_output.read_text()
-    test_md = md[md.index("## New features added"): md.index("## Bugs fixed")]
+    test_md = md[md.index("## New features added") : md.index("## Bugs fixed")]
     file_regression.check(test_md, extension=".md")

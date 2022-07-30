@@ -553,6 +553,7 @@ def generate_activity_md(
                 if include_release_notes:
                     release_notes = []
                     in_release_notes = False
+                    n_levels = None
                     for ii in description.split("\n"):
                         if in_release_notes:
                             # If we detect a header of equal or lesser level, stop looking
@@ -568,7 +569,9 @@ def generate_activity_md(
                             n_levels = len(ii.split(" ")[0])
 
                     if release_notes:
-                        this_md += "\n\n" + indent("\n".join(release_notes).strip(), "  ")
+                        this_md += "\n\n" + indent(
+                            "\n".join(release_notes).strip(), "  "
+                        )
                 items["md"].append(this_md)
 
     # Get functional GitHub references: any git reference or master@{YY-mm-dd}
