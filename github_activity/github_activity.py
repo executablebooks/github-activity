@@ -111,24 +111,35 @@ def get_activity(
 
     if not auth:
         if "GITHUB_ACCESS_TOKEN" in os.environ:
+            # Access token is stored in a local environment variable so just use this
             print("Using GH access token stored in `GITHUB_ACCESS_TOKEN`.")
             auth = os.environ.get("GITHUB_ACCESS_TOKEN")
         else:
-            out = run(shlex.split("gh auth status -t"), capture_output=True)
-            lines = [ii for ii in out.stderr.decode().split("\n") if "Token:" in ii]
-            if lines:
-                print("Using GH access token stored via GH CLI.")
-                auth = lines[0].split(": ")[-1].strip()
-            else:
-                raise ValueError(
-                    "Either the environment variable GITHUB_ACCESS_TOKEN or the "
-                    "--auth flag or must be used to pass a Personal Access Token "
-                    "needed by the GitHub API. You can generate a token at "
-                    "https://github.com/settings/tokens/new. Note that while "
-                    "working with a public repository, you don’t need to set any "
-                    "scopes on the token you create. Alternatively, you may log-in "
-                    "via the GitHub CLI (`gh auth login`)."
+            # Attempt to use the gh cli if installed
+            try:
+                out = run(shlex.split("gh auth status -t"), capture_output=True)
+                lines = [ii for ii in out.stderr.decode().split("\n") if "Token:" in ii]
+                if lines:
+                    print("Using GH access token stored via GH CLI.")
+                    auth = lines[0].split(": ")[-1].strip()
+            except FileNotFoundError:
+                print(
+                    (
+                        "gh cli not found, so will not use it for auth. To download, "
+                        "see https://cli.github.com/"
+                    )
                 )
+        # We can't use this without auth because we hit rate limits immediately
+        if not auth:
+            raise ValueError(
+                "Either the environment variable GITHUB_ACCESS_TOKEN or the "
+                "--auth flag or must be used to pass a Personal Access Token "
+                "needed by the GitHub API. You can generate a token at "
+                "https://github.com/settings/tokens/new. Note that while "
+                "working with a public repository, you don’t need to set any "
+                "scopes on the token you create. Alternatively, you may log-in "
+                "via the GitHub CLI (`gh auth login`)."
+            )
 
     # Figure out dates for our query
     since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since, auth)
