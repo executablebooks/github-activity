@@ -57,7 +57,7 @@ You can find the [resulting markdown here](sample_notebook_activity).
 For repositories that use multiple branches, it may be necessary to filter PRs by a branch name.  This can be done using the `--branch` parameter in the CLI.   Other git references can be used as well in place of a branch name.
 ```
 
-### Splitting PRs by tags and prefixes
+### Split PRs by tags and prefixes
 
 Often you wish to split your PRs into multiple categories so that they are easier
 to scan and parse. You may also _only_ want to keep some PRs (e.g. features, or API
@@ -79,6 +79,22 @@ You can choose to *remove* some types of PRs from your changelog by passing the
 `--tags` parameter in the CLI. This is a list of a subset of names taken from the
 left-most column above.
 ```
+
+## Pull release notes from PR descriptions
+
+You can optionally include snippets of release notes directly from the descriptions of Pull Requests.
+These will be included just underneath the bullet point text for each PR in the markdown output.
+
+To do so, follow these steps:
+
+1. In your PR description, include a markdown header that begins with `# Release notes`.
+   The header can be of any level, and capitalization does not matter.
+   All subsequent text in the PR description will be treated as the release notes, until a header of equal or lesser level is encountered.
+2. Use the `--include-release-notes` flag. For example:
+
+   ```
+   github-activity --include-release-notes
+   ```
 
 ## Use a GitHub API token
 

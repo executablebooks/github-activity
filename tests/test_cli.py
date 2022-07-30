@@ -80,3 +80,19 @@ def test_cli_all(tmpdir, file_regression):
     md = path_output.read_text()
     index = md.index("## v0.2.0")
     file_regression.check(md[index:], extension=".md")
+
+
+def test_release_notes(tmpdir, file_regression):
+    """Release notes that are automatically pulled from PR descriptions."""
+    path_tmp = Path(tmpdir)
+    path_output = path_tmp.joinpath("out.md")
+    url = "https://github.com/executablebooks/jupyter-book"
+
+    # This release range covers PRs with 
+    cmd = f"github-activity {url} -s v0.7.1 -u v0.7.3 --include-release-notes -o {path_output}"
+
+    run(cmd.split(), check=True)
+
+    md = path_output.read_text()
+    test_md = md[md.index("## New features added"): md.index("## Bugs fixed")]
+    file_regression.check(test_md, extension=".md")
