@@ -25,40 +25,41 @@ from .graphql import GitHubGraphQlQuery
 TAGS_METADATA_BASE = {
     "new": {
         "tags": ["feature", "new"],
-        "pre": ["NEW", "FEAT", "FEATURE"],
+        "pre": ["new", "feat", "feature"],
         "description": "New features added",
     },
     "enhancement": {
         "tags": ["enhancement", "enhancements"],
-        "pre": ["ENH", "ENHANCEMENT", "IMPROVE", "IMP"],
+        "pre": ["enh", "enhancement", "improve", "imp"],
         "description": "Enhancements made",
     },
     "bug": {
         "tags": ["bug", "bugfix", "bugs"],
-        "pre": ["FIX", "BUG"],
+        "pre": ["fix", "bug"],
         "description": "Bugs fixed",
     },
     "maintenance": {
         "tags": ["maintenance", "maint"],
-        "pre": ["MAINT", "MNT"],
+        "pre": ["maint", "mnt"],
         "description": "Maintenance and upkeep improvements",
     },
     "documentation": {
         "tags": ["documentation", "docs", "doc"],
-        "pre": ["DOC", "DOCS"],
+        "pre": ["doc", "docs"],
         "description": "Documentation improvements",
     },
     "api_change": {
         "tags": ["api-change", "apichange"],
-        "pre": ["BREAK", "BREAKING", "BRK", "UPGRADE"],
+        "pre": ["break", "breaking", "brk", "upgrade"],
         "description": "API and Breaking Changes",
     },
     "deprecate": {
         "tags": ["deprecation", "deprecate"],
-        "pre": ["DEPRECATE", "DEPRECATION", "DEP"],
+        "pre": ["deprecate", "deprecation", "dep"],
         "description": "Deprecated features",
     },
 }
+
 
 
 def get_activity(
