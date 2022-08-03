@@ -428,7 +428,7 @@ def generate_activity_md(
     # Define categories for a few labels
     if tags is None:
         tags = TAGS_METADATA_BASE.keys()
-    # We expect a strict subset
+    # We expect an (improper) subset of tags
     if not set(tags) <= TAGS_METADATA_BASE.keys():
         raise ValueError(
             "You provided an unsupported tag. Tags must be "
