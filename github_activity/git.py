@@ -3,7 +3,7 @@ import re
 import shlex
 import subprocess
 from tempfile import TemporaryDirectory
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 def _git_installed_check() -> bool:
     cmd = ["git", "--help"]
@@ -14,8 +14,16 @@ def _git_installed_check() -> bool:
         return False
 
 
-def _git_get_remote_sha_and_tags(repo: str, pattern: str) -> List[Tuple[str, str]]:
+def _git_get_remotes() -> Dict[str, str]:
+    out = subprocess.run("git remote -v".split(), stdout=subprocess.PIPE)
+    remotes = out.stdout.decode().split("\n")
+    remotes = [ii for ii in remotes if ii]
+    return {
+        ii.split("\t")[0]: ii.split("\t")[1].split()[0] for ii in remotes
+    }
 
+
+def _git_get_remote_sha_and_tags(repo: str, pattern: str) -> List[Tuple[str, str]]:
     # Get the sha and tag name for each tag in the target repo
     with TemporaryDirectory() as td:
 

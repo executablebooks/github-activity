@@ -1,4 +1,5 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
+import copy
 import datetime
 import os
 import re
@@ -174,6 +175,7 @@ def generate_all_activity_md(
     include_opened=False,
     strip_brackets=False,
     branch=None,
+    prefixes=None,
 ):
     """Generate a full markdown changelog of GitHub activity of a repo based on release tags.
 
@@ -208,6 +210,8 @@ def generate_all_activity_md(
         E.g., [MRG], [DOC], etc.
     branch : string | None
         The branch or reference name to filter pull requests by.
+    prefixes: dict | None
+        The prefixes for each tag, against which PR titles will be matched.
 
     Returns
     -------
@@ -246,6 +250,8 @@ def generate_all_activity_md(
             include_opened=include_opened,
             strip_brackets=strip_brackets,
             branch=branch,
+            tags=tags,
+            prefixes=prefixes,
         )
 
         if not md:
@@ -273,6 +279,7 @@ def generate_activity_md(
     strip_brackets=False,
     heading_level=1,
     branch=None,
+    prefixes=None,
 ):
     """Generate a markdown changelog of GitHub activity within a date window.
 
@@ -317,7 +324,8 @@ def generate_activity_md(
         With heading_level=2 those are increased to h2 and h3, respectively.
     branch : string | None
         The branch or reference name to filter pull requests by.
-
+    prefixes: dict | None
+        The prefixes for each tag, against which PR titles will be matched.
     Returns
     -------
     entry: str
@@ -420,13 +428,30 @@ def generate_activity_md(
     # Define categories for a few labels
     if tags is None:
         tags = TAGS_METADATA_BASE.keys()
-    if not all(tag in TAGS_METADATA_BASE for tag in tags):
+    # We expect a strict subset
+    if not set(tags) <= TAGS_METADATA_BASE.keys():
         raise ValueError(
             "You provided an unsupported tag. Tags must be "
             f"one or more of {TAGS_METADATA_BASE.keys()}, You provided:\n"
             f"{tags}"
         )
-    tags_metadata = {key: val for key, val in TAGS_METADATA_BASE.items() if key in tags}
+    # Define per-category prefixes
+    if prefixes is None:
+        prefixes = {}
+
+    # Override default prefixes with user-specified ones
+    default_prefixes = {t: v['pre'] for t, v in TAGS_METADATA_BASE.items()}
+    prefixes = {**default_prefixes, **prefixes}
+    # Take the lowercase of the prefixes
+    prefixes = {t: [s.lower() for s in p] for t, p in prefixes.items()}
+
+    # Build tag metadata
+    tags_metadata = {}
+    for tag in tags:
+        tags_metadata[tag] = {
+            **TAGS_METADATA_BASE[tag],
+            "pre": prefixes[tag]
+        }
 
     # Initialize our tags with empty metadata
     for key, vals in tags_metadata.items():
@@ -446,7 +471,7 @@ def generate_activity_md(
         )
         # Now find PRs based on prefix
         mask_pre = closed_prs["title"].map(
-            lambda title: any(f"{ipre}:" in title for ipre in kindmeta["pre"])
+            lambda title: any(f"{ipre}:" in title.lower() for ipre in kindmeta["pre"])
         )
         mask = mask | mask_pre
 

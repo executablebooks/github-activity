@@ -1,13 +1,13 @@
 import argparse
+import copy
 import os
 import sys
-from subprocess import PIPE
-from subprocess import run
 
-from .git import _git_installed_check
+from .git import _git_get_remotes, _git_installed_check
 from .github_activity import _parse_target
 from .github_activity import generate_activity_md
 from .github_activity import generate_all_activity_md
+from .github_activity import TAGS_METADATA_BASE
 
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
 parser = argparse.ArgumentParser(description=DESCRIPTION)
@@ -117,6 +117,48 @@ parser.add_argument(
     action="store_true",
     help=("""Whether to include all the GitHub tags"""),
 )
+parser.add_argument(
+    "--new-prefix",
+    action="extend",
+    nargs="+",
+    help=("""Prefix(es) for PRs with new features""")
+)
+parser.add_argument(
+    "--enhancement-prefix",
+    action="extend",
+    nargs="+",
+    help=("""Prefix(es) for PRs with enhancements""")
+)
+parser.add_argument(
+    "--bug-prefix",
+    action="extend",
+    nargs="+",
+    help=("""Prefix(es) for PRs with bugfixes""")
+)
+parser.add_argument(
+    "--maintenance-prefix",
+    action="extend",
+    nargs="+",
+    help=("""Prefix(es) for PRs with maintenance and upkeep improvements""")
+)
+parser.add_argument(
+    "--documentation-prefix",
+    action="extend",
+    nargs="+",
+    help=("""Prefix(es) for PRs with documentation improvements""")
+)
+parser.add_argument(
+    "--api-change-prefix",
+    action="extend",
+    nargs="+",
+    help=("""Prefix(es) for PRs with API and breaking changes""")
+)
+parser.add_argument(
+    "--deprecate-prefix",
+    action="extend",
+    nargs="+",
+    help=("""Prefix(es) for PRs with API and breaking changes""")
+)
 
 
 def main():
@@ -131,17 +173,12 @@ def main():
     if unknown and not args.target:
         args.target = unknown[0]
 
-    tags = args.tags.split(",") if args.tags is not None else args.tags
+    tags = args.tags.split(",") if args.tags is not None else None
     # Automatically detect the target from remotes if we haven't had one passed.
     if not args.target:
         err = "Could not automatically detect remote, and none was given."
         try:
-            out = run("git remote -v".split(), stdout=PIPE)
-            remotes = out.stdout.decode().split("\n")
-            remotes = [ii for ii in remotes if ii]
-            remotes = {
-                ii.split("\t")[0]: ii.split("\t")[1].split()[0] for ii in remotes
-            }
+            remotes = _git_get_remotes()
             if "upstream" in remotes:
                 ref = remotes["upstream"]
             elif "origin" in remotes:
@@ -159,6 +196,14 @@ def main():
         except Exception:
             raise ValueError(err)
 
+    # Build mapping from tag to tag prefixes, if given
+    prefixes = {}
+    for tag in TAGS_METADATA_BASE:
+        tag_prefixes = getattr(args, f"{tag}_prefix")
+        if tag_prefixes is None:
+            continue
+        prefixes[tag] = tag_prefixes
+
     common_kwargs = dict(
         kind=args.kind,
         auth=args.auth,
@@ -167,6 +212,8 @@ def main():
         include_opened=bool(args.include_opened),
         strip_brackets=bool(args.strip_brackets),
         branch=args.branch,
+        prefixes=prefixes
+
     )
 
     if args.all:
