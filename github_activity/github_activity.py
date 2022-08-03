@@ -3,13 +3,9 @@ import datetime
 import os
 import re
 import shlex
-import subprocess
 import sys
-import urllib
-from pathlib import Path
 from subprocess import PIPE
 from subprocess import run
-from tempfile import TemporaryDirectory
 
 import dateutil
 import numpy as np
@@ -18,8 +14,8 @@ import pytz
 import requests
 
 from .cache import _cache_data
+from .git import _git_get_remote_sha_and_tags
 from .graphql import GitHubGraphQlQuery
-
 
 # The tags and description to use in creating subsets of PRs
 TAGS_METADATA_BASE = {
@@ -218,34 +214,8 @@ def generate_all_activity_md(
     entry: str
         The markdown changelog entry for all of the release tags in the repo.
     """
-    # Get the sha and tag name for each tag in the target repo
-    with TemporaryDirectory() as td:
-
-        subprocess.run(
-            shlex.split(f"git clone https://github.com/{target} repo"), cwd=td
-        )
-        repo = os.path.join(td, "repo")
-        subprocess.run(shlex.split("git fetch origin --tags"), cwd=repo)
-
-        cmd = 'git log --tags --simplify-by-decoration --pretty="format:%h | %D"'
-        data = (
-            subprocess.check_output(shlex.split(cmd), cwd=repo)
-            .decode("utf-8")
-            .splitlines()
-        )
-
-    # Clean up the raw data
-    pattern = f"tag: {pattern}"
-
-    def filter(datum):
-        _, tag = datum
-        # Handle the HEAD tag if it exists
-        if "," in tag:
-            tag = tag.split(", ")[1]
-        return re.match(pattern, tag) is not None
-
-    data = [d.split(" | ") for (i, d) in enumerate(data)]
-    data = [d for d in data if filter(d)]
+    # Get the (SHA, tag) pairs for this target
+    data = _git_get_remote_sha_and_tags(f"https://github.com/{target}", pattern)
 
     # Generate a changelog entry for each version and sha range
     output = ""
