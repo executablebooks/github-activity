@@ -11,7 +11,7 @@ from subprocess import PIPE
 from subprocess import run
 from tempfile import TemporaryDirectory
 
-import dateutil
+import dateutil.parser
 import numpy as np
 import pandas as pd
 import pytz
