@@ -1,64 +1,64 @@
 api_change:
   description: API and Breaking Changes
   pre:
-  - BREAK
-  - BREAKING
-  - BRK
-  - UPGRADE
+    - BREAK
+    - BREAKING
+    - BRK
+    - UPGRADE
   tags:
-  - api-change
-  - apichange
+    - api-change
+    - apichange
 bug:
   description: Bugs fixed
   pre:
-  - FIX
-  - BUG
+    - FIX
+    - BUG
   tags:
-  - bug
-  - bugfix
-  - bugs
+    - bug
+    - bugfix
+    - bugs
 deprecate:
   description: Deprecated features
   pre:
-  - DEPRECATE
-  - DEPRECATION
-  - DEP
+    - DEPRECATE
+    - DEPRECATION
+    - DEP
   tags:
-  - deprecation
-  - deprecate
+    - deprecation
+    - deprecate
 documentation:
   description: Documentation improvements
   pre:
-  - DOC
-  - DOCS
+    - DOC
+    - DOCS
   tags:
-  - documentation
-  - docs
-  - doc
+    - documentation
+    - docs
+    - doc
 enhancement:
   description: Enhancements made
   pre:
-  - NEW
-  - ENH
-  - ENHANCEMENT
-  - IMPROVE
+    - NEW
+    - ENH
+    - ENHANCEMENT
+    - IMPROVE
   tags:
-  - enhancement
-  - enhancements
+    - enhancement
+    - enhancements
 maintenance:
   description: Maintenance and upkeep improvements
   pre:
-  - MAINT
-  - MNT
+    - MAINT
+    - MNT
   tags:
-  - maintenance
-  - maint
+    - maintenance
+    - maint
 new:
   description: New features added
   pre:
-  - NEW
-  - FEAT
-  - FEATURE
+    - NEW
+    - FEAT
+    - FEATURE
   tags:
-  - feature
-  - new
+    - feature
+    - new

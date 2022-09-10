@@ -10,7 +10,7 @@ This package does two things:
 2. A CLI to render this activity as markdown, suitable for generating changelogs or
    community updates.
 
-*Note: This is a really young tool so it might change a bit over time.*
+_Note: This is a really young tool so it might change a bit over time._
 
 ## Installation
 

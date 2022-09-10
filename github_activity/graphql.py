@@ -121,6 +121,7 @@ class GitHubGraphQlQuery:
         # NOTE: This main search query has a type, but the query string also has a type.
         # ref ("search"): https://developer.github.com/v4/query/#connections
         # Collect paginated issues
+        pageInfo = None
         self.issues_and_or_prs = []
         for ii in range(n_pages):
             github_search_query = [
