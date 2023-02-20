@@ -31,3 +31,12 @@ github-activity [<org>/<repo>] --since <date or ref> --until <date or ref>
 
 See [the github-activity documentation](https://github-activity.readthedocs.io)
 for more information.
+
+## To run the tests
+
+The easiest way to run the test suite is using `nox`.
+This will install the local version of the package and run the test suite.
+
+```
+nox -s test
+```

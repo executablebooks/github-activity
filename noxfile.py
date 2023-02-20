@@ -12,3 +12,14 @@ def run(session):
     # Run github activity and re-use the posargs
     cmd = ["github-activity"] + session.posargs
     session.run(*cmd)
+
+
+@nox.session
+def test(session):
+    """Run github activity on this repository with the current repo."""
+    session.install("-r", "requirements.txt")
+    session.install("-e", ".")
+
+    # Run github activity and re-use the posargs
+    cmd = ["pytest"] + session.posargs
+    session.run(*cmd)
