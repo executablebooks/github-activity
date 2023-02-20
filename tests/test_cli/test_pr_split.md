@@ -4,11 +4,11 @@
 
 ## New features added
 
-- ✨ NEW: Adding - chapter entries to _toc.yml [#817](https://github.com/executablebooks/jupyter-book/pull/817) ([@choldgraf](https://github.com/choldgraf), [@codecov](https://github.com/codecov))
+- ✨ NEW: Adding - chapter entries to _toc.yml [#817](https://github.com/executablebooks/jupyter-book/pull/817) ([@choldgraf](https://github.com/choldgraf))
 
 ## Enhancements made
 
-- 👌 IMPROVE: improving numbered sections [#826](https://github.com/executablebooks/jupyter-book/pull/826) ([@choldgraf](https://github.com/choldgraf), [@codecov](https://github.com/codecov))
+- 👌 IMPROVE: improving numbered sections [#826](https://github.com/executablebooks/jupyter-book/pull/826) ([@choldgraf](https://github.com/choldgraf))
 - checking for toc modification time [#772](https://github.com/executablebooks/jupyter-book/pull/772) ([@choldgraf](https://github.com/choldgraf), [@chrisjsewell](https://github.com/chrisjsewell))
 - first pass toc directive [#757](https://github.com/executablebooks/jupyter-book/pull/757) ([@choldgraf](https://github.com/choldgraf), [@AakashGfude](https://github.com/AakashGfude))
 
