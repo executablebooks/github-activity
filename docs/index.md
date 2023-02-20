@@ -80,11 +80,36 @@ You can choose to *remove* some types of PRs from your changelog by passing the
 left-most column above.
 ```
 
-### Using a GitHub API token
+## Use a GitHub API token
 
 `github-activity` uses the GitHub API to pull information about a repository's activity.
-You will quickly hit your API limit unless you use a personal access token. Here are
-instructions to generate and use a GitHub access token for use with `github-activity`.
+You will quickly hit your API limit unless you use a personal access token.
+There are two ways that you can generate your own access token for use with `github-activity`, each is described below:
+
+### Create a token using the GitHub CLI
+
+You can use [the GitHub command line interface](https://cli.github.com/manual/) to authenticate your account and store an access token in your local environment.
+To do so, download the GitHub CLI, and run the following command:
+
+```bash
+# Authenticate with GitHub via the web interface
+gh auth login --web
+```
+
+This will open a web interface for you to authenticate.
+When finished, it will store an access token locally, which you can print with:
+
+```bash
+# Print an access token if it is stored
+gh auth status -t
+```
+
+This token will automatically be used by `github-activity` if it exists.
+
+### Manually create your own API token
+
+Alternativelly, you can create your own GitHub access token and store it yourself.
+To do so, follow these steps:
 
 - Create your own access token. Go to the [new GitHub access token page](https://github.com/settings/tokens/new)
   and follow the instructions. Note that while working with a public repository,
@@ -101,7 +126,7 @@ instructions to generate and use a GitHub access token for use with `github-acti
   for an environment variable called `GITHUB_ACCESS_TOKEN`. If it finds this variable,
   it will use this in the API calls to GitHub.
 
-## How does this tool define contributions in the reports?
+## How we define contributors in the reports
 
 GitHub Activity tries to automatically determine the unique list of contributors within
 a given window of time. There are many ways to define this, and there isn't necessarily a

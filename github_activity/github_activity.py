@@ -1,13 +1,17 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
 import datetime
 import os
+import re
+import shlex
+import subprocess
 import sys
 import urllib
 from pathlib import Path
 from subprocess import PIPE
 from subprocess import run
+from tempfile import TemporaryDirectory
 
-import dateutil
+import dateutil.parser
 import numpy as np
 import pandas as pd
 import pytz
@@ -90,7 +94,8 @@ def get_activity(
         Return only issues or PRs. If None, both will be returned.
     auth : string | None
         An authentication token for GitHub. If None, then the environment
-        variable `GITHUB_ACCESS_TOKEN` will be tried.
+        variable `GITHUB_ACCESS_TOKEN` will be tried. If it does not exist,
+        then attempt to infer a token from `gh auth status -t`.
     cache : bool | str | None
         Whether to cache the returned results. If None, no caching is
         performed. If True, the cache is located at
@@ -113,16 +118,37 @@ def get_activity(
         # We have just org
         search_query = f"user:{org}"
 
-    auth = auth or os.environ.get("GITHUB_ACCESS_TOKEN")
     if not auth:
-        raise ValueError(
-            "Either the environment variable GITHUB_ACCESS_TOKEN or the "
-            "--auth flag or must be used to pass a Personal Access Token "
-            "needed by the GitHub API. You can generate a token at "
-            "https://github.com/settings/tokens/new. Note that while "
-            "working with a public repository, you don’t need to set any "
-            "scopes on the token you create."
-        )
+        if "GITHUB_ACCESS_TOKEN" in os.environ:
+            # Access token is stored in a local environment variable so just use this
+            print("Using GH access token stored in `GITHUB_ACCESS_TOKEN`.")
+            auth = os.environ.get("GITHUB_ACCESS_TOKEN")
+        else:
+            # Attempt to use the gh cli if installed
+            try:
+                out = run(shlex.split("gh auth status -t"), capture_output=True)
+                lines = [ii for ii in out.stderr.decode().split("\n") if "Token:" in ii]
+                if lines:
+                    print("Using GH access token stored via GH CLI.")
+                    auth = lines[0].split(": ")[-1].strip()
+            except FileNotFoundError:
+                print(
+                    (
+                        "gh cli not found, so will not use it for auth. To download, "
+                        "see https://cli.github.com/"
+                    )
+                )
+        # We can't use this without auth because we hit rate limits immediately
+        if not auth:
+            raise ValueError(
+                "Either the environment variable GITHUB_ACCESS_TOKEN or the "
+                "--auth flag or must be used to pass a Personal Access Token "
+                "needed by the GitHub API. You can generate a token at "
+                "https://github.com/settings/tokens/new. Note that while "
+                "working with a public repository, you don’t need to set any "
+                "scopes on the token you create. Alternatively, you may log-in "
+                "via the GitHub CLI (`gh auth login`)."
+            )
 
     # Figure out dates for our query
     since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since, auth)
@@ -160,6 +186,129 @@ def get_activity(
     if cache:
         _cache_data(query_data, cache)
     return query_data
+
+
+def generate_all_activity_md(
+    target,
+    pattern=r"(v?\d+\.\d+\.\d+)$",
+    kind=None,
+    auth=None,
+    tags=None,
+    include_issues=False,
+    include_opened=False,
+    strip_brackets=False,
+    branch=None,
+):
+    """Generate a full markdown changelog of GitHub activity of a repo based on release tags.
+
+    Parameters
+    ----------
+    target : string
+        The GitHub organization/repo for which you want to grab recent issues/PRs.
+        Can either be *just* and organization (e.g., `jupyter`) or a combination
+        organization and repo (e.g., `jupyter/notebook`). If the former, all
+        repositories for that org will be used. If the latter, only the specified
+        repository will be used. Can also be a URL to a GitHub org or repo.
+    pattern: str
+        The expression used to match a release tag.
+    kind : ["issue", "pr"] | None
+        Return only issues or PRs. If None, both will be returned.
+    auth : string | None
+        An authentication token for GitHub. If None, then the environment
+        variable `GITHUB_ACCESS_TOKEN` will be tried.
+    tags : list of strings | None
+        A list of the tags to use in generating subsets of PRs for the markdown report.
+        Must be one of:
+
+            ['enhancement', 'bugs', 'maintenance', 'documentation', 'api_change']
+
+        If None, all of the above tags will be used.
+    include_issues : bool
+        Include Issues in the markdown output. Default is False.
+    include_opened : bool
+        Include a list of opened items in the markdown output. Default is False.
+    strip_brackets : bool
+        If True, strip any text between brackets at the beginning of the issue/PR title.
+        E.g., [MRG], [DOC], etc.
+    branch : string | None
+        The branch or reference name to filter pull requests by.
+
+    Returns
+    -------
+    entry: str
+        The markdown changelog entry for all of the release tags in the repo.
+    """
+    # Get the sha and tag name for each tag in the target repo
+    with TemporaryDirectory() as td:
+
+        subprocess.run(
+            shlex.split(f"git clone https://github.com/{target} repo"), cwd=td
+        )
+        repo = os.path.join(td, "repo")
+        subprocess.run(shlex.split("git fetch origin --tags"), cwd=repo)
+
+        cmd = 'git log --tags --simplify-by-decoration --pretty="format:%h | %D"'
+        data = (
+            subprocess.check_output(shlex.split(cmd), cwd=repo)
+            .decode("utf-8")
+            .splitlines()
+        )
+
+    # Clean up the raw data
+    pattern = f"tag: {pattern}"
+
+    def filter(datum):
+        _, tag = datum
+        # Handle the HEAD tag if it exists
+        if "," in tag:
+            tag = tag.split(", ")[1]
+        return re.match(pattern, tag) is not None
+
+    data = [d.split(" | ") for (i, d) in enumerate(data)]
+    data = [d for d in data if filter(d)]
+
+    # Generate a changelog entry for each version and sha range
+    output = ""
+
+    for i in range(len(data) - 1):
+        curr_data = data[i]
+        prev_data = data[i + 1]
+
+        since = prev_data[0]
+        until = curr_data[0]
+
+        # Handle the HEAD tag if it exists
+        if "," in curr_data[1]:
+            curr_data[1] = curr_data[1].split(",")[1]
+
+        match = re.search(pattern, curr_data[1])
+        tag = match.groups()[0]
+
+        print(f"\n({i + 1}/{len(data)})", since, until, tag, file=sys.stderr)
+        md = generate_activity_md(
+            target,
+            since=since,
+            heading_level=2,
+            until=until,
+            auth=auth,
+            kind=kind,
+            include_issues=include_issues,
+            include_opened=include_opened,
+            strip_brackets=strip_brackets,
+            branch=branch,
+        )
+
+        if not md:
+            continue
+
+        # Replace the header line with our version tag
+        md = "\n".join(md.splitlines()[1:])
+
+        output += f"""
+## {tag}
+{md}
+"""
+    return output
 
 
 def generate_activity_md(
@@ -217,13 +366,12 @@ def generate_activity_md(
         By default, top-level heading is h1, sections are h2.
         With heading_level=2 those are increased to h2 and h3, respectively.
     branch : string | None
-        The branch or reference name to filter pull requests by
+        The branch or reference name to filter pull requests by.
 
     Returns
     -------
-    query_data : pandas DataFrame
-        A munged collection of data returned from your query. This
-        will be a combination of issues and PRs.
+    entry: str
+        The markdown changelog entry.
     """
     org, repo = _parse_target(target)
 

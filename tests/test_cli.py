@@ -69,3 +69,14 @@ def test_pr_split(tmpdir, file_regression):
     md = path_output.read_text()
     md = md.split("## Contributors to this release")[0]
     file_regression.check(md, extension=".md")
+
+
+def test_cli_all(tmpdir, file_regression):
+    """Test that a full changelog is created"""
+    path_tmp = Path(tmpdir)
+    path_output = path_tmp.joinpath("out.md")
+    cmd = f"github-activity executablebooks/github-activity --all -o {path_output}"
+    run(cmd.split(), check=True)
+    md = path_output.read_text()
+    index = md.index("## v0.2.0")
+    file_regression.check(md[index:], extension=".md")
