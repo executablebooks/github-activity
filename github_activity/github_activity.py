@@ -56,6 +56,15 @@ TAGS_METADATA_BASE = {
     },
 }
 
+# exclude known bots from contributor lists
+# TODO: configurable? Everybody's got their own bots.
+BOT_USERS = {
+    "dependabot",
+    "meeseeksmachine",
+    "pre-commit-ci",
+    "welcome",
+}
+
 
 def get_activity(
     target, since, until=None, repo=None, kind=None, auth=None, cache=None
@@ -252,7 +261,7 @@ def generate_activity_md(
 
         if row.kind == "pr":
             for committer in row.committers:
-                if committer not in row.committers:
+                if committer not in row.committers and committer not in BOT_USERS:
                     item_contributors.append(committer)
             if row.mergedBy and row.mergedBy != row.author:
                 item_contributors.append(row.mergedBy)
@@ -268,6 +277,9 @@ def generate_activity_md(
                 continue
 
             comment_author = comment_author["login"]
+            if comment_author in BOT_USERS:
+                # ignore bots
+                continue
 
             # Add to list of commentors on items they didn't author
             if comment_author != row["author"]:
@@ -429,6 +441,7 @@ def generate_activity_md(
                     [
                         f"[@{user}](https://github.com/{user})"
                         for user in irowdata.contributors
+                        if user not in BOT_USERS
                     ]
                 )
                 this_md = f"- {ititle} [#{irowdata['number']}]({irowdata['url']}) ({contributor_list})"
