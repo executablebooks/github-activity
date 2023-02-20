@@ -497,7 +497,12 @@ def generate_activity_md(
     gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
     md += [""]
     md += [f"{extra_head}## Contributors to this release"]
-    md += [""]
+    md += [
+        "",
+        "The following people contributed discussions, new ideas, code and documentation contributions, and review.",
+        "See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).",
+        "",
+    ]
     md += [f"([GitHub contributors page for this release]({gh_contributors_link}))"]
     md += [""]
     md += [contributor_md]
