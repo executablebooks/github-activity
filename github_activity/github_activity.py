@@ -63,9 +63,22 @@ TAGS_METADATA_BASE = {
 # exclude known bots from contributor lists
 # TODO: configurable? Everybody's got their own bots.
 BOT_USERS = {
+    "codecov",
+    "codecov-io",
     "dependabot",
+    "github-actions",
+    "henchbot",
+    "jupyterlab-dev-mode",
+    "lgtm-com",
     "meeseeksmachine",
+    "names",
+    "now",
     "pre-commit-ci",
+    "renovate",
+    "review-notebook-app",
+    "support",
+    "stale",
+    "todo",
     "welcome",
 }
 
