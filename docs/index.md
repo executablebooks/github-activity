@@ -140,8 +140,9 @@ or contributing code.
 Here are the rules we follow for finding a list of contributors within a time window. A
 contributor is anyone who has:
 
-- Had their PR merged in that window
+- Contributed to a PR merged in that window (includes opening, merging, committing, commenting, or committing)
 - Commented on >= 2 issues that weren't theirs
 - Commented >= 6 times on any one issue
+- Known bot accounts are generally not considered contributors
 
 We'd love feedback on whether this is a good set of rules to use.

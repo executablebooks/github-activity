@@ -22,6 +22,44 @@ comments_query = """\
         }
 """
 
+reviews_query = """\
+        reviews(last: 100) {
+          edges {
+            node {
+              authorAssociation
+              author {
+                login
+              }
+            }
+          }
+        }
+"""
+
+commits_query = """\
+        commits(first: 100) {
+          edges {
+            node {
+              commit {
+                committer {
+                  user {
+                    login
+                  }
+                }
+                authors(first: 10) {
+                  edges {
+                    node {
+                      user {
+                        login
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+"""
+
 base_elements = """\
         state
         id
@@ -66,6 +104,8 @@ gql_template = """\
         }}
         baseRefName
         {comments}
+        {commits}
+        {reviews}
       }}
       ... on Issue {{
         {base_elements}
@@ -136,6 +176,8 @@ class GitHubGraphQlQuery:
                 query=", ".join(github_search_query),
                 comments=comments_query,
                 base_elements=base_elements,
+                reviews=reviews_query,
+                commits=commits_query,
             )
             ii_request = requests.post(
                 "https://api.github.com/graphql",
@@ -192,10 +234,54 @@ class GitHubGraphQlQuery:
         self.data = pd.DataFrame(self.issues_and_or_prs)
 
         # Add some extra fields
-        self.data["author"] = self.data["author"].map(
-            lambda a: a["login"] if a is not None else a
-        )
+        def get_login(user):
+            return user["login"] if not pd.isna(user) else user
+
+        self.data["author"] = self.data["author"].map(get_login)
+        self.data["mergedBy"] = self.data["mergedBy"].map(get_login)
+
         self.data["org"] = self.data["url"].map(lambda a: a.split("/")[3])
         self.data["repo"] = self.data["url"].map(lambda a: a.split("/")[4])
+        self.data["labels"] = self.data["labels"].map(
+            lambda a: [edge["node"]["name"] for edge in a["edges"]]
+        )
+        self.data["kind"] = self.data["url"].map(
+            lambda a: "issue" if "issues/" in a else "pr"
+        )
+
         self.data["thumbsup"] = self.data["reactions"].map(lambda a: a["totalCount"])
         self.data.drop(columns="reactions", inplace=True)
+
+        def get_reviewers(reviews):
+            """map review graph to unique list of reviewers"""
+            if pd.isna(reviews) or not reviews:
+                return []
+            return sorted(
+                set([review["node"]["author"]["login"] for review in reviews["edges"]])
+            )
+
+        self.data["reviewers"] = self.data["reviews"].map(get_reviewers)
+
+        def get_committers(commits):
+            """map commit graph to non-unique ordered list of commit authors"""
+            if pd.isna(commits) or not commits:
+                return []
+            committers = []
+            for commit in commits["edges"]:
+                commit = commit["node"]["commit"]
+                commit_authors = []
+                for author in commit["authors"]["edges"]:
+                    author = author["node"]
+                    if author and author["user"]:
+                        commit_authors.append(author["user"]["login"])
+                    committer = commit["committer"]
+                    if (
+                        committer
+                        and committer["user"]
+                        and committer["user"]["login"] not in commit_authors
+                    ):
+                        commit_authors.append(committer["user"]["login"])
+                committers.extend(commit_authors)
+            return committers
+
+        self.data["committers"] = self.data["commits"].map(get_committers)

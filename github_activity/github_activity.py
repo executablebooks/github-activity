@@ -60,6 +60,28 @@ TAGS_METADATA_BASE = {
     },
 }
 
+# exclude known bots from contributor lists
+# TODO: configurable? Everybody's got their own bots.
+BOT_USERS = {
+    "codecov",
+    "codecov-io",
+    "dependabot",
+    "github-actions",
+    "henchbot",
+    "jupyterlab-dev-mode",
+    "lgtm-com",
+    "meeseeksmachine",
+    "names",
+    "now",
+    "pre-commit-ci",
+    "renovate",
+    "review-notebook-app",
+    "support",
+    "stale",
+    "todo",
+    "welcome",
+}
+
 
 def get_activity(
     target, since, until=None, repo=None, kind=None, auth=None, cache=None
@@ -384,9 +406,31 @@ def generate_activity_md(
     comment_others_cutoff = 2  # Comments on issues somebody else has authored
     comment_helpers = []
     all_contributors = []
-    for _, iitems in data.iterrows():
+    # add column for participants in each issue (not just original author)
+    data["contributors"] = [[]] * len(data)
+    for ix, row in data.iterrows():
         item_commentors = []
-        for icomment in iitems["comments"]["edges"]:
+        item_contributors = []
+
+        # contributor order:
+        # - author
+        # - committers
+        # - merger
+        # - reviewers
+
+        item_contributors.append(row.author)
+
+        if row.kind == "pr":
+            for committer in row.committers:
+                if committer not in row.committers and committer not in BOT_USERS:
+                    item_contributors.append(committer)
+            if row.mergedBy and row.mergedBy != row.author:
+                item_contributors.append(row.mergedBy)
+            for reviewer in row.reviewers:
+                if reviewer not in item_contributors:
+                    item_contributors.append(reviewer)
+
+        for icomment in row["comments"]["edges"]:
             comment_author = icomment["node"]["author"]
             if not comment_author:
                 # This happens if the GitHub user has been deleted
@@ -394,13 +438,20 @@ def generate_activity_md(
                 continue
 
             comment_author = comment_author["login"]
+            if comment_author in BOT_USERS:
+                # ignore bots
+                continue
 
             # Add to list of commentors on items they didn't author
-            if comment_author != iitems["author"]:
+            if comment_author != row["author"]:
                 comment_helpers.append(comment_author)
 
             # Add to list of commentors for this item so we can see how many times they commented
             item_commentors.append(comment_author)
+
+            # count all comments on a PR as a contributor
+            if comment_author not in item_contributors:
+                item_contributors.append(comment_author)
 
         # Count any commentors that had enough comments on the issue to be a contributor
         item_commentors_counts = pd.value_counts(item_commentors)
@@ -410,16 +461,13 @@ def generate_activity_md(
         for person in item_commentors_counts:
             all_contributors.append(person)
 
+        # record contributor list (ordered, unique)
+        data.at[ix, "contributors"] = item_contributors
+
     comment_contributor_counts = pd.value_counts(comment_helpers)
     all_contributors += comment_contributor_counts[
         comment_contributor_counts >= comment_others_cutoff
     ].index.tolist()
-
-    # Clean up the data a bit
-    data["labels"] = data["labels"].map(
-        lambda a: [edge["node"]["name"] for edge in a["edges"]]
-    )
-    data["kind"] = data["url"].map(lambda a: "issue" if "issues/" in a else "pr")
 
     # Filter the PRs by branch (or ref) if given
     if branch is not None:
@@ -455,8 +503,8 @@ def generate_activity_md(
     # Now remove the *closed* PRs (not merged) for our output list
     closed_prs = closed_prs.query("state != 'CLOSED'")
 
-    # Add any author of a merged PR to our contributors list
-    all_contributors += closed_prs["author"].unique().tolist()
+    # Add any contributors to a merged PR to our contributors list
+    all_contributors += closed_prs["contributors"].explode().unique().tolist()
 
     # Define categories for a few labels
     if tags is None:
@@ -550,7 +598,14 @@ def generate_activity_md(
                 ititle = irowdata["title"]
                 if strip_brackets and ititle.strip().startswith("[") and "]" in ititle:
                     ititle = ititle.split("]", 1)[-1].strip()
-                this_md = f"- {ititle} [#{irowdata['number']}]({irowdata['url']}) ([@{author}](https://github.com/{author}))"
+                contributor_list = ", ".join(
+                    [
+                        f"[@{user}](https://github.com/{user})"
+                        for user in irowdata.contributors
+                        if user not in BOT_USERS
+                    ]
+                )
+                this_md = f"- {ititle} [#{irowdata['number']}]({irowdata['url']}) ({contributor_list})"
                 items["md"].append(this_md)
 
     # Get functional GitHub references: any git reference or master@{YY-mm-dd}
@@ -603,7 +658,12 @@ def generate_activity_md(
     gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
     md += [""]
     md += [f"{extra_head}## Contributors to this release"]
-    md += [""]
+    md += [
+        "",
+        "The following people contributed discussions, new ideas, code and documentation contributions, and review.",
+        "See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).",
+        "",
+    ]
     md += [f"([GitHub contributors page for this release]({gh_contributors_link}))"]
     md += [""]
     md += [contributor_md]
