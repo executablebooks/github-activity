@@ -116,6 +116,7 @@ gql_template = """\
 }}
 """
 
+
 # Define our query object that we'll re-use for github search
 class GitHubGraphQlQuery:
     def __init__(self, query, display_progress=True, auth=None):

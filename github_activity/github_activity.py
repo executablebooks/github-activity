@@ -253,7 +253,6 @@ def generate_all_activity_md(
     """
     # Get the sha and tag name for each tag in the target repo
     with TemporaryDirectory() as td:
-
         subprocess.run(
             shlex.split(f"git clone https://github.com/{target} repo"), cwd=td
         )
@@ -653,7 +652,7 @@ def generate_activity_md(
     all_contributor_links = []
     for iauthor in all_contributors:
         author_url = f"https://github.com/search?q=repo%3A{org}%2F{repo}+involves%3A{iauthor}+updated%3A{data.since_dt:%Y-%m-%d}..{data.until_dt:%Y-%m-%d}&type=Issues"
-        all_contributor_links.append(f"[@{iauthor}]({author_url})")
+        all_contributor_links.append(f"@{iauthor} ([activity]({author_url}))")
     contributor_md = " | ".join(all_contributor_links)
     gh_contributors_link = f"https://github.com/{org}/{repo}/graphs/contributors?from={data.since_dt:%Y-%m-%d}&to={data.until_dt:%Y-%m-%d}&type=c"
     md += [""]
