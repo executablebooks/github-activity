@@ -134,7 +134,10 @@ def get_activity(
     if not auth:
         if "GITHUB_ACCESS_TOKEN" in os.environ:
             # Access token is stored in a local environment variable so just use this
-            print("Using GH access token stored in `GITHUB_ACCESS_TOKEN`.")
+            print(
+                "Using GH access token stored in `GITHUB_ACCESS_TOKEN`.",
+                file=sys.stderr,
+            )
             auth = os.environ.get("GITHUB_ACCESS_TOKEN")
         else:
             # Attempt to use the gh cli if installed
@@ -142,14 +145,15 @@ def get_activity(
                 out = run(shlex.split("gh auth status -t"), capture_output=True)
                 lines = [ii for ii in out.stderr.decode().split("\n") if "Token:" in ii]
                 if lines:
-                    print("Using GH access token stored via GH CLI.")
+                    print("Using GH access token stored via GH CLI.", file=sys.stderr)
                     auth = lines[0].split(": ")[-1].strip()
             except FileNotFoundError:
                 print(
                     (
                         "gh cli not found, so will not use it for auth. To download, "
                         "see https://cli.github.com/"
-                    )
+                    ),
+                    file=sys.stderr,
                 )
         # We can't use this without auth because we hit rate limits immediately
         if not auth:
