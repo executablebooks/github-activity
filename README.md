@@ -2,41 +2,26 @@
 
 Generate simple markdown changelogs for GitHub repositories written in Python.
 
-This package does two things:
+This package provides a CLI to do two things:
 
-1. Given a GitHub org, repository, an initial git reference or date, use the
-   [GitHub GraphQL API](https://developer.github.com/v4/) to return a DataFrame
-   of all issue and PR activity for this time period.
-2. A CLI to render this activity as markdown, suitable for generating changelogs or
-   community updates.
+**Scrape all GitHub activity over a period of time for a repository**.
+Given a GitHub org, repository, an initial git reference or date, use the [GitHub GraphQL API](https://developer.github.com/v4/) to return a DataFrame of all issue and PR activity for this time period.
 
-_Note: This is a really young tool so it might change a bit over time._
+**Render this as a markdwon changelog**.
+Convert this DataFrame to markdown that is suitable for generating changelogs or   community updates.
 
-## Installation
+For an example, see the [changelog of this package]([https://](https://github-activity.readthedocs.io/en/latest/changelog)).
 
-The easiest way to install this package is via `pip`:
+## Use this tool
 
-```
-pip install github-activity
-```
+Use this tool via the command line like so:
 
-## Usage
-
-The easiest way to use `github-activity` to generate activity markdown is to use
-the command-line interface. It takes the following form:
-
-```
+```bash
 github-activity [<org>/<repo>] --since <date or ref> --until <date or ref>
 ```
 
-See [the github-activity documentation](https://github-activity.readthedocs.io)
-for more information.
+See [the User Guide for details on how to install and use this tool](https://github-activity.readthedocs.io/en/latest/use).
 
-## To run the tests
+## Contribute to this package
 
-The easiest way to run the test suite is using `nox`.
-This will install the local version of the package and run the test suite.
-
-```
-nox -s test
-```
+See [the Contributing Guide for more details](https://github-activity.readthedocs.io/en/latest/contribute).

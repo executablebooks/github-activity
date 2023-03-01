@@ -1,0 +1,4 @@
+sphinx>=5
+sphinx-book-theme>=1
+myst-parser
+sphinx-design
