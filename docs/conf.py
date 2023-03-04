@@ -77,6 +77,6 @@ table_template = f"""
 from pathlib import Path
 
 path_tmp = Path(__file__).parent / "_build/dirhtml"
-path_tmp.mkdir(exist_ok=True)
+path_tmp.mkdir(exist_ok=True, parents=True)
 path_tagslist = path_tmp / "tags_list.txt"
 path_tagslist.write_text(table_template)
