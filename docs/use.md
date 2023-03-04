@@ -55,6 +55,7 @@ Below is a list of the supported PR types, as well as the tags / title prefixes
 that will be used to identify the right category.
 
 ```{include} _build/dirhtml/tags_list.txt
+
 ```
 
 ```{tip}
@@ -64,6 +65,7 @@ left-most column above.
 ```
 
 (use:token)=
+
 ## Use a GitHub API token
 
 `github-activity` uses the GitHub API to pull information about a repository's activity.

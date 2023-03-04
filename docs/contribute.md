@@ -2,7 +2,6 @@
 
 These sections describe how you can make contributions to this theme.
 
-
 ## Run the tests
 
 The easiest way to run the test suite is using [`nox`](https://nox.readthedocs.io/).
@@ -45,17 +44,15 @@ The easiest way to make a release is to follow these steps:
    When you hit `Publish release`, a GitHub action will trigger that runs our tests, and then publishes the latest tag to PyPI if the tests pass.
    That's it, you're done!
 
-
 [^1]: To add a changelog with `github-activity`, run something like:
 
-      ```bash
-      github-activity -s <LAST-TAG> -o tmp.md
-      ```
+    ```bash
+    github-activity -s <LAST-TAG> -o tmp.md
+    ```
 
-      Then copy the contents of `tmp.md` and paste it into our changelog, bumping section header levels if needed.
-      Alternatively, use `nox`:
+    Then copy the contents of `tmp.md` and paste it into our changelog, bumping section header levels if needed.
+    Alternatively, use `nox`:
 
-      ```bash
-      nox -s changelog
-      ```
-
+    ```bash
+    nox -s changelog
+    ```

@@ -10,9 +10,9 @@ This package provides a CLI to do two things:
 Given a GitHub org, repository, an initial git reference or date, use the [GitHub GraphQL API](https://developer.github.com/v4/) to return a Pandas DataFrame of all issue and PR activity for this time period.
 
 **Render this as a markdown changelog**.
-Convert this DataFrame to markdown that is suitable for generating changelogs or   community updates.
+Convert this DataFrame to markdown that is suitable for generating changelogs or community updates.
 
-For an example, see the [changelog of this package]([https://](https://github-activity.readthedocs.io/en/latest/changelog)).
+For an example, see the [changelog of this package](<[https://](https://github-activity.readthedocs.io/en/latest/changelog)>).
 
 ## Use this tool
 
