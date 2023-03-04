@@ -4,10 +4,14 @@ These sections describe how to control the major functionality of this tool.
 
 ## Generate a markdown changelog
 
+```{note}
+Before generating a changelog you should [generate and add a GitHub Access Token](use:token).
+```
+
 The easiest way to use `github-activity` to generate activity markdown is to use
 the command-line interface. It takes the following form:
 
-```
+```bash
 github-activity [<org>/<repo>] --since <date or ref> --until <date or ref>
 ```
 
@@ -59,6 +63,7 @@ You can choose to *remove* some types of PRs from your changelog by passing the
 left-most column above.
 ```
 
+(use:token)=
 ## Use a GitHub API token
 
 `github-activity` uses the GitHub API to pull information about a repository's activity.
@@ -90,17 +95,8 @@ This token will automatically be used by `github-activity` if it exists.
 Alternatively, you can create your own GitHub access token and store it yourself.
 To do so, follow these steps:
 
-- Create your own access token. Go to the [new GitHub access token page](https://github.com/settings/tokens/new)
-  and follow the instructions. Note that while working with a public repository,
-  you don't need to set any scopes on the token you create.
-- When using `github-activity` from the command line, use the `--auth` parameter and pass
-  in your access token. This is easiest if you set it as an **environment variable**,
-  such as `MY_ACCESS_TOKEN`. You can then add it to your call like so:
-
-  ```
-  github-activity jupyter/notebook --since v2019-09-01 --auth $MY_ACCESS_TOKEN
-  ```
-
-- If you do not explicitly pass an access token to `github-activity`, it will search
-  for an environment variable called `GITHUB_ACCESS_TOKEN`. If it finds this variable,
-  it will use this in the API calls to GitHub.
+- Create your own access token. Go to the [new GitHub access token page](https://github.com/settings/tokens/new) and follow the instructions.
+  Note that while working with a public repository, you don't need to set any scopes on the token you create.
+- Assign the token to an environment variable called `GITHUB_ACCESS_TOKEN`.
+  If you run `github-activity` and this variable is defined, it will be used.
+  You may also pass a token via the `--auth` parameter (though this is not the best security practice).

@@ -53,3 +53,9 @@ The easiest way to make a release is to follow these steps:
       ```
 
       Then copy the contents of `tmp.md` and paste it into our changelog, bumping section header levels if needed.
+      Alternatively, use `nox`:
+
+      ```bash
+      nox -s changelog
+      ```
+
