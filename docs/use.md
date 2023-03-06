@@ -62,7 +62,7 @@ left-most column above.
 ## Use a GitHub API token
 
 `github-activity` uses the GitHub API to pull information about a repository's activity.
-You will quickly hit your API limit unless you use a personal access token.
+You will quickly hit your API limit so you must use a personal access or API token.
 There are two ways that you can generate your own access token for use with `github-activity`, each is described below:
 
 ### Create a token using the GitHub CLI
@@ -87,7 +87,7 @@ This token will automatically be used by `github-activity` if it exists.
 
 ### Manually create your own API token
 
-Alternativelly, you can create your own GitHub access token and store it yourself.
+Alternatively, you can create your own GitHub access token and store it yourself.
 To do so, follow these steps:
 
 - Create your own access token. Go to the [new GitHub access token page](https://github.com/settings/tokens/new)
