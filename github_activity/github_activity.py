@@ -652,7 +652,9 @@ def generate_activity_md(
             md += info["md"]
 
     # Add a list of author contributions
-    all_contributors = sorted(set(all_contributors), key=lambda a: str(a).lower())
+    all_contributors = sorted(
+        set(all_contributors) - BOT_USERS, key=lambda a: str(a).lower()
+    )
     all_contributor_links = []
     for iauthor in all_contributors:
         author_url = f"https://github.com/search?q=repo%3A{org}%2F{repo}+involves%3A{iauthor}+updated%3A{data.since_dt:%Y-%m-%d}..{data.until_dt:%Y-%m-%d}&type=Issues"
