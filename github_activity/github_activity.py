@@ -7,6 +7,7 @@ import subprocess
 import sys
 import urllib
 from pathlib import Path
+from subprocess import CalledProcessError
 from subprocess import PIPE
 from subprocess import run
 from tempfile import TemporaryDirectory
@@ -142,11 +143,13 @@ def get_activity(
         else:
             # Attempt to use the gh cli if installed
             try:
-                out = run(shlex.split("gh auth status -t"), capture_output=True)
-                lines = [ii for ii in out.stderr.decode().split("\n") if "Token:" in ii]
-                if lines:
-                    print("Using GH access token stored via GH CLI.", file=sys.stderr)
-                    auth = lines[0].split(": ")[-1].strip()
+                p = run(["gh", "auth", "token"], capture_output=True)
+                auth = p.stdout.strip()
+            except CalledProcessError:
+                print(
+                    ("gh cli has no token. Login with `gh auth login`"),
+                    file=sys.stderr,
+                )
             except FileNotFoundError:
                 print(
                     (
