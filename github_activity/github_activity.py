@@ -24,6 +24,11 @@ from .graphql import GitHubGraphQlQuery
 
 # The tags and description to use in creating subsets of PRs
 TAGS_METADATA_BASE = {
+    "api_change": {
+        "tags": ["api-change", "apichange", "breaking"],
+        "pre": ["BREAK", "BREAKING", "BRK", "UPGRADE"],
+        "description": "API and Breaking Changes",
+    },
     "new": {
         "tags": ["feature", "new"],
         "pre": ["NEW", "FEAT", "FEATURE"],
@@ -48,11 +53,6 @@ TAGS_METADATA_BASE = {
         "tags": ["documentation", "docs", "doc"],
         "pre": ["DOC", "DOCS"],
         "description": "Documentation improvements",
-    },
-    "api_change": {
-        "tags": ["api-change", "apichange"],
-        "pre": ["BREAK", "BREAKING", "BRK", "UPGRADE"],
-        "description": "API and Breaking Changes",
     },
     "deprecate": {
         "tags": ["deprecation", "deprecate"],
