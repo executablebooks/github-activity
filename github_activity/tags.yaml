@@ -8,6 +8,7 @@ api_change:
   tags:
     - api-change
     - apichange
+    - breaking
 bug:
   description: Bugs fixed
   pre:
