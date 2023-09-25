@@ -54,6 +54,11 @@ TAGS_METADATA_BASE = {
         "pre": ["DOC", "DOCS"],
         "description": "Documentation improvements",
     },
+    "ci": {
+        "tags": ["ci", "continuous-integration"],
+        "pre": ["CI"],
+        "description": "Continuous integration improvements",
+    },
     "deprecate": {
         "tags": ["deprecation", "deprecate"],
         "pre": ["DEPRECATE", "DEPRECATION", "DEP"],
@@ -240,7 +245,7 @@ def generate_all_activity_md(
         A list of the tags to use in generating subsets of PRs for the markdown report.
         Must be one of:
 
-            ['enhancement', 'bugs', 'maintenance', 'documentation', 'api_change']
+            ['api_change', 'new', 'enhancement', 'bug', 'maintenance', 'documentation', 'ci', 'deprecate']
 
         If None, all of the above tags will be used.
     include_issues : bool
@@ -370,7 +375,7 @@ def generate_activity_md(
         A list of the tags to use in generating subsets of PRs for the markdown report.
         Must be one of:
 
-            ['enhancement', 'bugs', 'maintenance', 'documentation', 'api_change']
+            ['api_change', 'new', 'enhancement', 'bug', 'maintenance', 'documentation', 'ci', 'deprecate']
 
         If None, all of the above tags will be used.
     include_issues : bool
