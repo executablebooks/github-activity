@@ -65,26 +65,4 @@ jobs:
       - name: Build docs
         run: |
           cd docs
-          make html
-
-  publish:
-    name: Publish to PyPi
-    needs: [tests]
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v2
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-      - name: Build package
-        run: |
-          pip install wheel
-          python setup.py sdist bdist_wheel
-      - name: Publish
-        uses: pypa/gh-action-pypi-publish@v1.1.0
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_KEY }}
+          make dirhtml

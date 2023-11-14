@@ -4,6 +4,9 @@
 #
 version: 2
 
+sphinx:
+  builder: dirhtml
+
 python:
   version: 3
   install:

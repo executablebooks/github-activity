@@ -14,8 +14,8 @@
 # -- Project information -----------------------------------------------------
 
 project = "GitHub Activity"
-copyright = "2020, Chris Holdgraf"
-author = "Chris Holdgraf"
+copyright = "2023, Executable Books"
+author = "Executable Books Team"
 
 
 # -- General configuration ---------------------------------------------------
@@ -40,12 +40,17 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # a list of builtin themes.
 #
 html_theme = "sphinx_book_theme"
-html_theme_options = {"single_page": True}
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+html_theme_options = {
+    "logo": {
+        "text": "github-activity",
+    },
+    "icon_links": [
+        {
+            "url": "https://github.com/executablebooks/github-activity",
+            "icon": "fa-brands fa-github",
+        }
+    ],
+}
 
 # Add a table of the supported PR types, tags, etc
 from github_activity.github_activity import TAGS_METADATA_BASE
@@ -71,4 +76,7 @@ table_template = f"""
 
 from pathlib import Path
 
-Path("./tags_list.txt").write_text(table_template)
+path_tmp = Path(__file__).parent / "_build/dirhtml"
+path_tmp.mkdir(exist_ok=True, parents=True)
+path_tagslist = path_tmp / "tags_list.txt"
+path_tagslist.write_text(table_template)

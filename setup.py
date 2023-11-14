@@ -23,8 +23,8 @@ setup(
     include_package_data=True,
     python_requires=">=3.6",
     author="Executable Books Project",
-    author_email="choldgraf@berkeley.edu",
-    url="https://jupyter.org/",
+    author_email="executablebooks@gmail.com",
+    url="https://executablebooks.org/",
     # this should be a whitespace separated string of keywords, not a list
     keywords="development changelog",
     description="Grab recent issue/PR activity from a GitHub repository and render it as markdown.",
