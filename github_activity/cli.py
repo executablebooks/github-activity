@@ -118,18 +118,27 @@ parser.add_argument(
     help=("""Whether to include all the GitHub tags"""),
 )
 
+# Hidden argument so that target can be optionally passed as a positional argument
+parser.add_argument(
+    "_target",
+    nargs="?",
+    default=None,
+    help=argparse.SUPPRESS,
+)
+
 
 def main():
     if not _git_installed_check():
         print("git is required to run github-activity", file=sys.stderr)
         sys.exit(1)
 
-    args, unknown = parser.parse_known_args()
-    # If we have unknown, it is the target
-    # TODO: this feels sub-optimal, we should be able to just treat positional args
-    # as optional.
-    if unknown and not args.target:
-        args.target = unknown[0]
+    args = parser.parse_args()
+    if args.target and args._target:
+        raise ValueError(
+            "target cannot be passed as both a positional and keyword argument"
+        )
+    if not args.target:
+        args.target = args._target
 
     tags = args.tags.split(",") if args.tags is not None else args.tags
     # Automatically detect the target from remotes if we haven't had one passed.
