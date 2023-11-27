@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 import sys
 from subprocess import PIPE
@@ -71,19 +72,19 @@ parser.add_argument(
 )
 parser.add_argument(
     "--include-issues",
-    default=False,
+    default=None,
     action="store_true",
     help="Include Issues in the markdown output",
 )
 parser.add_argument(
     "--include-opened",
-    default=False,
+    default=None,
     action="store_true",
     help="Include a list of opened items in the markdown output",
 )
 parser.add_argument(
     "--strip-brackets",
-    default=False,
+    default=None,
     action="store_true",
     help=(
         "If True, strip any text between brackets at the beginning of the issue/PR title. "
@@ -92,7 +93,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--heading-level",
-    default=1,
+    default=None,
     type=int,
     help=(
         """Base heading level to add when generating markdown.
@@ -113,7 +114,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--all",
-    default=False,
+    default=None,
     action="store_true",
     help=("""Whether to include all the GitHub tags"""),
 )
@@ -125,6 +126,33 @@ parser.add_argument(
     default=None,
     help=argparse.SUPPRESS,
 )
+
+
+def load_config_and_defaults(args):
+    """
+    Load .githubactivity.json from the current directory,
+    override unset args with values from .githubactivity.json,
+    and set defaults for remaining args.
+    """
+    try:
+        with open(".githubactivity.json") as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        config = {}
+
+    arg_defaults = {
+        "heading-level": 1,
+        "include-issues": False,
+        "include-opened": False,
+        "strip-brackets": False,
+        "all": False,
+    }
+    # Treat args as a dict
+    # https://docs.python.org/3/library/argparse.html#the-namespace-object
+    for argname in vars(args):
+        configname = argname.replace("_", "-")
+        if getattr(args, argname) is None:
+            setattr(args, argname, config.get(configname, arg_defaults.get(configname)))
 
 
 def main():
@@ -139,6 +167,8 @@ def main():
         )
     if not args.target:
         args.target = args._target
+
+    load_config_and_defaults(args)
 
     tags = args.tags.split(",") if args.tags is not None else args.tags
     # Automatically detect the target from remotes if we haven't had one passed.
