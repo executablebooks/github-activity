@@ -148,7 +148,7 @@ def get_activity(
         else:
             # Attempt to use the gh cli if installed
             try:
-                p = run(["gh", "auth", "token"], capture_output=True)
+                p = run(["gh", "auth", "token"], text=True, capture_output=True)
                 auth = p.stdout.strip()
             except CalledProcessError:
                 print(
