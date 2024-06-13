@@ -16,6 +16,17 @@ from .github_activity import generate_activity_md
 from .github_activity import generate_all_activity_md
 
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
+
+# These defaults are managed by load_config_and_defaults so that they can be
+# overridden by a config file
+ARG_DEFAULTS = {
+    "heading-level": 1,
+    "include-issues": False,
+    "include-opened": False,
+    "strip-brackets": False,
+    "all": False,
+}
+
 parser = argparse.ArgumentParser(description=DESCRIPTION)
 parser.add_argument(
     "-t",
@@ -151,19 +162,12 @@ def load_config_and_defaults(args):
     except FileNotFoundError:
         config = {}
 
-    arg_defaults = {
-        "heading-level": 1,
-        "include-issues": False,
-        "include-opened": False,
-        "strip-brackets": False,
-        "all": False,
-    }
     # Treat args as a dict
     # https://docs.python.org/3/library/argparse.html#the-namespace-object
     for argname in vars(args):
         configname = argname.replace("_", "-")
         if getattr(args, argname) is None:
-            setattr(args, argname, config.get(configname, arg_defaults.get(configname)))
+            setattr(args, argname, config.get(configname, ARG_DEFAULTS.get(configname)))
 
 
 def main():
