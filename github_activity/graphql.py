@@ -6,6 +6,8 @@ import pandas as pd
 import requests
 from tqdm.auto import tqdm
 
+from .auth import TokenAuth
+
 comments_query = """\
         comments(last: 100) {
           edges {
@@ -136,8 +138,8 @@ class GitHubGraphQlQuery:
         self.query = query
 
         # Authentication
-        auth = auth or os.environ.get("GITHUB_ACCESS_TOKEN")
-        if not auth:
+        token = auth or os.environ.get("GITHUB_ACCESS_TOKEN")
+        if not token:
             raise ValueError(
                 "Either the environment variable GITHUB_ACCESS_TOKEN or the "
                 "--auth flag or must be used to pass a Personal Access Token "
@@ -146,7 +148,7 @@ class GitHubGraphQlQuery:
                 "working with a public repository, you don’t need to set any "
                 "scopes on the token you create."
             )
-        self.headers = {"Authorization": "Bearer %s" % auth}
+        self.auth = TokenAuth(token)
 
         self.gql_template = gql_template
         self.display_progress = display_progress
@@ -183,7 +185,7 @@ class GitHubGraphQlQuery:
             ii_request = requests.post(
                 "https://api.github.com/graphql",
                 json={"query": ii_gql_query},
-                headers=self.headers,
+                auth=self.auth,
             )
             if ii_request.status_code != 200:
                 raise Exception(
