@@ -8,3 +8,13 @@ def _git_installed_check():
         return True
     except subprocess.CalledProcessError:
         return False
+
+
+def _git_toplevel_path():
+    """Fetch the top-level of the local Git repository"""
+    cmd = ["git", "rev-parse", "--show-toplevel"]
+    try:
+        top = subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
+        return top.strip().decode()
+    except subprocess.CalledProcessError:
+        return None

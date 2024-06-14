@@ -6,6 +6,7 @@ from subprocess import PIPE
 from subprocess import run
 
 from .git import _git_installed_check
+from .git import _git_toplevel_path
 from .github_activity import _parse_target
 from .github_activity import generate_activity_md
 from .github_activity import generate_all_activity_md
@@ -141,15 +142,18 @@ parser.add_argument(
 
 def load_config_and_defaults(args):
     """
-    Load .githubactivity.json from the current directory,
+    Load .githubactivity.json from the Git top-level directory,
     override unset args with values from .githubactivity.json,
     and set defaults for remaining args.
     """
-    try:
-        with open(".githubactivity.json") as f:
-            config = json.load(f)
-    except FileNotFoundError:
-        config = {}
+    config = {}
+    git_toplevel = _git_toplevel_path()
+    if git_toplevel:
+        try:
+            with open(os.path.join(git_toplevel, ".githubactivity.json")) as f:
+                config = json.load(f)
+        except FileNotFoundError:
+            pass
 
     # Treat args as a dict
     # https://docs.python.org/3/library/argparse.html#the-namespace-object
