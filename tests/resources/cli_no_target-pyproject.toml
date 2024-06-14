@@ -1,6 +1,0 @@
-[project]
-name = "github-activity"
-version = "0.0.0"
-
-[tool.github-activity]
-heading-level = 5

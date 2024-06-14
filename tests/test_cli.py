@@ -45,7 +45,7 @@ def test_cli(tmpdir, file_regression, cmd, basename):
     file_regression.check(md, basename=basename, extension=".md")
 
 
-def test_cli_pyproject_config(tmp_path, monkeypatch, file_regression):
+def test_cli_dot_config(tmp_path, monkeypatch, file_regression):
     """Test that pyproject.toml config is loaded"""
     cmd = "github-activity -s 2019-09-01 -u 2019-11-01 -o {path_output}"
     basename = "cli_no_target_pyproject"
@@ -56,8 +56,8 @@ def test_cli_pyproject_config(tmp_path, monkeypatch, file_regression):
     shutil.copytree(str(repo_dir), str(tmp_path), dirs_exist_ok=True)
     monkeypatch.chdir(tmp_path)
     shutil.copyfile(
-        repo_dir / "tests" / "resources" / "cli_no_target-pyproject.toml",
-        "pyproject.toml",
+        repo_dir / "tests" / "resources" / "cli_no_target.githubactivity.json",
+        ".githubactivity.json",
     )
 
     command = cmd.format(path_output=path_output)

@@ -1,14 +1,9 @@
 import argparse
+import json
 import os
 import sys
 from subprocess import PIPE
 from subprocess import run
-
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    import tomli as tomllib
-
 
 from .git import _git_installed_check
 from .github_activity import _parse_target
@@ -146,19 +141,13 @@ parser.add_argument(
 
 def load_config_and_defaults(args):
     """
-    Load github-activity config from pyproject.toml if it exists,
-    override unset args with values from pyproject.toml,
+    Load .githubactivity.json from the current directory,
+    override unset args with values from .githubactivity.json,
     and set defaults for remaining args.
-
-    args: An argparse namespace object containing the parsed arguments.
-      Fields which are None will be replaced with the configuration from
-      pyproject.toml, or a default if not set.
-      The args object is modified in place.
     """
     try:
-        with open("pyproject.toml", "rb") as f:
-            pyproject = tomllib.load(f)
-            config = pyproject.get("tool", {}).get("github-activity", {})
+        with open(".githubactivity.json") as f:
+            config = json.load(f)
     except FileNotFoundError:
         config = {}
 
