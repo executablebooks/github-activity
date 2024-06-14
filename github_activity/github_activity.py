@@ -18,6 +18,7 @@ import pandas as pd
 import pytz
 import requests
 
+from .auth import TokenAuth
 from .cache import _cache_data
 from .graphql import GitHubGraphQlQuery
 
@@ -781,11 +782,12 @@ def _get_datetime_and_type(org, repo, datetime_or_git_ref, auth):
             )
 
 
-def _get_datetime_from_git_ref(org, repo, ref, auth):
+def _get_datetime_from_git_ref(org, repo, ref, token):
     """Return a datetime from a git reference."""
-    headers = {"Authorization": "Bearer %s" % auth}
+    auth = TokenAuth(token)
     url = f"https://api.github.com/repos/{org}/{repo}/commits/{ref}"
-    response = requests.get(url, headers=headers)
+    # prevent requests from using netrc
+    response = requests.get(url, auth=auth)
     response.raise_for_status()
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
 
