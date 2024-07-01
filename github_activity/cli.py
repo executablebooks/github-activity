@@ -1,15 +1,28 @@
 import argparse
+import json
 import os
 import sys
 from subprocess import PIPE
 from subprocess import run
 
 from .git import _git_installed_check
+from .git import _git_toplevel_path
 from .github_activity import _parse_target
 from .github_activity import generate_activity_md
 from .github_activity import generate_all_activity_md
 
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
+
+# These defaults are managed by load_config_and_defaults so that they can be
+# overridden by a config file
+ARG_DEFAULTS = {
+    "heading-level": 1,
+    "include-issues": False,
+    "include-opened": False,
+    "strip-brackets": False,
+    "all": False,
+}
+
 parser = argparse.ArgumentParser(description=DESCRIPTION)
 parser.add_argument(
     "-t",
@@ -71,19 +84,19 @@ parser.add_argument(
 )
 parser.add_argument(
     "--include-issues",
-    default=False,
+    default=None,
     action="store_true",
     help="Include Issues in the markdown output",
 )
 parser.add_argument(
     "--include-opened",
-    default=False,
+    default=None,
     action="store_true",
     help="Include a list of opened items in the markdown output",
 )
 parser.add_argument(
     "--strip-brackets",
-    default=False,
+    default=None,
     action="store_true",
     help=(
         "If True, strip any text between brackets at the beginning of the issue/PR title. "
@@ -92,7 +105,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--heading-level",
-    default=1,
+    default=None,
     type=int,
     help=(
         """Base heading level to add when generating markdown.
@@ -113,7 +126,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--all",
-    default=False,
+    default=None,
     action="store_true",
     help=("""Whether to include all the GitHub tags"""),
 )
@@ -125,6 +138,29 @@ parser.add_argument(
     default=None,
     help=argparse.SUPPRESS,
 )
+
+
+def load_config_and_defaults(args):
+    """
+    Load .githubactivity.json from the Git top-level directory,
+    override unset args with values from .githubactivity.json,
+    and set defaults for remaining args.
+    """
+    config = {}
+    git_toplevel = _git_toplevel_path()
+    if git_toplevel:
+        try:
+            with open(os.path.join(git_toplevel, ".githubactivity.json")) as f:
+                config = json.load(f)
+        except FileNotFoundError:
+            pass
+
+    # Treat args as a dict
+    # https://docs.python.org/3/library/argparse.html#the-namespace-object
+    for argname in vars(args):
+        configname = argname.replace("_", "-")
+        if getattr(args, argname) is None:
+            setattr(args, argname, config.get(configname, ARG_DEFAULTS.get(configname)))
 
 
 def main():
@@ -139,6 +175,8 @@ def main():
         )
     if not args.target:
         args.target = args._target
+
+    load_config_and_defaults(args)
 
     tags = args.tags.split(",") if args.tags is not None else args.tags
     # Automatically detect the target from remotes if we haven't had one passed.
