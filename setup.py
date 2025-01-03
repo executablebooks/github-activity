@@ -25,6 +25,9 @@ setup(
     author="Executable Books Project",
     author_email="executablebooks@gmail.com",
     url="https://executablebooks.org/",
+    project_urls={
+        "Source": "https://github.com/executablebooks/github-activity/",
+    },
     # this should be a whitespace separated string of keywords, not a list
     keywords="development changelog",
     description="Grab recent issue/PR activity from a GitHub repository and render it as markdown.",
