@@ -466,7 +466,7 @@ def generate_activity_md(
                 item_contributors.append(comment_author)
 
         # Count any commentors that had enough comments on the issue to be a contributor
-        item_commentors_counts = pd.value_counts(item_commentors)
+        item_commentors_counts = pd.Series(item_commentors).value_counts()
         item_commentors_counts = item_commentors_counts[
             item_commentors_counts >= comment_response_cutoff
         ].index.tolist()
@@ -476,7 +476,7 @@ def generate_activity_md(
         # record contributor list (ordered, unique)
         data.at[ix, "contributors"] = item_contributors
 
-    comment_contributor_counts = pd.value_counts(comment_helpers)
+    comment_contributor_counts = pd.Series(comment_helpers).value_counts()
     all_contributors += comment_contributor_counts[
         comment_contributor_counts >= comment_others_cutoff
     ].index.tolist()
