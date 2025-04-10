@@ -98,7 +98,7 @@ def test_pr_split(tmpdir, file_regression):
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
 
-    url = "https://github.com/executablebooks/jupyter-book"
+    url = "https://github.com/jupyter-book/jupyter-book"
 
     # This release range covers some PRs with tags, and some with prefixes
     cmd = f"github-activity {url} -s v0.7.1 -u v0.7.3 -o {path_output}"
