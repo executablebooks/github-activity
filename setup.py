@@ -21,7 +21,7 @@ setup(
     name="github_activity",
     version=version,
     include_package_data=True,
-    python_requires=">=3.6",
+    python_requires=">=3.9",
     author="Executable Books Project",
     author_email="executablebooks@gmail.com",
     url="https://executablebooks.org/",
