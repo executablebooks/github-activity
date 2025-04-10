@@ -34,10 +34,12 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 
 ### New features added
 
+- Adding filtering by branch [#42](https://github.com/executablebooks/github-activity/pull/42) ([@choldgraf](https://github.com/choldgraf), [@blink1073](https://github.com/blink1073), [@consideRatio](https://github.com/consideRatio))
 - ✨NEW: heading_level argument for increasing heading level [#38](https://github.com/executablebooks/github-activity/pull/38) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 
 ### Enhancements made
 
+- use tqdm for progress [#39](https://github.com/executablebooks/github-activity/pull/39) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 - 👌IMPROVE: add blank lines below headings [#36](https://github.com/executablebooks/github-activity/pull/36) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
 - 👌 IMPROVE: since/until: assume git reference, fallback to datetime [#33](https://github.com/executablebooks/github-activity/pull/33) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
 
@@ -45,16 +47,14 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 
 - 🐛 FIX: tags like 'doctor' would trigger 'doc' tag [#40](https://github.com/executablebooks/github-activity/pull/40) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
 
+### Maintenance and upkeep improvements
+
+- Remove no longer used code [#37](https://github.com/executablebooks/github-activity/pull/37) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- [FIX,TST] resolve refs when not run from a repo [#35](https://github.com/executablebooks/github-activity/pull/35) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
+
 ### Documentation improvements
 
 - 📚 DOC: Minor docs changes [#43](https://github.com/executablebooks/github-activity/pull/43) ([@choldgraf](https://github.com/choldgraf))
-
-### Other merged PRs
-
-- Adding filtering by branch [#42](https://github.com/executablebooks/github-activity/pull/42) ([@choldgraf](https://github.com/choldgraf), [@blink1073](https://github.com/blink1073), [@consideRatio](https://github.com/consideRatio))
-- use tqdm for progress [#39](https://github.com/executablebooks/github-activity/pull/39) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
-- Remove no longer used code [#37](https://github.com/executablebooks/github-activity/pull/37) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
-- [FIX,TST] resolve refs when not run from a repo [#35](https://github.com/executablebooks/github-activity/pull/35) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 
 ### Contributors to this release
 
@@ -69,7 +69,7 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 
 ([full changelog](https://github.com/executablebooks/github-activity/compare/32f89fd...60c7f06))
 
-### Merged PRs
+### Maintenance and upkeep improvements
 
 - adding thumbsup to query [#31](https://github.com/executablebooks/github-activity/pull/31) ([@choldgraf](https://github.com/choldgraf))
 
