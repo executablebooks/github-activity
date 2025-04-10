@@ -31,13 +31,19 @@ jobs:
 
   tests:
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        include:
+          # Only test oldest supported and latest python version to reduce
+          # GitHub API calls, as they can get rate limited
+          - python-version: 3.8
+          - python-version: 3.x
 
     steps:
       - uses: actions/checkout@v4
-      # Only testing 3.8 to avoid too many github API calls
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: "${{ matrix.python-version }}"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
