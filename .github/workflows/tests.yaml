@@ -46,7 +46,7 @@ jobs:
       - name: Run tests
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pytest
+        run: pytest --verbose --color=yes --durations=10
 
   docs:
     runs-on: ubuntu-latest
