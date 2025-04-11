@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.0 - 2025-04-15
+## v1.0.0 - 2025-04-11
 
 ### New features added
 
@@ -49,9 +49,9 @@
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
 See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
 
-([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2023-02-13&to=2025-04-15&type=c))
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2023-02-13&to=2025-04-11&type=c))
 
-@blink1073 ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Ablink1073+updated%3A2023-02-13..2025-04-15&type=Issues)) | @choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2023-02-13..2025-04-15&type=Issues)) | @consideRatio ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3AconsideRatio+updated%3A2023-02-13..2025-04-15&type=Issues)) | @manics ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Amanics+updated%3A2023-02-13..2025-04-15&type=Issues)) | @mfisher87 ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Amfisher87+updated%3A2023-02-13..2025-04-15&type=Issues)) | @minrk ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Aminrk+updated%3A2023-02-13..2025-04-15&type=Issues)) | @wolfv ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Awolfv+updated%3A2023-02-13..2025-04-15&type=Issues))
+@blink1073 ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Ablink1073+updated%3A2023-02-13..2025-04-11&type=Issues)) | @choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2023-02-13..2025-04-11&type=Issues)) | @consideRatio ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3AconsideRatio+updated%3A2023-02-13..2025-04-11&type=Issues)) | @manics ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Amanics+updated%3A2023-02-13..2025-04-11&type=Issues)) | @mfisher87 ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Amfisher87+updated%3A2023-02-13..2025-04-11&type=Issues)) | @minrk ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Aminrk+updated%3A2023-02-13..2025-04-11&type=Issues)) | @wolfv ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Awolfv+updated%3A2023-02-13..2025-04-11&type=Issues))
 
 ## v0.3.0 - 2023-02-13
 
