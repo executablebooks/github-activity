@@ -1,3 +1,3 @@
-__version__ = "0.3.0"
+__version__ = "1.0.3"
 
 from .github_activity import get_activity, generate_activity_md
