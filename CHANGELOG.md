@@ -1,5 +1,58 @@
 # Changelog
 
+## v1.0.0 - 2025-04-11
+
+### New features added
+
+- Parse target as an optional positional argument [#94](https://github.com/executablebooks/github-activity/pull/94) ([@manics](https://github.com/manics), [@choldgraf](https://github.com/choldgraf))
+- Load argument defaults from `.githubactivity.json` [#93](https://github.com/executablebooks/github-activity/pull/93) ([@manics](https://github.com/manics), [@consideRatio](https://github.com/consideRatio))
+- Add a continuous integration category [#92](https://github.com/executablebooks/github-activity/pull/92) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- accept 'breaking' label for breaking changes [#90](https://github.com/executablebooks/github-activity/pull/90) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
+- Make github friendly outputs [#82](https://github.com/executablebooks/github-activity/pull/82) ([@choldgraf](https://github.com/choldgraf), [@minrk](https://github.com/minrk))
+
+### Enhancements made
+
+- exclude bot users from all contributors list [#87](https://github.com/executablebooks/github-activity/pull/87) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
+- ENH: Write messages about GH token to stderr [#83](https://github.com/executablebooks/github-activity/pull/83) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
+- [ENH] include reviewers and committers in contributor list [#65](https://github.com/executablebooks/github-activity/pull/65) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
+
+### Bugs fixed
+
+- apply token via auth adapter [#98](https://github.com/executablebooks/github-activity/pull/98) ([@minrk](https://github.com/minrk), [@consideRatio](https://github.com/consideRatio))
+- fix encoding when getting token from gh cli [#97](https://github.com/executablebooks/github-activity/pull/97) ([@minrk](https://github.com/minrk), [@consideRatio](https://github.com/consideRatio))
+- fix token retrieval from gh cli [#89](https://github.com/executablebooks/github-activity/pull/89) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
+- ENH: Write messages about GH token to stderr [#83](https://github.com/executablebooks/github-activity/pull/83) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
+
+### Maintenance and upkeep improvements
+
+- Require Python 3.9+ [#111](https://github.com/executablebooks/github-activity/pull/111) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- Update tests to work against new github URL for jupyter-book [#109](https://github.com/executablebooks/github-activity/pull/109) ([@consideRatio](https://github.com/consideRatio))
+- Fix ReadTheDocs config - specifying conf location is required [#108](https://github.com/executablebooks/github-activity/pull/108) ([@consideRatio](https://github.com/consideRatio))
+- Add dependabot to bump github actions, and bump them [#107](https://github.com/executablebooks/github-activity/pull/107) ([@consideRatio](https://github.com/consideRatio))
+- Fix detail in readthedocs config [#106](https://github.com/executablebooks/github-activity/pull/106) ([@consideRatio](https://github.com/consideRatio))
+- Install required docs/test dependencies when using nox [#105](https://github.com/executablebooks/github-activity/pull/105) ([@consideRatio](https://github.com/consideRatio))
+- avoid deprecated `pandas.value_counts` [#102](https://github.com/executablebooks/github-activity/pull/102) ([@minrk](https://github.com/minrk), [@consideRatio](https://github.com/consideRatio))
+- Add repository URL to project metadata [#101](https://github.com/executablebooks/github-activity/pull/101) ([@mfisher87](https://github.com/mfisher87), [@choldgraf](https://github.com/choldgraf))
+
+### Documentation improvements
+
+- docs: backfill changelog [#112](https://github.com/executablebooks/github-activity/pull/112) ([@consideRatio](https://github.com/consideRatio))
+- Overhaul documentation and add contributing guide [#86](https://github.com/executablebooks/github-activity/pull/86) ([@choldgraf](https://github.com/choldgraf), [@blink1073](https://github.com/blink1073), [@manics](https://github.com/manics), [@minrk](https://github.com/minrk))
+
+### Continuous integration improvements
+
+- ci: test with latest python version as well [#110](https://github.com/executablebooks/github-activity/pull/110) ([@consideRatio](https://github.com/consideRatio))
+- ci: run pytest with color and more details [#103](https://github.com/executablebooks/github-activity/pull/103) ([@consideRatio](https://github.com/consideRatio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2023-02-13&to=2025-04-11&type=c))
+
+@blink1073 ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Ablink1073+updated%3A2023-02-13..2025-04-11&type=Issues)) | @choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2023-02-13..2025-04-11&type=Issues)) | @consideRatio ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3AconsideRatio+updated%3A2023-02-13..2025-04-11&type=Issues)) | @manics ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Amanics+updated%3A2023-02-13..2025-04-11&type=Issues)) | @mfisher87 ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Amfisher87+updated%3A2023-02-13..2025-04-11&type=Issues)) | @minrk ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Aminrk+updated%3A2023-02-13..2025-04-11&type=Issues)) | @wolfv ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Awolfv+updated%3A2023-02-13..2025-04-11&type=Issues))
+
 ## v0.3.0 - 2023-02-13
 
 ### New features added
