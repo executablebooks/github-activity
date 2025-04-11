@@ -1,8 +1,14 @@
 # Changelog
 
+## v1.0.2 - 2025-04-12
+
+### Continuous integration improvements
+
+- Fix another issue in the publish workflow [#116](https://github.com/executablebooks/github-activity/pull/116) ([@consideRatio](https://github.com/consideRatio))
+
 ## v1.0.1 - 2025-04-11
 
-### Maintenance and upkeep improvements
+### Continuous integration improvements
 
 - Fix publish workflow failure [#114](https://github.com/executablebooks/github-activity/pull/114) ([@consideRatio](https://github.com/consideRatio))
 
