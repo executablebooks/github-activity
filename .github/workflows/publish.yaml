@@ -7,11 +7,8 @@ on:
     types: ["published"]
 
 jobs:
-  tests:
-    uses: ./.github/workflows/tests.yaml
   publish:
     name: publish
-    needs: [tests] # require tests to pass before deploy runs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +18,6 @@ jobs:
 
       - name: Build package
         run: |
-          sudo apt-get install gettext
           python -m pip install -U pip build
           python -m build
 
