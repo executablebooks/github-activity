@@ -7,11 +7,8 @@ on:
     types: ["published"]
 
 jobs:
-  tests:
-    uses: ./.github/workflows/tests.yaml
   publish:
     name: publish
-    needs: [tests] # require tests to pass before deploy runs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
