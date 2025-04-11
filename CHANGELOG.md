@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0.3 - 2025-04-12
+
+### Continuous integration improvements
+
+- ci: fix github action tag in publish workflow [#119](https://github.com/executablebooks/github-activity/pull/119) ([@consideRatio](https://github.com/consideRatio))
+- ci: fix location of dependabot.yaml [#118](https://github.com/executablebooks/github-activity/pull/118) ([@consideRatio](https://github.com/consideRatio))
+
 ## v1.0.2 - 2025-04-12
 
 ### Continuous integration improvements
