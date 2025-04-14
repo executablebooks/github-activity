@@ -24,6 +24,8 @@ contribute
 changelog
 ```
 
+(how-does-this-tool-define-contributions-in-the-reports)=
+
 ## How we define contributors in the reports
 
 GitHub Activity tries to automatically determine the unique list of contributors within a given window of time.
