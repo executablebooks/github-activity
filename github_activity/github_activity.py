@@ -5,8 +5,8 @@ import re
 import shlex
 import subprocess
 import sys
-from json import loads
 import urllib
+from json import loads
 from pathlib import Path
 from subprocess import CalledProcessError
 from subprocess import PIPE
@@ -802,11 +802,13 @@ def _get_latest_release_date(org, repo):
     try:
         json = out.stdout.decode()
         release_data = loads(json)
-        print(f"Using release date for release {release_data['name']} on {release_data['publishedAt']}")
+        print(
+            f"Using release date for release {release_data['name']} on {release_data['publishedAt']}"
+        )
         return release_data["publishedAt"]
     except Exception as e:
         print(f"Error getting latest release date for {org}/{repo}: {e}")
-        print(f"Reverting to using latest git tag...")
+        print("Reverting to using latest git tag...")
         out = run("git describe --tags".split(), stdout=PIPE)
         tag = out.stdout.decode().rsplit("-", 2)[0]
         return tag
