@@ -5,6 +5,7 @@ import re
 import shlex
 import subprocess
 import sys
+from json import loads
 import urllib
 from pathlib import Path
 from subprocess import CalledProcessError
@@ -404,7 +405,7 @@ def generate_activity_md(
     # using the _local_ git repostory
     # TODO: Check that local repo matches org/repo
     if since is None:
-        since = _get_latest_tag()
+        since = _get_latest_release_date(org, repo)
 
     # Grab the data according to our query
     data = get_activity(
@@ -792,8 +793,20 @@ def _get_datetime_from_git_ref(org, repo, ref, token):
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
 
 
-def _get_latest_tag():
-    """Return the latest tag name for a given repository by querying the local repo."""
-    out = run("git describe --tags".split(), stdout=PIPE)
-    tag = out.stdout.decode().rsplit("-", 2)[0]
-    return tag
+def _get_latest_release_date(org, repo):
+    """Return the latest release date for a given repository by querying the local repo."""
+    cmd = ["gh", "release", "view", "-R", f"{org}/{repo}", "--json", "name,publishedAt"]
+    print(f"Auto-detecting latest release date for: {org}/{repo}")
+    print(f"Running command: {' '.join(cmd)}")
+    out = run(cmd, stdout=PIPE)
+    try:
+        json = out.stdout.decode()
+        release_data = loads(json)
+        print(f"Using release date for release {release_data['name']} on {release_data['publishedAt']}")
+        return release_data["publishedAt"]
+    except Exception as e:
+        print(f"Error getting latest release date for {org}/{repo}: {e}")
+        print(f"Reverting to using latest git tag...")
+        out = run("git describe --tags".split(), stdout=PIPE)
+        tag = out.stdout.decode().rsplit("-", 2)[0]
+        return tag
