@@ -1,5 +1,10 @@
 # User guide
 
+This tool has two main user interfaces:
+
+1. **A python library**: Given a GitHub org, repository, an initial git reference or date, use the [GitHub GraphQL API](https://developer.github.com/v4/) to return a DataFrame of all issue and PR activity for this time period.
+2. **A Command Line Interface** to render this activity as markdown, suitable for generating changelogs or community updates.
+
 These sections describe how to control the major functionality of this tool.
 
 ## Generate a markdown changelog
@@ -19,8 +24,7 @@ The `[<org>/<repo>]` argument is **optional**.
 If you do not give it, then `github-activity` will attempt to infer this value by running `git remote -v` and using either `upstream` or `origin` (preferring `upstream` if both are available).
 
 The (optional) arguments in `--since` (or `-s`) and `--until` (or `-u`) can either be
-a date, or a ref (such as a commit hash or tag). `github-activity` will pull the activity
-between the dates corresponding to these values.
+a date, or a ref (such as a commit hash or tag). `github-activity` will pull the activity between the dates corresponding to these values.
 
 ```{margin}
 There are many other options with the `github-activity` CLI, run `github-activity -h`
@@ -41,7 +45,9 @@ You can find the [resulting markdown here](sample_notebook_activity).
 For repositories that use multiple branches, it may be necessary to filter PRs by a branch name.  This can be done using the `--branch` parameter in the CLI.   Other git references can be used as well in place of a branch name.
 ```
 
-### Split PRs by tags and prefixes
+(prefixes-and-tags)=
+
+## Split PRs by tags and prefixes
 
 Often you wish to split your PRs into multiple categories so that they are easier
 to scan and parse. You may also _only_ want to keep some PRs (e.g. features, or API
@@ -63,6 +69,55 @@ You can choose to *remove* some types of PRs from your changelog by passing the
 `--tags` parameter in the CLI. This is a list of a subset of names taken from the
 left-most column above.
 ```
+
+## Include Pull Request reviewers and commenters in your changelog
+
+By default, GitHub Activity will include any _reviewer_ of a pull request in the item for that PR. This looks like the following:
+
+## Include a list of all contributors at the end of your changelog
+
+By default, this tool will include a long list of contributors at the end of your changelog. This is the unique set of all contributors that contributed to the release.
+
+(how-does-this-tool-define-contributions-in-the-reports)=
+
+### How we define contributors a changelog
+
+GitHub Activity tries to automatically determine the unique list of contributors within a given window of time.
+There are many ways to define this, and there isn't necessarily a "correct" method out there.
+
+We try to balance the two extremes of "anybody who shows up is recognized as contributing" and "nobody is recognized as contributing".
+We've chosen a few rules that try to reflect sustained engagement in issues/PRs, or contributions in the form of help in _others'_ issues or contributing code.
+
+Here are the rules we follow for finding a list of contributors within a time window. A contributor is anyone who has:
+
+- Contributed to a PR merged in that window (includes opening, merging, committing, commenting, or committing)
+- Commented on >= 2 issues that weren't theirs
+- Commented >= 6 times on any one issue
+- Known bot accounts are generally not considered contributors
+
+We'd love feedback on whether this is a good set of rules to use.
+
+## Strip PR type metadata from the changelog titles
+
+If you follow the [title prefix convention used to split PRs](#prefixes-and-tags), you can remove these prefixes when you generate your changelog, so that they don't clutter the output.
+
+To strip title prefix metadata, use the `--strip-brackets` flag.
+
+For example, `[DOC] Add some documentation` will be rendered as `Add some documentation`.
+
+## Change the heading level for your changelog items
+
+To change the starting heading level for changelog items, use the `--heading-level N` flag. Where `N` is the starting heading level (e.g., `2` corresponds to `##`).
+
+This is useful if you want to _embed_ your changelog into a larger one (e.g., `CHANGELOG.md`).
+
+## Include issues in your changelog
+
+To include closed issues in your changelog, use the `--include-issues` flag.
+
+## Include opened issues in your changelog
+
+To include issues and Pull Requests that were _opened_ in a time period, use teh `--include-opened` flag.
 
 (use:token)=
 
