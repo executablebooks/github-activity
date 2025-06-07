@@ -10,6 +10,8 @@ GitHub Activity allows you to include more than just "PR author" in your changel
 
 It also allows you split PRs into sections in your changelog, using either PR labels or PR title metadata (e.g., `[ENH]`). See [](#prefixes-and-tags) for more information.
 
+GitHub Activity uses the [GitHub GraphQL API](https://docs.github.com/en/graphql), along with some basic pagination and caching to efficiently pull data from GitHub.
+
 ```{seealso}
 See [the JupyterHub Team changelog](https://github.com/jupyterhub/jupyterhub/blob/5.3.0/docs/source/reference/changelog.md) for an example of this tool in action.
 ```

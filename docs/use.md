@@ -170,3 +170,61 @@ To do so, follow these steps:
 - Assign the token to an environment variable called `GITHUB_ACCESS_TOKEN`.
   If you run `github-activity` and this variable is defined, it will be used.
   You may also pass a token via the `--auth` parameter (though this is not the best security practice).
+
+## Use the Python API
+
+You can do most of the above from Python as well.
+This is not as well-documented as the CLI, but should have most functionality available.
+
+### Generate markdown changelogs with the Python API
+
+For generating markdown changelogs from Python, here's an example:
+
+```
+from github_activity import generate_activity_md
+
+markdown = generate_activity_md(
+    target="executablebooks/github-activity",
+    since="2023-01-01",
+    until="2023-12-31",
+    auth="your-github-token",
+    kind=None,
+    include_issues=True,
+    include_opened=True,
+    strip_brackets=True,
+    heading_level=1
+)
+
+# Print or save the markdown
+print(markdown)
+```
+
+### Return GitHub Activity queries as a DataFrame
+
+For scraping GitHub and returning the data as a DataFrame, here's an example:
+
+```python
+from github_activity import get_activity
+
+# Get activity data as a DataFrame
+from github_activity import get_activity
+
+df = get_activity(
+    target="executablebooks/github-activity",
+    since="2023-01-01",
+    until="2023-12-31",
+    auth="your-github-token",
+    kind=None,
+    cache=None
+)
+```
+
+In some cases, metadata will be nested inside the resulting dataframe.
+There are some helper functions for this. For example, to extract nested comments inside the activity dataframe:
+
+```python
+from github_activity import get_activity, extract_comments
+
+df = get_activity(...)
+comments_df = extract_comments(df['comments'])
+```
