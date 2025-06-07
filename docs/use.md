@@ -45,6 +45,19 @@ You can find the [resulting markdown here](sample_notebook_activity).
 For repositories that use multiple branches, it may be necessary to filter PRs by a branch name.  This can be done using the `--branch` parameter in the CLI.   Other git references can be used as well in place of a branch name.
 ```
 
+## Choose a date or a tag to filter activity
+
+By default, `github-activity` will pull the activity _after_ the latest GitHub release or git tag. You can choose to manually control the date ranges as well.
+
+To specify a **start date**, use the `-s` (or `--since`) parameter. To specify an **end date**, use the `-u` or `--until` parameter.
+
+Each of these accepts either:
+
+1. A date string. This can be anything that [`dateutil.parser.parse`](https://dateutil.readthedocs.io/en/stable/parser.html) accepts.
+2. A git `ref`. For example, a `commit hash` or a `tag`.
+
+If no `-u` parameter is given, then all activity until today will be included.
+
 (prefixes-and-tags)=
 
 ## Split PRs by tags and prefixes
