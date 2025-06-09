@@ -34,7 +34,7 @@ github-activity [<org>/<repo>] --since <date or ref> --until <date or ref>
 
 We created `github-activity` because there is a lot that goes into building open source tools than just making a pull request. This tool tries to surface more diverse contributions around a release, like reviews, comments, etc. It tries to paint a more complete picture of all the work that goes into building open source software.
 
-You might want to use this tool if you're hoping to give credit and attribution to more people in your open source community. This gives your community a feeling of more appreciation, can create more incentives for others to contribute.
+You might want to use this tool if you're hoping to give credit and attribution to more people in your open source community. This gives your community a feeling of more appreciation, and can create more incentives for others to contribute.
 
 ```{toctree}
 :maxdepth: 2
