@@ -93,7 +93,7 @@ By default, this tool will include a long list of contributors at the end of you
 
 (how-does-this-tool-define-contributions-in-the-reports)=
 
-### How we define contributors a changelog
+### How we define contributors in a changelog
 
 GitHub Activity tries to automatically determine the unique list of contributors within a given window of time.
 There are many ways to define this, and there isn't necessarily a "correct" method out there.
@@ -103,7 +103,7 @@ We've chosen a few rules that try to reflect sustained engagement in issues/PRs,
 
 Here are the rules we follow for finding a list of contributors within a time window. A contributor is anyone who has:
 
-- Contributed to a PR merged in that window (includes opening, merging, committing, commenting, or committing)
+- Contributed to a PR merged in that window (includes opening, merging, committing, or commenting)
 - Commented on >= 2 issues that weren't theirs
 - Commented >= 6 times on any one issue
 - Known bot accounts are generally not considered contributors
@@ -130,7 +130,7 @@ To include closed issues in your changelog, use the `--include-issues` flag.
 
 ## Include opened issues in your changelog
 
-To include issues and Pull Requests that were _opened_ in a time period, use teh `--include-opened` flag.
+To include Issues and Pull Requests that were _opened_ in a time period, use the `--include-opened` flag.
 
 (use:token)=
 
@@ -187,12 +187,14 @@ markdown = generate_activity_md(
     target="executablebooks/github-activity",
     since="2023-01-01",
     until="2023-12-31",
-    auth="your-github-token",
     kind=None,
+    auth="your-github-token",
+    tags=None,
     include_issues=True,
     include_opened=True,
     strip_brackets=True,
-    heading_level=1
+    heading_level=1,
+    branch=None,
 )
 
 # Print or save the markdown
