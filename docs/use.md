@@ -85,7 +85,7 @@ left-most column above.
 
 ## Include Pull Request reviewers and commenters in your changelog
 
-By default, GitHub Activity will include any _reviewer_ of a pull request in the item for that PR. This looks like the following:
+By default, GitHub Activity will include anybody that _reviews_ or _comments_ in a pull request in the item for that PR. This is included in a list of authors at the end of each item. See [the JupyterHub Changelog](https://jupyterhub.readthedocs.io/en/stable/reference/changelog.html) for examples.
 
 ## Include a list of all contributors at the end of your changelog
 
