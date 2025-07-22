@@ -69,12 +69,14 @@ TAGS_METADATA_BASE = {
 }
 
 # exclude known bots from contributor lists
-# TODO: configurable? Everybody's got their own bots.
+# Also see 'ignore-contributor' flag/configuration option.
 BOT_USERS = {
+    "changeset-bot",
     "codecov",
     "codecov-io",
     "dependabot",
     "github-actions",
+    "github-actions[bot]",
     "henchbot",
     "jupyterlab-dev-mode",
     "lgtm-com",
@@ -349,6 +351,7 @@ def generate_activity_md(
     strip_brackets=False,
     heading_level=1,
     branch=None,
+    ignored_contributors: list[str] = None
 ):
     """Generate a markdown changelog of GitHub activity within a date window.
 
@@ -421,6 +424,13 @@ def generate_activity_md(
     all_contributors = []
     # add column for participants in each issue (not just original author)
     data["contributors"] = [[]] * len(data)
+
+    def ignored_user(username):
+        return (username in BOT_USERS) or (username in ignored_contributors)
+
+    def filter_ignored(userlist):
+        return [user for user in userlist if not ignored_user(user)]
+
     for ix, row in data.iterrows():
         item_commentors = []
         item_contributors = []
@@ -434,12 +444,12 @@ def generate_activity_md(
         item_contributors.append(row.author)
 
         if row.kind == "pr":
-            for committer in row.committers:
-                if committer not in row.committers and committer not in BOT_USERS:
+            for committer in filter_ignored(row.committers):
+                if committer not in item_contributors:
                     item_contributors.append(committer)
             if row.mergedBy and row.mergedBy != row.author:
                 item_contributors.append(row.mergedBy)
-            for reviewer in row.reviewers:
+            for reviewer in filter_ignored(row.reviewers):
                 if reviewer not in item_contributors:
                     item_contributors.append(reviewer)
 
@@ -451,7 +461,7 @@ def generate_activity_md(
                 continue
 
             comment_author = comment_author["login"]
-            if comment_author in BOT_USERS:
+            if ignored_user(comment_author):
                 # ignore bots
                 continue
 
@@ -615,7 +625,7 @@ def generate_activity_md(
                     [
                         f"[@{user}](https://github.com/{user})"
                         for user in irowdata.contributors
-                        if user not in BOT_USERS
+                        if not ignored_user(user)
                     ]
                 )
                 this_md = f"- {ititle} [#{irowdata['number']}]({irowdata['url']}) ({contributor_list})"
@@ -663,7 +673,7 @@ def generate_activity_md(
 
     # Add a list of author contributions
     all_contributors = sorted(
-        set(all_contributors) - BOT_USERS, key=lambda a: str(a).lower()
+        set(filter_ignored(all_contributors)), key=lambda a: str(a).lower()
     )
     all_contributor_links = []
     for iauthor in all_contributors:
