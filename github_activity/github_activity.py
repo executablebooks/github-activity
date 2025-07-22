@@ -75,6 +75,7 @@ BOT_USERS = {
     "codecov",
     "codecov-io",
     "dependabot",
+    "dependabot[bot]"
     "github-actions",
     "github-actions[bot]",
     "henchbot",
