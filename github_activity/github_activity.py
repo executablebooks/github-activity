@@ -1,5 +1,6 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
 import datetime
+import fnmatch
 import os
 import re
 import shlex
@@ -71,26 +72,24 @@ TAGS_METADATA_BASE = {
 # exclude known bots from contributor lists
 # Also see 'ignore-contributor' flag/configuration option.
 BOT_USERS = {
-    "changeset-bot",
-    "codecov",
-    "codecov-io",
-    "dependabot",
-    "dependabot[bot]"
-    "github-actions",
-    "github-actions[bot]",
-    "henchbot",
-    "jupyterlab-dev-mode",
-    "lgtm-com",
-    "meeseeksmachine",
-    "names",
-    "now",
-    "pre-commit-ci",
-    "renovate",
-    "review-notebook-app",
-    "support",
-    "stale",
-    "todo",
-    "welcome",
+    "changeset-bot*",
+    "codecov*",
+    "codecov-io*",
+    "dependabot*",
+    "github-actions*",
+    "henchbot*",
+    "jupyterlab-dev-mode*",
+    "lgtm-com*",
+    "meeseeksmachine*",
+    "names*",
+    "now*",
+    "pre-commit-ci*",
+    "renovate*",
+    "review-notebook-app*",
+    "support*",
+    "stale*",
+    "todo*",
+    "welcome*",
 }
 
 
@@ -431,7 +430,11 @@ def generate_activity_md(
     data["contributors"] = [[]] * len(data)
 
     def ignored_user(username):
-        return (username in BOT_USERS) or (username in ignored_contributors)
+        return (
+            any(fnmatch.fnmatch(username, bot) for bot in BOT_USERS)
+            or
+            any(fnmatch.fnmatch(username, user) for user in ignored_contributors)
+        )
 
     def filter_ignored(userlist):
         return {user for user in userlist if not ignored_user(user)}
