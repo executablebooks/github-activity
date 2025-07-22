@@ -227,7 +227,7 @@ def generate_all_activity_md(
     include_opened=False,
     strip_brackets=False,
     branch=None,
-    ignored_contributors: list[str] = None
+    ignored_contributors: list[str] = None,
 ):
     """Generate a full markdown changelog of GitHub activity of a repo based on release tags.
 
@@ -327,7 +327,7 @@ def generate_all_activity_md(
             include_opened=include_opened,
             strip_brackets=strip_brackets,
             branch=branch,
-            ignored_contributors=ignored_contributors
+            ignored_contributors=ignored_contributors,
         )
 
         if not md:
@@ -355,7 +355,7 @@ def generate_activity_md(
     strip_brackets=False,
     heading_level=1,
     branch=None,
-    ignored_contributors: list[str] = None
+    ignored_contributors: list[str] = None,
 ):
     """Generate a markdown changelog of GitHub activity within a date window.
 
@@ -430,10 +430,8 @@ def generate_activity_md(
     data["contributors"] = [[]] * len(data)
 
     def ignored_user(username):
-        return (
-            any(fnmatch.fnmatch(username, bot) for bot in BOT_USERS)
-            or
-            any(fnmatch.fnmatch(username, user) for user in ignored_contributors)
+        return any(fnmatch.fnmatch(username, bot) for bot in BOT_USERS) or any(
+            fnmatch.fnmatch(username, user) for user in ignored_contributors
         )
 
     def filter_ignored(userlist):
@@ -496,9 +494,11 @@ def generate_activity_md(
         data.at[ix, "contributors"] = sorted(item_contributors)
 
     comment_contributor_counts = pd.Series(comment_helpers).value_counts()
-    all_contributors |= set(comment_contributor_counts[
-        comment_contributor_counts >= comment_others_cutoff
-    ].index.tolist())
+    all_contributors |= set(
+        comment_contributor_counts[
+            comment_contributor_counts >= comment_others_cutoff
+        ].index.tolist()
+    )
 
     # Filter the PRs by branch (or ref) if given
     if branch is not None:
@@ -680,7 +680,9 @@ def generate_activity_md(
             md += info["md"]
 
     # Add a list of author contributions
-    all_contributors = sorted(filter_ignored(all_contributors), key=lambda a: str(a).lower())
+    all_contributors = sorted(
+        filter_ignored(all_contributors), key=lambda a: str(a).lower()
+    )
     all_contributor_links = []
     for iauthor in all_contributors:
         author_url = f"https://github.com/search?q=repo%3A{org}%2F{repo}+involves%3A{iauthor}+updated%3A{data.since_dt:%Y-%m-%d}..{data.until_dt:%Y-%m-%d}&type=Issues"

@@ -126,4 +126,4 @@ def test_cli_ignore_user(tmpdir):
     cmd = f"github-activity executablebooks/github-activity --ignore-contributor choldgraf -s v1.0.2 -o {path_output}"
     run(cmd.split(), check=True)
     md = path_output.read_text()
-    assert not '@choldgraf' in md
+    assert not "@choldgraf" in md
