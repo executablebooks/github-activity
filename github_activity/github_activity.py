@@ -421,7 +421,7 @@ def generate_activity_md(
     comment_response_cutoff = 6  # Comments on a single issue
     comment_others_cutoff = 2  # Comments on issues somebody else has authored
     comment_helpers = []
-    all_contributors = []
+    all_contributors = set()
     # add column for participants in each issue (not just original author)
     data["contributors"] = [[]] * len(data)
 
@@ -429,11 +429,14 @@ def generate_activity_md(
         return (username in BOT_USERS) or (username in ignored_contributors)
 
     def filter_ignored(userlist):
-        return [user for user in userlist if not ignored_user(user)]
+        return {user for user in userlist if not ignored_user(user)}
 
     for ix, row in data.iterrows():
+        item_contributors = set()
+
+        # This is a list, since we *want* duplicates in here—they
+        # indicate number of times a contributor commented
         item_commentors = []
-        item_contributors = []
 
         # contributor order:
         # - author
@@ -441,17 +444,15 @@ def generate_activity_md(
         # - merger
         # - reviewers
 
-        item_contributors.append(row.author)
+        item_contributors.add(row.author)
 
         if row.kind == "pr":
             for committer in filter_ignored(row.committers):
-                if committer not in item_contributors:
-                    item_contributors.append(committer)
+                item_contributors.add(committer)
             if row.mergedBy and row.mergedBy != row.author:
-                item_contributors.append(row.mergedBy)
+                item_contributors.add(row.mergedBy)
             for reviewer in filter_ignored(row.reviewers):
-                if reviewer not in item_contributors:
-                    item_contributors.append(reviewer)
+                item_contributors.add(reviewer)
 
         for icomment in row["comments"]["edges"]:
             comment_author = icomment["node"]["author"]
@@ -473,8 +474,7 @@ def generate_activity_md(
             item_commentors.append(comment_author)
 
             # count all comments on a PR as a contributor
-            if comment_author not in item_contributors:
-                item_contributors.append(comment_author)
+            item_contributors.add(comment_author)
 
         # Count any commentors that had enough comments on the issue to be a contributor
         item_commentors_counts = pd.Series(item_commentors).value_counts()
@@ -482,15 +482,15 @@ def generate_activity_md(
             item_commentors_counts >= comment_response_cutoff
         ].index.tolist()
         for person in item_commentors_counts:
-            all_contributors.append(person)
+            all_contributors.add(person)
 
         # record contributor list (ordered, unique)
         data.at[ix, "contributors"] = item_contributors
 
     comment_contributor_counts = pd.Series(comment_helpers).value_counts()
-    all_contributors += comment_contributor_counts[
+    all_contributors |= set(comment_contributor_counts[
         comment_contributor_counts >= comment_others_cutoff
-    ].index.tolist()
+    ].index.tolist())
 
     # Filter the PRs by branch (or ref) if given
     if branch is not None:
@@ -527,7 +527,7 @@ def generate_activity_md(
     closed_prs = closed_prs.query("state != 'CLOSED'")
 
     # Add any contributors to a merged PR to our contributors list
-    all_contributors += closed_prs["contributors"].explode().unique().tolist()
+    all_contributors |= set(closed_prs["contributors"].explode().unique().tolist())
 
     # Define categories for a few labels
     if tags is None:
@@ -672,9 +672,7 @@ def generate_activity_md(
             md += info["md"]
 
     # Add a list of author contributions
-    all_contributors = sorted(
-        set(filter_ignored(all_contributors)), key=lambda a: str(a).lower()
-    )
+    all_contributors = sorted(filter_ignored(all_contributors), key=lambda a: str(a).lower())
     all_contributor_links = []
     for iauthor in all_contributors:
         author_url = f"https://github.com/search?q=repo%3A{org}%2F{repo}+involves%3A{iauthor}+updated%3A{data.since_dt:%Y-%m-%d}..{data.until_dt:%Y-%m-%d}&type=Issues"
