@@ -5,11 +5,11 @@
 ###### New features added
 
 - adding contributors list [#10](https://github.com/executablebooks/github-activity/pull/10) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
-- Support git references etc. [#6](https://github.com/executablebooks/github-activity/pull/6) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- Support git references etc. [#6](https://github.com/executablebooks/github-activity/pull/6) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 
 ###### Enhancements made
 
-- defining contributions [#14](https://github.com/executablebooks/github-activity/pull/14) ([@choldgraf](https://github.com/choldgraf), [@betatim](https://github.com/betatim))
+- defining contributions [#14](https://github.com/executablebooks/github-activity/pull/14) ([@betatim](https://github.com/betatim), [@choldgraf](https://github.com/choldgraf))
 - updating CLI for new tags [#12](https://github.com/executablebooks/github-activity/pull/12) ([@choldgraf](https://github.com/choldgraf))
 - some improvements to `since` and opened issues list [#8](https://github.com/executablebooks/github-activity/pull/8) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 
@@ -23,7 +23,7 @@
 
 ###### Documentation improvements
 
-- Mention the required GITHUB_ACCESS_TOKEN [#1](https://github.com/executablebooks/github-activity/pull/1) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- Mention the required GITHUB_ACCESS_TOKEN [#1](https://github.com/executablebooks/github-activity/pull/1) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 
 ###### Contributors to this release
 

@@ -5,18 +5,18 @@
 ### Enhancements made
 
 - Use auth for all usages of requests [#60](https://github.com/executablebooks/github-activity/pull/60) ([@blink1073](https://github.com/blink1073), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
-- Handle detection of target from SSH based remotes [#51](https://github.com/executablebooks/github-activity/pull/51) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- Handle detection of target from SSH based remotes [#51](https://github.com/executablebooks/github-activity/pull/51) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 - ✨ ENH: Auto-detecting the target [#45](https://github.com/executablebooks/github-activity/pull/45) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 
 ### Bugs fixed
 
-- 🐛 FIX: write status messages to sys.stderr [#47](https://github.com/executablebooks/github-activity/pull/47) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
+- 🐛 FIX: write status messages to sys.stderr [#47](https://github.com/executablebooks/github-activity/pull/47) ([@choldgraf](https://github.com/choldgraf), [@minrk](https://github.com/minrk))
 
 ### Maintenance and upkeep improvements
 
-- 🔧 MAINT: Split test_cli using @pytest.mark.parameterize [#56](https://github.com/executablebooks/github-activity/pull/56) ([@manics](https://github.com/manics), [@choldgraf](https://github.com/choldgraf))
-- pre-commit configured and executed [#55](https://github.com/executablebooks/github-activity/pull/55) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
-- 🔧 MAINT: _get_latest_tag should use the remote repo [#52](https://github.com/executablebooks/github-activity/pull/52) ([@manics](https://github.com/manics), [@consideRatio](https://github.com/consideRatio))
+- 🔧 MAINT: Split test_cli using @pytest.mark.parameterize [#56](https://github.com/executablebooks/github-activity/pull/56) ([@choldgraf](https://github.com/choldgraf), [@manics](https://github.com/manics))
+- pre-commit configured and executed [#55](https://github.com/executablebooks/github-activity/pull/55) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
+- 🔧 MAINT: _get_latest_tag should use the remote repo [#52](https://github.com/executablebooks/github-activity/pull/52) ([@consideRatio](https://github.com/consideRatio), [@manics](https://github.com/manics))
 - 🔧 MAINT: hyphen instead of asterisk [#44](https://github.com/executablebooks/github-activity/pull/44) ([@choldgraf](https://github.com/choldgraf))
 
 ### Contributors to this release
@@ -34,23 +34,23 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 
 ### New features added
 
-- Adding filtering by branch [#42](https://github.com/executablebooks/github-activity/pull/42) ([@choldgraf](https://github.com/choldgraf), [@blink1073](https://github.com/blink1073), [@consideRatio](https://github.com/consideRatio))
-- ✨NEW: heading_level argument for increasing heading level [#38](https://github.com/executablebooks/github-activity/pull/38) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
+- Adding filtering by branch [#42](https://github.com/executablebooks/github-activity/pull/42) ([@blink1073](https://github.com/blink1073), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
+- ✨NEW: heading_level argument for increasing heading level [#38](https://github.com/executablebooks/github-activity/pull/38) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio), [@minrk](https://github.com/minrk))
 
 ### Enhancements made
 
-- use tqdm for progress [#39](https://github.com/executablebooks/github-activity/pull/39) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
-- 👌IMPROVE: add blank lines below headings [#36](https://github.com/executablebooks/github-activity/pull/36) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
-- 👌 IMPROVE: since/until: assume git reference, fallback to datetime [#33](https://github.com/executablebooks/github-activity/pull/33) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- use tqdm for progress [#39](https://github.com/executablebooks/github-activity/pull/39) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio), [@minrk](https://github.com/minrk))
+- 👌IMPROVE: add blank lines below headings [#36](https://github.com/executablebooks/github-activity/pull/36) ([@choldgraf](https://github.com/choldgraf), [@minrk](https://github.com/minrk))
+- 👌 IMPROVE: since/until: assume git reference, fallback to datetime [#33](https://github.com/executablebooks/github-activity/pull/33) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 
 ### Bugs fixed
 
-- 🐛 FIX: tags like 'doctor' would trigger 'doc' tag [#40](https://github.com/executablebooks/github-activity/pull/40) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- 🐛 FIX: tags like 'doctor' would trigger 'doc' tag [#40](https://github.com/executablebooks/github-activity/pull/40) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
 
 ### Maintenance and upkeep improvements
 
-- Remove no longer used code [#37](https://github.com/executablebooks/github-activity/pull/37) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
-- [FIX,TST] resolve refs when not run from a repo [#35](https://github.com/executablebooks/github-activity/pull/35) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
+- Remove no longer used code [#37](https://github.com/executablebooks/github-activity/pull/37) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio))
+- [FIX,TST] resolve refs when not run from a repo [#35](https://github.com/executablebooks/github-activity/pull/35) ([@choldgraf](https://github.com/choldgraf), [@consideRatio](https://github.com/consideRatio), [@minrk](https://github.com/minrk))
 
 ### Documentation improvements
 

@@ -493,7 +493,7 @@ def generate_activity_md(
             all_contributors.add(person)
 
         # record contributor list (ordered, unique)
-        data.at[ix, "contributors"] = item_contributors
+        data.at[ix, "contributors"] = sorted(item_contributors)
 
     comment_contributor_counts = pd.Series(comment_helpers).value_counts()
     all_contributors |= set(comment_contributor_counts[
