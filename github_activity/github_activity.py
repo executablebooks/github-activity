@@ -227,6 +227,7 @@ def generate_all_activity_md(
     include_opened=False,
     strip_brackets=False,
     branch=None,
+    ignored_contributors: list[str] = None
 ):
     """Generate a full markdown changelog of GitHub activity of a repo based on release tags.
 
@@ -261,6 +262,8 @@ def generate_all_activity_md(
         E.g., [MRG], [DOC], etc.
     branch : string | None
         The branch or reference name to filter pull requests by.
+    ignored_contributors : list
+        List of usernames not to include in the changelog.
 
     Returns
     -------
@@ -324,6 +327,7 @@ def generate_all_activity_md(
             include_opened=include_opened,
             strip_brackets=strip_brackets,
             branch=branch,
+            ignored_contributors=ignored_contributors
         )
 
         if not md:
