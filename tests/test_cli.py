@@ -127,3 +127,18 @@ def test_cli_ignore_user(tmpdir):
     run(cmd.split(), check=True)
     md = path_output.read_text()
     assert not "@choldgraf" in md
+
+
+def test_contributor_sorting(tmpdir, file_regression):
+    """Test that PR author appears first, then rest of contributors, sorted"""
+    path_tmp = Path(tmpdir)
+    path_output = path_tmp.joinpath("out.md")
+
+    org, repo = ("jupyter-book", "mystmd")
+
+    cmd = (
+        f"github-activity {org}/{repo} -s mystmd@1.5.1 -u mystmd@1.6.0 -o {path_output}"
+    )
+    run(cmd.split(), check=True)
+    md = path_output.read_text()
+    file_regression.check(md, extension=".md")

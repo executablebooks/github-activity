@@ -1,4 +1,5 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
+import dataclasses
 import datetime
 import fnmatch
 import os
@@ -343,6 +344,26 @@ def generate_all_activity_md(
     return output
 
 
+@dataclasses.dataclass(slots=True)
+class ContributorSet:
+    """This class represents a sorted set of PR contributor usernames.
+
+    The sorting is special, in that the author is placed first.
+    """
+
+    author: str = ""
+    other: set = dataclasses.field(default_factory=set)
+
+    def add(self, contributor):
+        self.other.add(contributor)
+
+    def __iter__(self):
+        if self.author:
+            yield self.author
+        for item in sorted(self.other - {self.author}):
+            yield item
+
+
 def generate_activity_md(
     target,
     since=None,
@@ -438,7 +459,8 @@ def generate_activity_md(
         return {user for user in userlist if not ignored_user(user)}
 
     for ix, row in data.iterrows():
-        item_contributors = set()
+        # Track contributors to this PR
+        item_contributors = ContributorSet()
 
         # This is a list, since we *want* duplicates in here—they
         # indicate number of times a contributor commented
@@ -450,7 +472,7 @@ def generate_activity_md(
         # - merger
         # - reviewers
 
-        item_contributors.add(row.author)
+        item_contributors.author = row.author
 
         if row.kind == "pr":
             for committer in filter_ignored(row.committers):
@@ -491,7 +513,7 @@ def generate_activity_md(
             all_contributors.add(person)
 
         # record contributor list (ordered, unique)
-        data.at[ix, "contributors"] = sorted(item_contributors)
+        data.at[ix, "contributors"] = list(item_contributors)
 
     comment_contributor_counts = pd.Series(comment_helpers).value_counts()
     all_contributors |= set(
