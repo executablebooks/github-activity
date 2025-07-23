@@ -442,7 +442,7 @@ def generate_activity_md(
 
         # This is a list, since we *want* duplicates in here—they
         # indicate number of times a contributor commented
-        item_commentors = []
+        item_commenters = []
 
         # contributor order:
         # - author
@@ -472,22 +472,22 @@ def generate_activity_md(
                 # ignore bots
                 continue
 
-            # Add to list of commentors on items they didn't author
+            # Add to list of commenters on items they didn't author
             if comment_author != row["author"]:
                 comment_helpers.append(comment_author)
 
-            # Add to list of commentors for this item so we can see how many times they commented
-            item_commentors.append(comment_author)
+            # Add to list of commenters for this item so we can see how many times they commented
+            item_commenters.append(comment_author)
 
             # count all comments on a PR as a contributor
             item_contributors.add(comment_author)
 
-        # Count any commentors that had enough comments on the issue to be a contributor
-        item_commentors_counts = pd.Series(item_commentors).value_counts()
-        item_commentors_counts = item_commentors_counts[
-            item_commentors_counts >= comment_response_cutoff
+        # Count any commenters that had enough comments on the issue to be a contributor
+        item_commenters_counts = pd.Series(item_commenters).value_counts()
+        item_commenters_counts = item_commenters_counts[
+            item_commenters_counts >= comment_response_cutoff
         ].index.tolist()
-        for person in item_commentors_counts:
+        for person in item_commenters_counts:
             all_contributors.add(person)
 
         # record contributor list (ordered, unique)
