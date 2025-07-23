@@ -143,7 +143,7 @@ To ignore additional usernames from the changelog, use the `--ignore-contributor
 github-activity ... --ignore-contributor robot-one --ignore-contributor 'robot-two*'
 ```
 
-(Wildcards are matched as per [filename matching semantics](https://docs.python.org/3/library/fnmatch.html#fnmatch.fnmatch)).
+Wildcards are matched as per [filename matching semantics](https://docs.python.org/3/library/fnmatch.html#fnmatch.fnmatch).
 
 If this is a generic bot username, consider contributing it back to [our list](https://github.com/executablebooks/github-activity/blob/main/github_activity/github_activity.py#L73).
 
