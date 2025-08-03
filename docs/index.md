@@ -1,44 +1,44 @@
 # github-activity
 
-Generate simple markdown changelogs for GitHub repositories written in Python.
+Generate markdown changelogs for GitHub repositories with more control over the kinds of contributions that are included.
 
-This package does two things:
+GitHub Activity allows you to include more than just "PR author" in your changelogs, such as PR reviewers and issue commenters. This allows you to give credit to a wider group of contributors around your project. Below are some examples, see [](#how-does-this-tool-define-contributions-in-the-reports) for more information.
 
-1. Given a GitHub org, repository, an initial git reference or date, use the
-   [GitHub GraphQL API](https://developer.github.com/v4/) to return a DataFrame
-   of all issue and PR activity for this time period.
-2. A CLI to render this activity as markdown, suitable for generating changelogs or
-   community updates.
+- PR Authors
+- PR Reviewers and Mergers
+- Issue and PR commenters
 
-## Installation
+It also allows you split PRs into sections in your changelog, using either PR labels or PR title metadata (e.g., `[ENH]`). See [](#prefixes-and-tags) for more information.
+
+GitHub Activity uses the [GitHub GraphQL API](https://docs.github.com/en/graphql), along with some basic pagination and caching to efficiently pull data from GitHub.
+
+```{seealso}
+See [the JupyterHub Team changelog](https://github.com/jupyterhub/jupyterhub/blob/5.3.0/docs/source/reference/changelog.md) for an example of this tool in action.
+```
+
+## Installation and basic usage
 
 The easiest way to install this package is to do so directly from GitHub with `pip`:
 
-```
+```bash
 pip install github-activity
 ```
 
+You can then use it like so:
+
+```bash
+github-activity [<org>/<repo>] --since <date or ref> --until <date or ref>
+```
+
+## Why use this tool?
+
+We created `github-activity` because there is a lot that goes into building open source tools than just making a pull request. This tool tries to surface more diverse contributions around a release, like reviews, comments, etc. It tries to paint a more complete picture of all the work that goes into building open source software.
+
+You might want to use this tool if you're hoping to give credit and attribution to more people in your open source community. This gives your community a feeling of more appreciation, and can create more incentives for others to contribute.
+
 ```{toctree}
+:maxdepth: 2
 use
 contribute
 changelog
 ```
-
-(how-does-this-tool-define-contributions-in-the-reports)=
-
-## How we define contributors in the reports
-
-GitHub Activity tries to automatically determine the unique list of contributors within a given window of time.
-There are many ways to define this, and there isn't necessarily a "correct" method out there.
-
-We try to balance the two extremes of "anybody who shows up is recognized as contributing" and "nobody is recognized as contributing".
-We've chosen a few rules that try to reflect sustained engagement in issues/PRs, or contributions in the form of help in _others'_ issues or contributing code.
-
-Here are the rules we follow for finding a list of contributors within a time window. A contributor is anyone who has:
-
-- Contributed to a PR merged in that window (includes opening, merging, committing, commenting, or committing)
-- Commented on >= 2 issues that weren't theirs
-- Commented >= 6 times on any one issue
-- Known bot accounts are generally not considered contributors
-
-We'd love feedback on whether this is a good set of rules to use.

@@ -1,5 +1,7 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
+import dataclasses
 import datetime
+import fnmatch
 import os
 import re
 import shlex
@@ -7,6 +9,7 @@ import subprocess
 import sys
 import urllib
 from collections import OrderedDict
+from json import loads
 from pathlib import Path
 from subprocess import CalledProcessError
 from subprocess import PIPE
@@ -95,25 +98,26 @@ TAGS_METADATA_BASE = OrderedDict(
 )
 
 # exclude known bots from contributor lists
-# TODO: configurable? Everybody's got their own bots.
+# Also see 'ignore-contributor' flag/configuration option.
 BOT_USERS = {
-    "codecov",
-    "codecov-io",
-    "dependabot",
-    "github-actions",
-    "henchbot",
-    "jupyterlab-dev-mode",
-    "lgtm-com",
-    "meeseeksmachine",
-    "names",
-    "now",
-    "pre-commit-ci",
-    "renovate",
-    "review-notebook-app",
-    "support",
-    "stale",
-    "todo",
-    "welcome",
+    "changeset-bot*",
+    "codecov*",
+    "codecov-io*",
+    "dependabot*",
+    "github-actions*",
+    "henchbot*",
+    "jupyterlab-dev-mode*",
+    "lgtm-com*",
+    "meeseeksmachine*",
+    "names*",
+    "now*",
+    "pre-commit-ci*",
+    "renovate*",
+    "review-notebook-app*",
+    "support*",
+    "stale*",
+    "todo*",
+    "welcome*",
 }
 
 
@@ -251,6 +255,7 @@ def generate_all_activity_md(
     include_opened=False,
     strip_brackets=False,
     branch=None,
+    ignored_contributors: list[str] = None,
 ):
     """Generate a full markdown changelog of GitHub activity of a repo based on release tags.
 
@@ -285,6 +290,8 @@ def generate_all_activity_md(
         E.g., [MRG], [DOC], etc.
     branch : string | None
         The branch or reference name to filter pull requests by.
+    ignored_contributors : list
+        List of usernames not to include in the changelog.
 
     Returns
     -------
@@ -348,6 +355,7 @@ def generate_all_activity_md(
             include_opened=include_opened,
             strip_brackets=strip_brackets,
             branch=branch,
+            ignored_contributors=ignored_contributors,
         )
 
         if not md:
@@ -363,6 +371,26 @@ def generate_all_activity_md(
     return output
 
 
+@dataclasses.dataclass(slots=True)
+class ContributorSet:
+    """This class represents a sorted set of PR contributor usernames.
+
+    The sorting is special, in that the author is placed first.
+    """
+
+    author: str = ""
+    other: set = dataclasses.field(default_factory=set)
+
+    def add(self, contributor):
+        self.other.add(contributor)
+
+    def __iter__(self):
+        if self.author:
+            yield self.author
+        for item in sorted(self.other - {self.author}):
+            yield item
+
+
 def generate_activity_md(
     target,
     since=None,
@@ -375,6 +403,7 @@ def generate_activity_md(
     strip_brackets=False,
     heading_level=1,
     branch=None,
+    ignored_contributors: list[str] = None,
 ):
     """Generate a markdown changelog of GitHub activity within a date window.
 
@@ -431,7 +460,7 @@ def generate_activity_md(
     # using the _local_ git repostory
     # TODO: Check that local repo matches org/repo
     if since is None:
-        since = _get_latest_tag()
+        since = _get_latest_release_date(org, repo)
 
     # Grab the data according to our query
     data = get_activity(
@@ -444,12 +473,25 @@ def generate_activity_md(
     comment_response_cutoff = 6  # Comments on a single issue
     comment_others_cutoff = 2  # Comments on issues somebody else has authored
     comment_helpers = []
-    all_contributors = []
+    all_contributors = set()
     # add column for participants in each issue (not just original author)
     data["contributors"] = [[]] * len(data)
+
+    def ignored_user(username):
+        return any(fnmatch.fnmatch(username, bot) for bot in BOT_USERS) or any(
+            fnmatch.fnmatch(username, user) for user in ignored_contributors
+        )
+
+    def filter_ignored(userlist):
+        return {user for user in userlist if not ignored_user(user)}
+
     for ix, row in data.iterrows():
-        item_commentors = []
-        item_contributors = []
+        # Track contributors to this PR
+        item_contributors = ContributorSet()
+
+        # This is a list, since we *want* duplicates in here—they
+        # indicate number of times a contributor commented
+        item_commenters = []
 
         # contributor order:
         # - author
@@ -457,17 +499,15 @@ def generate_activity_md(
         # - merger
         # - reviewers
 
-        item_contributors.append(row.author)
+        item_contributors.author = row.author
 
         if row.kind == "pr":
-            for committer in row.committers:
-                if committer not in row.committers and committer not in BOT_USERS:
-                    item_contributors.append(committer)
+            for committer in filter_ignored(row.committers):
+                item_contributors.add(committer)
             if row.mergedBy and row.mergedBy != row.author:
-                item_contributors.append(row.mergedBy)
-            for reviewer in row.reviewers:
-                if reviewer not in item_contributors:
-                    item_contributors.append(reviewer)
+                item_contributors.add(row.mergedBy)
+            for reviewer in filter_ignored(row.reviewers):
+                item_contributors.add(reviewer)
 
         for icomment in row["comments"]["edges"]:
             comment_author = icomment["node"]["author"]
@@ -477,36 +517,37 @@ def generate_activity_md(
                 continue
 
             comment_author = comment_author["login"]
-            if comment_author in BOT_USERS:
+            if ignored_user(comment_author):
                 # ignore bots
                 continue
 
-            # Add to list of commentors on items they didn't author
+            # Add to list of commenters on items they didn't author
             if comment_author != row["author"]:
                 comment_helpers.append(comment_author)
 
-            # Add to list of commentors for this item so we can see how many times they commented
-            item_commentors.append(comment_author)
+            # Add to list of commenters for this item so we can see how many times they commented
+            item_commenters.append(comment_author)
 
             # count all comments on a PR as a contributor
-            if comment_author not in item_contributors:
-                item_contributors.append(comment_author)
+            item_contributors.add(comment_author)
 
-        # Count any commentors that had enough comments on the issue to be a contributor
-        item_commentors_counts = pd.Series(item_commentors).value_counts()
-        item_commentors_counts = item_commentors_counts[
-            item_commentors_counts >= comment_response_cutoff
+        # Count any commenters that had enough comments on the issue to be a contributor
+        item_commenters_counts = pd.Series(item_commenters).value_counts()
+        item_commenters_counts = item_commenters_counts[
+            item_commenters_counts >= comment_response_cutoff
         ].index.tolist()
-        for person in item_commentors_counts:
-            all_contributors.append(person)
+        for person in item_commenters_counts:
+            all_contributors.add(person)
 
         # record contributor list (ordered, unique)
-        data.at[ix, "contributors"] = item_contributors
+        data.at[ix, "contributors"] = list(item_contributors)
 
     comment_contributor_counts = pd.Series(comment_helpers).value_counts()
-    all_contributors += comment_contributor_counts[
-        comment_contributor_counts >= comment_others_cutoff
-    ].index.tolist()
+    all_contributors |= set(
+        comment_contributor_counts[
+            comment_contributor_counts >= comment_others_cutoff
+        ].index.tolist()
+    )
 
     # Filter the PRs by branch (or ref) if given
     if branch is not None:
@@ -543,7 +584,7 @@ def generate_activity_md(
     closed_prs = closed_prs.query("state != 'CLOSED'")
 
     # Add any contributors to a merged PR to our contributors list
-    all_contributors += closed_prs["contributors"].explode().unique().tolist()
+    all_contributors |= set(closed_prs["contributors"].explode().unique().tolist())
 
     # Define categories for a few labels
     if tags is None:
@@ -650,7 +691,7 @@ def generate_activity_md(
                     [
                         f"[@{user}](https://github.com/{user})"
                         for user in irowdata.contributors
-                        if user not in BOT_USERS
+                        if not ignored_user(user)
                     ]
                 )
                 this_md = f"- {ititle} [#{irowdata['number']}]({irowdata['url']}) ({contributor_list})"
@@ -698,7 +739,7 @@ def generate_activity_md(
 
     # Add a list of author contributions
     all_contributors = sorted(
-        set(all_contributors) - BOT_USERS, key=lambda a: str(a).lower()
+        filter_ignored(all_contributors), key=lambda a: str(a).lower()
     )
     all_contributor_links = []
     for iauthor in all_contributors:
@@ -828,8 +869,22 @@ def _get_datetime_from_git_ref(org, repo, ref, token):
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
 
 
-def _get_latest_tag():
-    """Return the latest tag name for a given repository by querying the local repo."""
-    out = run("git describe --tags".split(), stdout=PIPE)
-    tag = out.stdout.decode().rsplit("-", 2)[0]
-    return tag
+def _get_latest_release_date(org, repo):
+    """Return the latest release date for a given repository by querying the local repo."""
+    cmd = ["gh", "release", "view", "-R", f"{org}/{repo}", "--json", "name,publishedAt"]
+    print(f"Auto-detecting latest release date for: {org}/{repo}")
+    print(f"Running command: {' '.join(cmd)}")
+    out = run(cmd, stdout=PIPE)
+    try:
+        json = out.stdout.decode()
+        release_data = loads(json)
+        print(
+            f"Using release date for release {release_data['name']} on {release_data['publishedAt']}"
+        )
+        return release_data["publishedAt"]
+    except Exception as e:
+        print(f"Error getting latest release date for {org}/{repo}: {e}")
+        print("Reverting to using latest git tag...")
+        out = run("git describe --tags".split(), stdout=PIPE)
+        tag = out.stdout.decode().rsplit("-", 2)[0]
+        return tag

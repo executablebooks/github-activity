@@ -21,6 +21,7 @@ ARG_DEFAULTS = {
     "include-opened": False,
     "strip-brackets": False,
     "all": False,
+    "ignore-contributor": [],
 }
 
 parser = argparse.ArgumentParser(description=DESCRIPTION)
@@ -130,6 +131,11 @@ parser.add_argument(
     action="store_true",
     help=("""Whether to include all the GitHub tags"""),
 )
+parser.add_argument(
+    "--ignore-contributor",
+    action="append",
+    help="Do not include this GitHub username as a contributor in the changelog",
+)
 
 # Hidden argument so that target can be optionally passed as a positional argument
 parser.add_argument(
@@ -214,6 +220,7 @@ def main():
         include_opened=bool(args.include_opened),
         strip_brackets=bool(args.strip_brackets),
         branch=args.branch,
+        ignored_contributors=args.ignore_contributor,
     )
 
     if args.all:
