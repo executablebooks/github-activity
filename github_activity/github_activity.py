@@ -6,6 +6,7 @@ import shlex
 import subprocess
 import sys
 import urllib
+from collections import OrderedDict
 from pathlib import Path
 from subprocess import CalledProcessError
 from subprocess import PIPE
@@ -24,48 +25,74 @@ from .graphql import GitHubGraphQlQuery
 
 
 # The tags and description to use in creating subsets of PRs
-TAGS_METADATA_BASE = {
-    "api_change": {
-        "tags": ["api-change", "apichange", "breaking"],
-        "pre": ["BREAK", "BREAKING", "BRK", "UPGRADE"],
-        "description": "API and Breaking Changes",
-    },
-    "new": {
-        "tags": ["feature", "new"],
-        "pre": ["NEW", "FEAT", "FEATURE"],
-        "description": "New features added",
-    },
-    "enhancement": {
-        "tags": ["enhancement", "enhancements"],
-        "pre": ["ENH", "ENHANCEMENT", "IMPROVE", "IMP"],
-        "description": "Enhancements made",
-    },
-    "bug": {
-        "tags": ["bug", "bugfix", "bugs"],
-        "pre": ["FIX", "BUG"],
-        "description": "Bugs fixed",
-    },
-    "maintenance": {
-        "tags": ["maintenance", "maint"],
-        "pre": ["MAINT", "MNT"],
-        "description": "Maintenance and upkeep improvements",
-    },
-    "documentation": {
-        "tags": ["documentation", "docs", "doc"],
-        "pre": ["DOC", "DOCS"],
-        "description": "Documentation improvements",
-    },
-    "ci": {
-        "tags": ["ci", "continuous-integration"],
-        "pre": ["CI"],
-        "description": "Continuous integration improvements",
-    },
-    "deprecate": {
-        "tags": ["deprecation", "deprecate"],
-        "pre": ["DEPRECATE", "DEPRECATION", "DEP"],
-        "description": "Deprecated features",
-    },
-}
+TAGS_METADATA_BASE = OrderedDict(
+    [
+        (
+            "api_change",
+            {
+                "tags": ["api-change", "apichange", "breaking"],
+                "pre": ["BREAK", "BREAKING", "BRK", "UPGRADE"],
+                "description": "API and Breaking Changes",
+            },
+        ),
+        (
+            "new",
+            {
+                "tags": ["feature", "new"],
+                "pre": ["NEW", "FEAT", "FEATURE"],
+                "description": "New features added",
+            },
+        ),
+        (
+            "deprecate",
+            {
+                "tags": ["deprecation", "deprecate"],
+                "pre": ["DEPRECATE", "DEPRECATION", "DEP"],
+                "description": "Deprecated features",
+            },
+        ),
+        (
+            "enhancement",
+            {
+                "tags": ["enhancement", "enhancements"],
+                "pre": ["ENH", "ENHANCEMENT", "IMPROVE", "IMP"],
+                "description": "Enhancements made",
+            },
+        ),
+        (
+            "bug",
+            {
+                "tags": ["bug", "bugfix", "bugs"],
+                "pre": ["FIX", "BUG"],
+                "description": "Bugs fixed",
+            },
+        ),
+        (
+            "maintenance",
+            {
+                "tags": ["maintenance", "maint"],
+                "pre": ["MAINT", "MNT"],
+                "description": "Maintenance and upkeep improvements",
+            },
+        ),
+        (
+            "documentation",
+            {
+                "tags": ["documentation", "docs", "doc"],
+                "pre": ["DOC", "DOCS"],
+                "description": "Documentation improvements",
+            },
+        ),
+        (
+            "ci",
+            {
+                "tags": ["ci", "continuous-integration"],
+                "pre": ["CI"],
+                "description": "Continuous integration improvements",
+            },
+        ),
+    ]
+)
 
 # exclude known bots from contributor lists
 # TODO: configurable? Everybody's got their own bots.
@@ -540,6 +567,9 @@ def generate_activity_md(
         )
 
     # Separate out items by their tag types
+    # Track which PRs have already been assigned to prevent duplicates
+    assigned_prs = set()
+
     for kind, kindmeta in tags_metadata.items():
         # First find the PRs based on tag
         mask = closed_prs["labels"].map(
@@ -551,8 +581,14 @@ def generate_activity_md(
         )
         mask = mask | mask_pre
 
+        # Exclude PRs that have already been assigned to a previous category
+        mask = mask & ~closed_prs.index.isin(assigned_prs)
+
         kindmeta["data"] = closed_prs.loc[mask]
         kindmeta["mask"] = mask
+
+        # Add the assigned PRs to our tracking set
+        assigned_prs.update(closed_prs.loc[mask].index)
 
     # All remaining PRs w/o a label go here
     all_masks = np.array(
