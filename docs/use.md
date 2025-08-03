@@ -83,6 +83,10 @@ You can choose to *remove* some types of PRs from your changelog by passing the
 left-most column above.
 ```
 
+### Pull Requests with Multiple Matching Labels
+
+If a pull request has multiple labels that match different categories, it will appear in **only the first matching section** based on the order of categories processed. For example, a PR labeled with both `api-change` and `enhancement` will appear only in the "API and Breaking Changes" section, not in "Enhancements made". The categories are processed in the order they show in the table above.
+
 ## Include Pull Request reviewers and commenters in your changelog
 
 By default, GitHub Activity will include any _reviewer_ of a pull request in the item for that PR. This looks like the following:
