@@ -2,13 +2,16 @@
 
 ([full changelog](https://github.com/jupyter-book/jupyter-book/compare/v0.7.1...v0.7.3))
 
+## API and Breaking Changes
+
+- 👌 IMPROVE: improving numbered sections [#826](https://github.com/jupyter-book/jupyter-book/pull/826) ([@choldgraf](https://github.com/choldgraf))
+
 ## New features added
 
 - ✨ NEW: Adding - chapter entries to _toc.yml [#817](https://github.com/jupyter-book/jupyter-book/pull/817) ([@choldgraf](https://github.com/choldgraf))
 
 ## Enhancements made
 
-- 👌 IMPROVE: improving numbered sections [#826](https://github.com/jupyter-book/jupyter-book/pull/826) ([@choldgraf](https://github.com/choldgraf))
 - checking for toc modification time [#772](https://github.com/jupyter-book/jupyter-book/pull/772) ([@choldgraf](https://github.com/choldgraf), [@chrisjsewell](https://github.com/chrisjsewell))
 - first pass toc directive [#757](https://github.com/jupyter-book/jupyter-book/pull/757) ([@choldgraf](https://github.com/choldgraf), [@AakashGfude](https://github.com/AakashGfude))
 
