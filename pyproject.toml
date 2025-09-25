@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=77", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github_activity"
+description = "Grab recent issue/PR activity from a GitHub repository and render it as markdown."
+# update verison with `tbump NEW_VERSION`
+version = "1.0.3"
+dynamic = ["readme", "dependencies"]
+requires-python = ">=3.9"
+keywords = ["Development", "Changelog"]
+authors = [
+    { name = "Executable Books Project", email = "executablebooks@gmail.com" },
+]
+license = "BSD-3-Clause"
+license-files = []
+
+[project.urls]
+Homepage = "https://executablebooks.org"
+Source = "https://github.com/executablebooks/github-activity"
+
+[project.optional-dependencies]
+testing = [
+    "pytest",
+    "pytest-regressions",
+]
+sphinx = [
+    "sphinx",
+    "myst_parser",
+    "sphinx_book_theme",
+]
+
+[project.scripts]
+github-activity = "github_activity.cli:main"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = [""]
+include = ["github_activity"]
+
+[tool.setuptools.dynamic]
+readme = { file = "README.md", content-type = "text/markdown" }
+dependencies = { file = "requirements.txt" }
+
+# setuptools_scm needs a section to be present
+[tool.setuptools_scm]
+# we don't actually use setuptools_scm for versions,
+# only the file-finder
+fallback_version = "0.0.0"
+
+[tool.tbump]
+# Uncomment this if your project is hosted on GitHub:
+github_url = "https://github.com/executablebooks/github-activity"
+
+[tool.tbump.version]
+current = "1.0.3"
+
+regex = '''
+  (?P<major>\d+)
+  \.
+  (?P<minor>\d+)
+  \.
+  (?P<patch>\d+)
+  (?P<pre>((a|b|rc)\d+)|)
+  \.?
+  (?P<dev>(?<=\.)dev\d*|)
+  '''
+
+[tool.tbump.git]
+message_template = "Bump to {new_version}"
+tag_template = "v{new_version}"
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
+search = 'version = "{current_version}"'
+
+[[tool.tbump.file]]
+src = "github_activity/__init__.py"
+search = '__version__ = "{current_version}"'
