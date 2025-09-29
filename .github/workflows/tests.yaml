@@ -31,6 +31,9 @@ jobs:
 
   tests:
     runs-on: ubuntu-24.04
+    env:
+      # This is a private access token for @choldgraf that has public read-only access.
+      GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN_READONLY }}
     strategy:
       matrix:
         include:
@@ -49,9 +52,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .[testing]
       - name: Run tests
-        env:
-          # This is a private access token for @choldgraf that has public read-only access.
-          GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN_READONLY }}
         run: pytest --verbose --color=yes --durations=10
 
   docs:
