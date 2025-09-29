@@ -12,7 +12,6 @@
 
 ## Enhancements made
 
-- 👌 IMPROVE: improving numbered sections [#826](https://github.com/jupyter-book/jupyter-book/pull/826) ([@choldgraf](https://github.com/choldgraf))
 - checking for toc modification time [#772](https://github.com/jupyter-book/jupyter-book/pull/772) ([@choldgraf](https://github.com/choldgraf), [@chrisjsewell](https://github.com/chrisjsewell))
 - first pass toc directive [#757](https://github.com/jupyter-book/jupyter-book/pull/757) ([@choldgraf](https://github.com/choldgraf), [@AakashGfude](https://github.com/AakashGfude))
 
