@@ -170,16 +170,15 @@ def get_activity(
         search_query = f"user:{org}"
 
     if auth is None:
-        for authkey in ["GITHUB_ACCESS_TOKEN", "GHA_ACCESS_TOKEN"]:
-            if authkey in os.environ:
-                # Access token is stored in a local environment variable so just use this
-                print(
-                    f"Using GH access token stored in `{authkey}`.",
-                    file=sys.stderr,
-                )
-                auth = os.environ.get(authkey)
-                if auth == "":
-                    raise ValueError(f"Found {authkey}, but it is empty...")
+        if "GITHUB_ACCESS_TOKEN" in os.environ:
+            # Access token is stored in a local environment variable so just use this
+            print(
+                "Using GH access token stored in `GITHUB_ACCESS_TOKEN`.",
+                file=sys.stderr,
+            )
+            auth = os.environ.get("GITHUB_ACCESS_TOKEN")
+            if auth == "":
+                raise ValueError("GITHUB_ACCESS_TOKEN exists, but it is empty...")
 
     if auth is None:
         # Attempt to use the gh cli if installed
