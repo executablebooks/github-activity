@@ -1,7 +1,7 @@
 name: continuous-integration
 
 on:
-  pull_request:
+  pull_request_target:
   push:
   workflow_dispatch:
 
