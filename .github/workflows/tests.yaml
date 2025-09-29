@@ -51,8 +51,7 @@ jobs:
       - name: Run tests
         env:
           # This is a private access token for @choldgraf that has public read-only access.
-          GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN_READONLY }}
-        run: pytest --verbose --color=yes --durations=10
+        run: pytest --verbose --color=yes --durations=10 --auth ${{ secrets.TOKEN_READONLY }}
 
   docs:
     runs-on: ubuntu-24.04
