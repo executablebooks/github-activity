@@ -30,7 +30,7 @@ nox -s docs -- live
 
 The easiest way to make a release is to follow these steps:
 
-1. **Bump the version in `__init__.py` and push it to master**.
+1. **Bump the version in `__init__.py` and push it to main**.
    We try to use [semver version numbers](https://semver.org/) but don't stress out about it too much.
    - In your commit message use something like `RLS: vX.Y.Z`.
    - Add a changelog to `CHANGELOG.md`[^1].
