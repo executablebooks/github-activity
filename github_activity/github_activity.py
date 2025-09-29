@@ -174,7 +174,7 @@ def get_activity(
             if kind in os.environ:
                 # Access token is stored in a local environment variable so just use this
                 print(
-                    "Using GH access token stored in `GITHUB_ACCESS_TOKEN`.",
+                    f"Using GH access token stored in `{kind}`.",
                     file=sys.stderr,
                 )
                 auth = os.environ.get(kind)
