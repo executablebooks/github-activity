@@ -177,6 +177,9 @@ def get_activity(
                 file=sys.stderr,
             )
             auth = os.environ.get("GITHUB_ACCESS_TOKEN")
+            if auth == "":
+                raise ValueError("GITHUB_ACCESS_TOKEN exists, but it is empty...")
+
         else:
             # Attempt to use the gh cli if installed
             try:
@@ -196,7 +199,7 @@ def get_activity(
                     file=sys.stderr,
                 )
         # We can't use this without auth because we hit rate limits immediately
-        if not auth:
+        if auth is None:
             raise ValueError(
                 "Either the environment variable GITHUB_ACCESS_TOKEN or the "
                 "--auth flag or must be used to pass a Personal Access Token "
