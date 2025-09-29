@@ -50,6 +50,7 @@ jobs:
           pip install -e .[testing]
       - name: Run tests
         env:
+          # This is a private access token for @choldgraf that has public read-only access.
           GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN_READONLY }}
         run: pytest --verbose --color=yes --durations=10
 
