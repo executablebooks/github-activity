@@ -170,16 +170,16 @@ def get_activity(
         search_query = f"user:{org}"
 
     if auth is None:
-        for kind in ["GITHUB_ACCESS_TOKEN", "GHA_ACCESS_TOKEN"]:
-            if kind in os.environ:
+        for authkey in ["GITHUB_ACCESS_TOKEN", "GHA_ACCESS_TOKEN"]:
+            if authkey in os.environ:
                 # Access token is stored in a local environment variable so just use this
                 print(
-                    f"Using GH access token stored in `{kind}`.",
+                    f"Using GH access token stored in `{authkey}`.",
                     file=sys.stderr,
                 )
-                auth = os.environ.get(kind)
+                auth = os.environ.get(authkey)
                 if auth == "":
-                    raise ValueError(f"Found {kind}, but it is empty...")
+                    raise ValueError(f"Found {authkey}, but it is empty...")
 
     if auth is None:
         # Attempt to use the gh cli if installed
@@ -220,7 +220,7 @@ def get_activity(
     if kind:
         allowed_kinds = ["issue", "pr"]
         if kind not in allowed_kinds:
-            raise ValueError(f"Kind must be one of {allowed_kinds}")
+            raise ValueError(f"Kind must be one of {allowed_kinds}, got {kind}")
         search_query += f" type:{kind}"
 
     # Query for both opened and closed issues/PRs in this window

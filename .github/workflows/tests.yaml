@@ -33,7 +33,10 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       # This is a private access token for @choldgraf that has public read-only access.
-      GHA_ACCESS_TOKEN: "${{ secrets.TOKEN_READONLY }}"
+      # WARNING: This only works for PRs from non-forked repositories.
+      #   FUTURE: We should update the tests to only pull from this repository and not
+      #           need a token at all.
+      GITHUB_ACCESS_TOKEN: "${{ secrets.TOKEN_READONLY }}"
     strategy:
       matrix:
         include:
