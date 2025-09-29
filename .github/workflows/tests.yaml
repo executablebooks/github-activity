@@ -3,6 +3,9 @@ name: continuous-integration
 on:
   pull_request_target:
   push:
+    branches: [main]
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 jobs:
