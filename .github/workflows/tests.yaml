@@ -1,11 +1,14 @@
 name: continuous-integration
 
 on:
+  # pull_request_target makes secrets available in the PR, so we avoid rate limits
+  # BUT: it means changes to tests.yml won't be previewed in the PR.
+  # We must merge the PR before we can see the actions in-practice.
   pull_request_target:
   push:
     branches: [main]
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -34,6 +37,7 @@ jobs:
 
   tests:
     runs-on: ubuntu-24.04
+    environment: pr-tests
     env:
       # This is a private access token for @choldgraf that has public read-only access.
       # FUTURE: We should update the tests to only pull from this repository and not
