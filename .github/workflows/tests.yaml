@@ -2,8 +2,7 @@ name: continuous-integration
 
 on:
   # pull_request_target makes secrets available in the PR, so we avoid rate limits
-  # BUT: it means changes to tests.yml won't be previewed in the PR.
-  # We must merge the PR before we can see the actions in-practice.
+  # YOU MUST MERGE THE PR to test changes to this file. GitHub run the version on `main`.
   pull_request_target:
   push:
     branches: [main]

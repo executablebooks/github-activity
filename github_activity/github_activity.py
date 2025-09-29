@@ -169,17 +169,21 @@ def get_activity(
         # We have just org
         search_query = f"user:{org}"
 
+    # First try environment variables (GITHUB_TOKEN will exist in GitHub Actions)
     if auth is None:
-        if "GITHUB_ACCESS_TOKEN" in os.environ:
-            # Access token is stored in a local environment variable so just use this
-            print(
-                "Using GH access token stored in `GITHUB_ACCESS_TOKEN`.",
-                file=sys.stderr,
-            )
-            auth = os.environ.get("GITHUB_ACCESS_TOKEN")
-            if auth == "":
-                raise ValueError("GITHUB_ACCESS_TOKEN exists, but it is empty...")
+        for authkey in ["GITHUB_ACCESS_TOKEN", "GITHUB_TOKEN"]:
+            if authkey in os.environ:
+                # Access token is stored in a local environment variable so just use this
+                print(
+                    f"Using GH access token stored in `{authkey}`.",
+                    file=sys.stderr,
+                )
+                auth = os.environ.get(authkey)
+                if auth == "":
+                    raise ValueError(f"{authkey} exists, but it is empty...")
+                break
 
+    # Then try the gh cli
     if auth is None:
         # Attempt to use the gh cli if installed
         try:
@@ -198,14 +202,15 @@ def get_activity(
                 ),
                 file=sys.stderr,
             )
-    # We can't use this without auth because we hit rate limits immediately
+
+    # If neither work, throw an error because we will hit rate limits immediately
     if auth is None:
         raise ValueError(
-            "Either the environment variable GITHUB_ACCESS_TOKEN or the "
-            "--auth flag or must be used to pass a Personal Access Token "
+            "Either the environment variable GITHUB_ACCESS_TOKEN (or GITHUB_TOKEN) or the "
+            "--auth flag must be used to pass a Personal Access Token "
             "needed by the GitHub API. You can generate a token at "
             "https://github.com/settings/tokens/new. Note that while "
-            "working with a public repository, you don’t need to set any "
+            "working with a public repository, you don't need to set any "
             "scopes on the token you create. Alternatively, you may log-in "
             "via the GitHub CLI (`gh auth login`)."
         )
