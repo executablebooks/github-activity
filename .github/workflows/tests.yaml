@@ -38,10 +38,7 @@ jobs:
     runs-on: ubuntu-24.04
     environment: pr-tests
     env:
-      # This is a private access token for @choldgraf that has public read-only access.
-      # FUTURE: We should update the tests to only pull from this repository and not
-      # need a token at all.
-      GITHUB_ACCESS_TOKEN: "${{ secrets.TOKEN_READONLY }}"
+      GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       matrix:
         include:
