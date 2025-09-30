@@ -184,9 +184,29 @@ To do so, follow these steps:
 
 - Create your own access token. Go to the [new GitHub access token page](https://github.com/settings/tokens/new) and follow the instructions.
   Note that while working with a public repository, you don't need to set any scopes on the token you create.
-- Assign the token to an environment variable called `GITHUB_ACCESS_TOKEN`.
+- Assign the token to an environment variable called `GITHUB_ACCESS_TOKEN` or `GITHUB_TOKEN`.
   If you run `github-activity` and this variable is defined, it will be used.
   You may also pass a token via the `--auth` parameter (though this is not the best security practice).
+
+### Use the GitHub token in a GitHub Action
+
+By default, `github-activity` will check for a variable called `GITHUB_TOKEN`, which exists for each repository in the GitHub Action. To over-ride this and use your personal token:
+
+1. Set a repository secret with a name like `GHA_TOKEN`.
+2. In your GitHub Workflow configuration, rename the token to `GITHUB_ACCESS_TOKEN` so that it over-rides the default `GITHUB_TOKEN` configuration.
+
+For example:
+
+```{code-block} yaml
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    env:
+      # This is a private access token for @choldgraf that has public read-only access.
+      # FUTURE: We should update the tests to only pull from this repository and not
+      # need a token at all.
+      GITHUB_ACCESS_TOKEN: "${{ secrets.GHA_TOKEN }}"
+```
 
 ## Use the Python API
 

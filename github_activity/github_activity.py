@@ -169,43 +169,51 @@ def get_activity(
         # We have just org
         search_query = f"user:{org}"
 
-    if not auth:
-        if "GITHUB_ACCESS_TOKEN" in os.environ:
-            # Access token is stored in a local environment variable so just use this
+    # First try environment variables (GITHUB_TOKEN will exist in GitHub Actions)
+    if auth is None:
+        for authkey in ["GITHUB_ACCESS_TOKEN", "GITHUB_TOKEN"]:
+            if authkey in os.environ:
+                # Access token is stored in a local environment variable so just use this
+                print(
+                    f"Using GH access token stored in `{authkey}`.",
+                    file=sys.stderr,
+                )
+                auth = os.environ.get(authkey)
+                if auth == "":
+                    raise ValueError(f"{authkey} exists, but it is empty...")
+                break
+
+    # Then try the gh cli
+    if auth is None:
+        # Attempt to use the gh cli if installed
+        try:
+            p = run(["gh", "auth", "token"], text=True, capture_output=True)
+            auth = p.stdout.strip()
+        except CalledProcessError:
             print(
-                "Using GH access token stored in `GITHUB_ACCESS_TOKEN`.",
+                ("gh cli has no token. Login with `gh auth login`"),
                 file=sys.stderr,
             )
-            auth = os.environ.get("GITHUB_ACCESS_TOKEN")
-        else:
-            # Attempt to use the gh cli if installed
-            try:
-                p = run(["gh", "auth", "token"], text=True, capture_output=True)
-                auth = p.stdout.strip()
-            except CalledProcessError:
-                print(
-                    ("gh cli has no token. Login with `gh auth login`"),
-                    file=sys.stderr,
-                )
-            except FileNotFoundError:
-                print(
-                    (
-                        "gh cli not found, so will not use it for auth. To download, "
-                        "see https://cli.github.com/"
-                    ),
-                    file=sys.stderr,
-                )
-        # We can't use this without auth because we hit rate limits immediately
-        if not auth:
-            raise ValueError(
-                "Either the environment variable GITHUB_ACCESS_TOKEN or the "
-                "--auth flag or must be used to pass a Personal Access Token "
-                "needed by the GitHub API. You can generate a token at "
-                "https://github.com/settings/tokens/new. Note that while "
-                "working with a public repository, you don’t need to set any "
-                "scopes on the token you create. Alternatively, you may log-in "
-                "via the GitHub CLI (`gh auth login`)."
+        except FileNotFoundError:
+            print(
+                (
+                    "gh cli not found, so will not use it for auth. To download, "
+                    "see https://cli.github.com/"
+                ),
+                file=sys.stderr,
             )
+
+    # If neither work, throw an error because we will hit rate limits immediately
+    if auth is None:
+        raise ValueError(
+            "Either the environment variable GITHUB_ACCESS_TOKEN (or GITHUB_TOKEN) or the "
+            "--auth flag must be used to pass a Personal Access Token "
+            "needed by the GitHub API. You can generate a token at "
+            "https://github.com/settings/tokens/new. Note that while "
+            "working with a public repository, you don't need to set any "
+            "scopes on the token you create. Alternatively, you may log-in "
+            "via the GitHub CLI (`gh auth login`)."
+        )
 
     # Figure out dates for our query
     since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since, auth)
@@ -216,7 +224,7 @@ def get_activity(
     if kind:
         allowed_kinds = ["issue", "pr"]
         if kind not in allowed_kinds:
-            raise ValueError(f"Kind must be one of {allowed_kinds}")
+            raise ValueError(f"Kind must be one of {allowed_kinds}, got {kind}")
         search_query += f" type:{kind}"
 
     # Query for both opened and closed issues/PRs in this window
