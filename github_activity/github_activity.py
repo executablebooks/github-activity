@@ -1,4 +1,5 @@
 """Use the GraphQL api to grab issues/PRs that match a query."""
+
 import dataclasses
 import datetime
 import fnmatch
@@ -7,10 +8,8 @@ import re
 import shlex
 import subprocess
 import sys
-import urllib
 from collections import OrderedDict
 from json import loads
-from pathlib import Path
 from subprocess import CalledProcessError
 from subprocess import PIPE
 from subprocess import run
@@ -567,8 +566,6 @@ def generate_activity_md(
             return
 
     # Separate into closed and opened
-    until_dt_str = data.until_dt_str
-    since_dt_str = data.since_dt_str
     closed = data.query("closedAt >= @since_dt_str and closedAt <= @until_dt_str")
     opened = data.query("createdAt >= @since_dt_str and createdAt <= @until_dt_str")
 
@@ -691,7 +688,7 @@ def generate_activity_md(
                 items["md"].append("")
 
             for irow, irowdata in items["data"].iterrows():
-                author = irowdata["author"]
+                # author = irowdata["author"]
                 ititle = irowdata["title"]
                 if strip_brackets and ititle.strip().startswith("[") and "]" in ititle:
                     ititle = ititle.split("]", 1)[-1].strip()
@@ -855,11 +852,11 @@ def _get_datetime_and_type(org, repo, datetime_or_git_ref, auth):
     try:
         dt = _get_datetime_from_git_ref(org, repo, datetime_or_git_ref, auth)
         return (dt, True)
-    except Exception as ref_error:
+    except Exception:
         try:
             dt = dateutil.parser.parse(datetime_or_git_ref)
             return (dt, False)
-        except Exception as datetime_error:
+        except Exception:
             raise ValueError(
                 "{0} not found as a ref or valid date format".format(
                     datetime_or_git_ref
