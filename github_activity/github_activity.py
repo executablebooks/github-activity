@@ -565,6 +565,10 @@ def generate_activity_md(
         if data.empty:
             return
 
+    # Extract datetime strings from data attributes for pandas query
+    since_dt_str = data["since_dt_str"]  # noqa: F841
+    until_dt_str = data["until_dt_str"]  # noqa: F841
+
     # Separate into closed and opened
     closed = data.query("closedAt >= @since_dt_str and closedAt <= @until_dt_str")
     opened = data.query("createdAt >= @since_dt_str and createdAt <= @until_dt_str")
