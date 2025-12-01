@@ -81,3 +81,6 @@ search = 'version = "{current_version}"'
 [[tool.tbump.file]]
 src = "github_activity/__init__.py"
 search = '__version__ = "{current_version}"'
+
+[tool.ruff.lint.per-file-ignores]
+"docs/conf.py" = ["E402"]
