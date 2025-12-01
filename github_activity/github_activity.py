@@ -873,8 +873,16 @@ def _get_datetime_from_git_ref(org, repo, ref, token):
     auth = TokenAuth(token)
     url = f"https://api.github.com/repos/{org}/{repo}/commits/{ref}"
     # prevent requests from using netrc
-    response = requests.get(url, auth=auth)
-    response.raise_for_status()
+    try:
+        response = requests.get(url, auth=auth)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError:
+        try:
+            data = response.json()
+            print(f"\n!! GitHub error: {data['message']}\n")
+        except Exception as e:
+            pass
+        raise
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
 
 
