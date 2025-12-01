@@ -880,7 +880,7 @@ def _get_datetime_from_git_ref(org, repo, ref, token):
         try:
             data = response.json()
             print(f"\n!! GitHub error: {data['message']}\n")
-        except Exception as e:
+        except Exception:
             pass
         raise
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
