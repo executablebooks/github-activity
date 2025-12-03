@@ -507,7 +507,7 @@ def generate_activity_md(
 
             comment_author = comment_author["login"]
             if ignored_user(comment_author):
-                # ignore bots
+                # ignore bots and user-specified contributors
                 continue
 
             # Add to list of commenters on items they didn't author
