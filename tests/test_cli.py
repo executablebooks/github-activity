@@ -97,11 +97,10 @@ def test_pr_split(tmpdir, file_regression):
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
 
-    url = "https://github.com/jupyter-book/jupyter-book"
+    url = "https://github.com/executablebooks/github-activity"
 
-    # This release range covers some PRs with tags, and some with prefixes
-    # Using smaller range v0.7.2 to v0.7.3 to reduce API calls
-    cmd = f"github-activity {url} -s v0.7.2 -u v0.7.3 -o {path_output}"
+    # Test PR tag/prefix splitting using recent consecutive releases
+    cmd = f"github-activity {url} -s v1.0.2 -u v1.0.3 -o {path_output}"
     run(cmd.split(), check=True)
     md = path_output.read_text()
     md = md.split("## Contributors to this release")[0]
@@ -112,8 +111,8 @@ def test_cli_all(tmpdir, file_regression):
     """Test that a full changelog is created"""
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
-    # Limit to recent releases instead of --all to reduce API calls
-    cmd = f"github-activity executablebooks/github-activity -s v0.2.0 -u v0.3.0 -o {path_output}"
+    # Use recent consecutive releases to reduce API calls
+    cmd = f"github-activity executablebooks/github-activity -s v1.0.2 -u v1.0.3 -o {path_output}"
     run(cmd.split(), check=True)
     md = path_output.read_text()
     file_regression.check(md, extension=".md")
@@ -135,11 +134,10 @@ def test_contributor_sorting(tmpdir, file_regression):
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
 
-    org, repo = ("jupyter-book", "mystmd")
+    org, repo = ("executablebooks", "github-activity")
 
-    cmd = (
-        f"github-activity {org}/{repo} -s mystmd@1.5.1 -u mystmd@1.6.0 -o {path_output}"
-    )
+    # Test contributor sorting using recent consecutive releases
+    cmd = f"github-activity {org}/{repo} -s v0.2.0 -u v0.3.0 -o {path_output}"
     run(cmd.split(), check=True)
     md = path_output.read_text()
     file_regression.check(md, extension=".md")
