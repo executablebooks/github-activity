@@ -565,6 +565,10 @@ def generate_activity_md(
         if data.empty:
             return
 
+    # Extract datetime strings from data attributes for pandas query
+    since_dt_str = data.since_dt_str  # noqa: F841
+    until_dt_str = data.until_dt_str  # noqa: F841
+
     # Separate into closed and opened
     closed = data.query("closedAt >= @since_dt_str and closedAt <= @until_dt_str")
     opened = data.query("createdAt >= @since_dt_str and createdAt <= @until_dt_str")
@@ -876,7 +880,7 @@ def _get_datetime_from_git_ref(org, repo, ref, token):
         try:
             data = response.json()
             print(f"\n!! GitHub error: {data['message']}\n")
-        except Exception as e:
+        except Exception:
             pass
         raise
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])

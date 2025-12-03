@@ -10,22 +10,22 @@ from pytest import mark
     [
         # CLI with URL
         (
-            "github-activity {url} -s 2019-09-01 -u 2019-11-01 -o {path_output}",
+            "github-activity {url} -s 2021-01-01 -u 2021-01-15 -o {path_output}",
             "cli_w_url",
         ),
         # CLI with parts
         (
-            "github-activity {org}/{repo} -s 2019-09-01 -u 2019-11-01 -o {path_output}",
+            "github-activity {org}/{repo} -s 2021-01-01 -u 2021-01-15 -o {path_output}",
             "cli_w_parts",
         ),
         # CLI with default branch
         (
-            "github-activity {org}/{repo} -s 2019-09-01 -u 2019-11-01 -o {path_output} -b master",
+            "github-activity {org}/{repo} -s 2021-01-01 -u 2021-01-15 -o {path_output} -b master",
             "cli_def_branch",
         ),
         # CLI with no target
         (
-            "github-activity -s 2019-09-01 -u 2019-11-01 -o {path_output}",
+            "github-activity -s 2021-01-01 -u 2021-01-15 -o {path_output}",
             "cli_no_target",
         ),
     ],
@@ -46,7 +46,7 @@ def test_cli(tmpdir, file_regression, cmd, basename):
 
 def test_cli_dot_config(tmp_path, monkeypatch, file_regression):
     """Test that pyproject.toml config is loaded"""
-    cmd = "github-activity -s 2019-09-01 -u 2019-11-01 -o {path_output}"
+    cmd = "github-activity -s 2021-01-01 -u 2021-01-15 -o {path_output}"
     basename = "cli_no_target_pyproject"
 
     path_output = tmp_path / "out.md"
@@ -85,7 +85,7 @@ def test_cli_nonexistent_branch(tmpdir):
 
     org, repo = ("executablebooks", "github-activity")
 
-    cmd = f"github-activity {org}/{repo} -s 2019-09-01 -u 2019-11-01 -o {path_output} -b foo"
+    cmd = f"github-activity {org}/{repo} -s 2021-01-01 -u 2021-01-15 -o {path_output} -b foo"
     run(cmd.split(), check=True)
     md = path_output.read_text()
     assert "Contributors to this release" in md
@@ -97,10 +97,10 @@ def test_pr_split(tmpdir, file_regression):
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
 
-    url = "https://github.com/jupyter-book/jupyter-book"
+    url = "https://github.com/executablebooks/github-activity"
 
-    # This release range covers some PRs with tags, and some with prefixes
-    cmd = f"github-activity {url} -s v0.7.1 -u v0.7.3 -o {path_output}"
+    # Test PR tag/prefix splitting using recent consecutive releases
+    cmd = f"github-activity {url} -s v1.0.2 -u v1.0.3 -o {path_output}"
     run(cmd.split(), check=True)
     md = path_output.read_text()
     md = md.split("## Contributors to this release")[0]
@@ -111,18 +111,19 @@ def test_cli_all(tmpdir, file_regression):
     """Test that a full changelog is created"""
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
-    cmd = f"github-activity executablebooks/github-activity --all -o {path_output}"
+    # Use recent consecutive releases to reduce API calls
+    cmd = f"github-activity executablebooks/github-activity -s v1.0.2 -u v1.0.3 -o {path_output}"
     run(cmd.split(), check=True)
     md = path_output.read_text()
-    index = md.index("## v0.2.0")
-    file_regression.check(md[index:], extension=".md")
+    file_regression.check(md, extension=".md")
 
 
 def test_cli_ignore_user(tmpdir):
     """Test that a full changelog is created"""
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
-    cmd = f"github-activity executablebooks/github-activity --ignore-contributor choldgraf -s v1.0.2 -o {path_output}"
+    # Add end date to limit query range
+    cmd = f"github-activity executablebooks/github-activity --ignore-contributor choldgraf -s v1.0.2 -u v1.0.3 -o {path_output}"
     run(cmd.split(), check=True)
     md = path_output.read_text()
     assert "@choldgraf" not in md
@@ -133,11 +134,10 @@ def test_contributor_sorting(tmpdir, file_regression):
     path_tmp = Path(tmpdir)
     path_output = path_tmp.joinpath("out.md")
 
-    org, repo = ("jupyter-book", "mystmd")
+    org, repo = ("executablebooks", "github-activity")
 
-    cmd = (
-        f"github-activity {org}/{repo} -s mystmd@1.5.1 -u mystmd@1.6.0 -o {path_output}"
-    )
+    # Test contributor sorting using recent consecutive releases
+    cmd = f"github-activity {org}/{repo} -s v0.2.0 -u v0.3.0 -o {path_output}"
     run(cmd.split(), check=True)
     md = path_output.read_text()
     file_regression.check(md, extension=".md")

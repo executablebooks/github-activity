@@ -1,9 +1,7 @@
 name: continuous-integration
 
 on:
-  # pull_request_target makes secrets available in the PR, so we avoid rate limits
-  # YOU MUST MERGE THE PR to test changes to this file. GitHub run the version on `main`.
-  pull_request_target:
+  pull_request:
   push:
     branches: [main]
     tags:
@@ -36,11 +34,9 @@ jobs:
 
   tests:
     runs-on: ubuntu-24.04
-    environment: pr-tests
     env:
-      # This is a private access token for @choldgraf that has public read-only access.
-      # FUTURE: We should update the tests to only pull from this repository and not
-      # need a token at all.
+      # This is a PAT for @choldgraf that only has read-access to this repo.
+      # We use it to avoid query limits.
       GITHUB_ACCESS_TOKEN: "${{ secrets.TOKEN_READONLY }}"
     strategy:
       matrix:
