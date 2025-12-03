@@ -461,8 +461,8 @@ def generate_activity_md(
     # add column for participants in each issue (not just original author)
     data["contributors"] = [[]] * len(data)
 
-    # Get bot users from GraphQL data
-    bot_users = getattr(data, "bot_users", set())
+    # Get bot users from GraphQL data (stored in DataFrame attrs)
+    bot_users = data.attrs.get("bot_users", set())
 
     def ignored_user(username):
         if username in bot_users:
