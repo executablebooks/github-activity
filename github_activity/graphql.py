@@ -18,6 +18,7 @@ comments_query = """\
               url
               author {
                 login
+                __typename
               }
             }
           }
@@ -31,6 +32,7 @@ reviews_query = """\
               authorAssociation
               author {
                 login
+                __typename
               }
             }
           }
@@ -81,6 +83,7 @@ base_elements = """\
         authorAssociation
         author {
           login
+          __typename
         }
         reactions(content: THUMBS_UP) {
           totalCount
@@ -100,6 +103,7 @@ gql_template = """\
         {base_elements}
         mergedBy {{
           login
+          __typename
         }}
         mergeCommit {{
           oid
@@ -233,8 +237,45 @@ class GitHubGraphQlQuery:
             if not pageInfo["hasNextPage"]:
                 break
 
+        # Extract bot users from raw data before DataFrame conversion
+        def is_bot(user_dict):
+            """Check if a GraphQL user object represents a bot account."""
+            if not user_dict:
+                return False
+            return user_dict.get("__typename") == "Bot"
+
+        bot_users = set()
+        for item in self.issues_and_or_prs:
+            # Check author
+            author = item.get("author")
+            if is_bot(author):
+                bot_users.add(author["login"])
+
+            # Check mergedBy
+            merged_by = item.get("mergedBy")
+            if is_bot(merged_by):
+                bot_users.add(merged_by["login"])
+
+            # Check reviewers
+            reviews = item.get("reviews")
+            if reviews:
+                for review in reviews.get("edges", []):
+                    review_author = review["node"].get("author")
+                    if is_bot(review_author):
+                        bot_users.add(review_author["login"])
+
+            # Check commenters
+            comments = item.get("comments")
+            if comments:
+                for comment in comments.get("edges", []):
+                    comment_author = comment["node"].get("author")
+                    if is_bot(comment_author):
+                        bot_users.add(comment_author["login"])
+
         # Create a dataframe of the issues and/or PRs
         self.data = pd.DataFrame(self.issues_and_or_prs)
+        # Attach bot users set to dataframe for use in github_activity.py
+        self.data.bot_users = bot_users
 
         # Add some extra fields
         def get_login(user):
