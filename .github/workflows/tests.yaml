@@ -35,9 +35,9 @@ jobs:
   tests:
     runs-on: ubuntu-24.04
     env:
-      # This is a PAT for @choldgraf that only has read-access to this repo.
-      # We use it to avoid query limits.
-      GITHUB_ACCESS_TOKEN: "${{ secrets.TOKEN_READONLY }}"
+      # Use TOKEN_READONLY if available (pushed branches), otherwise use GITHUB_TOKEN (PRs)
+      # TOKEN_READONLY is a PAT for @choldgraf that only has read-access to this repo but isn't available in PRs.
+      GITHUB_ACCESS_TOKEN: "${{ secrets.TOKEN_READONLY || secrets.GITHUB_TOKEN }}"
     strategy:
       matrix:
         include:

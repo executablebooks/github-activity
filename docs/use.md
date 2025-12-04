@@ -140,16 +140,16 @@ To include Issues and Pull Requests that were _opened_ in a time period, use the
 
 ## Remove bots from the changelog
 
-`github-activity` ships with a known list of bot usernames, but your project may use ones not on our list.
-To ignore additional usernames from the changelog, use the `--ignore-contributor` flag:
+`github-activity` automatically detects and excludes bot accounts using GitHub's API.
+Bot accounts (like `dependabot`, `github-actions`, etc.) are identified by their account type in GitHub's data.
+
+To ignore additional human contributors from the changelog, use the `--ignore-contributor` flag:
 
 ```
-github-activity ... --ignore-contributor robot-one --ignore-contributor 'robot-two*'
+github-activity ... --ignore-contributor user-one --ignore-contributor 'test-user-*'
 ```
 
 Wildcards are matched as per [filename matching semantics](https://docs.python.org/3/library/fnmatch.html#fnmatch.fnmatch).
-
-If this is a generic bot username, consider contributing it back to [our list](https://github.com/executablebooks/github-activity/blob/main/github_activity/github_activity.py#L73).
 
 ## Use a GitHub API token
 

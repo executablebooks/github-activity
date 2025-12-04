@@ -96,29 +96,6 @@ TAGS_METADATA_BASE = OrderedDict(
     ]
 )
 
-# exclude known bots from contributor lists
-# Also see 'ignore-contributor' flag/configuration option.
-BOT_USERS = {
-    "changeset-bot*",
-    "codecov*",
-    "codecov-io*",
-    "dependabot*",
-    "github-actions*",
-    "henchbot*",
-    "jupyterlab-dev-mode*",
-    "lgtm-com*",
-    "meeseeksmachine*",
-    "names*",
-    "now*",
-    "pre-commit-ci*",
-    "renovate*",
-    "review-notebook-app*",
-    "support*",
-    "stale*",
-    "todo*",
-    "welcome*",
-}
-
 
 def get_activity(
     target, since, until=None, repo=None, kind=None, auth=None, cache=None
@@ -484,10 +461,15 @@ def generate_activity_md(
     # add column for participants in each issue (not just original author)
     data["contributors"] = [[]] * len(data)
 
+    # Get bot users from GraphQL data (stored in DataFrame attrs)
+    bot_users = data.attrs.get("bot_users", set())
+
     def ignored_user(username):
-        return any(fnmatch.fnmatch(username, bot) for bot in BOT_USERS) or any(
-            fnmatch.fnmatch(username, user) for user in ignored_contributors
-        )
+        if username in bot_users:
+            return True
+        if any(fnmatch.fnmatch(username, user) for user in ignored_contributors):
+            return True
+        return False
 
     def filter_ignored(userlist):
         return {user for user in userlist if not ignored_user(user)}
@@ -525,7 +507,7 @@ def generate_activity_md(
 
             comment_author = comment_author["login"]
             if ignored_user(comment_author):
-                # ignore bots
+                # ignore bots and user-specified contributors
                 continue
 
             # Add to list of commenters on items they didn't author
