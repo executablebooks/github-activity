@@ -2,5 +2,6 @@ markdown
 numpy
 pandas
 python-dateutil
+pytz
 requests
 tqdm
