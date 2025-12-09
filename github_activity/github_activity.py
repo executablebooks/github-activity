@@ -467,7 +467,9 @@ def generate_activity_md(
     def ignored_user(username):
         if username in bot_users:
             return True
-        if ignored_contributors and any(fnmatch.fnmatch(username, user) for user in ignored_contributors):
+        if ignored_contributors and any(
+            fnmatch.fnmatch(username, user) for user in ignored_contributors
+        ):
             return True
         return False
 
