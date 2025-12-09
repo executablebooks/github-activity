@@ -30,29 +30,35 @@ nox -s docs -- live
 
 The easiest way to make a release is to follow these steps:
 
-1. **Bump the version in `__init__.py` and push it to main**.
-   We try to use [semver version numbers](https://semver.org/) but don't stress out about it too much.
-   - In your commit message use something like `RLS: vX.Y.Z`.
-   - Add a changelog to `CHANGELOG.md`[^1].
-2. **Draft a new release on GitHub**.
+1. **Install `tbump`**:
+
+   ```
+   pip install tbump
+   ```
+
+1. **Bump the version**:
+
+   ```
+   tbump NEW_VERSION
+   ```
+
+   Then follow the prompts.
+
+   This will bump the appropriate locations, make a release commit, and push the tag to GitHub.
+
+1. **Generate a changelog for the new version**:
+
+   ```
+   github-activity -s [old-tag] -u [new-tag]
+   ```
+
+   We will paste this into the GitHub release.
+
+1. **Draft a new release on GitHub**.
    Under the [`releases` page](https://github.com/executablebooks/github-activity/releases) click [the `Draft a New Release` button](https://github.com/executablebooks/github-activity/releases/new).
-   - Connect the release to your release commit.
-   - Create a new tag for the release called `vX.Y.Z`.
-   - The name of the release is also `vM.m.p`.
-   - Re-paste your changelog here as well if you like.
-3. **Publish the release**.
+   - Connect the release to the tag you just pushed.
+   - The name of the release is also `tag-name`.
+   - Paste your changelog here.
+1. **Publish the release**.
    When you hit `Publish release`, a GitHub action will trigger that runs our tests, and then publishes the latest tag to PyPI if the tests pass.
    That's it, you're done!
-
-[^1]: To add a changelog with `github-activity`, run something like:
-
-    ```bash
-    github-activity -s <LAST-TAG> -o tmp.md
-    ```
-
-    Then copy the contents of `tmp.md` and paste it into our changelog, bumping section header levels if needed.
-    Alternatively, use `nox`:
-
-    ```bash
-    nox -s changelog
-    ```
