@@ -20,7 +20,7 @@ from pytest import mark
         ),
         # CLI with default branch
         (
-            "github-activity {org}/{repo} -s 2021-01-01 -u 2021-01-15 -o {path_output} -b master",
+            "github-activity {org}/{repo} -s 2021-01-01 -u 2021-01-15 -o {path_output} -b main",
             "cli_def_branch",
         ),
         # CLI with no target
