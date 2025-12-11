@@ -1,4 +1,4 @@
-# main@{2021-01-01}...main@{2021-01-15}
+# master@{2021-01-01}...master@{2021-01-15}
 
 ([full changelog](https://github.com/executablebooks/github-activity/compare/c740a454def057304556675ce7694dc0f2eb6c88...c740a454def057304556675ce7694dc0f2eb6c88))
 

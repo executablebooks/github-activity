@@ -18,9 +18,9 @@ from pytest import mark
             "github-activity {org}/{repo} -s 2021-01-01 -u 2021-01-15 -o {path_output}",
             "cli_w_parts",
         ),
-        # CLI with default branch
+        # CLI with explicit branch filter (using master since that was likely the name in 2021)
         (
-            "github-activity {org}/{repo} -s 2021-01-01 -u 2021-01-15 -o {path_output} -b main",
+            "github-activity {org}/{repo} -s 2021-01-01 -u 2021-01-15 -o {path_output} -b master",
             "cli_def_branch",
         ),
         # CLI with no target
