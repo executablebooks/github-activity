@@ -690,9 +690,11 @@ def generate_activity_md(
                 this_md = f"- {ititle} [#{irowdata['number']}]({irowdata['url']}) ({contributor_list})"
                 items["md"].append(this_md)
 
-    # Get functional GitHub references: any git reference or master@{YY-mm-dd}
+    # Get functional GitHub references: any git reference or {branch}@{YY-mm-dd}
+    # Use the branch parameter if provided, otherwise default to "main"
+    ref_branch = branch or "main"
     if closed_prs.size > 0 and not data.since_is_git_ref:
-        since = f"master@{{{data.since_dt:%Y-%m-%d}}}"
+        since = f"{ref_branch}@{{{data.since_dt:%Y-%m-%d}}}"
         closest_date_start = closed_prs.loc[
             abs(
                 pd.to_datetime(closed_prs["closedAt"], utc=True)
@@ -704,7 +706,7 @@ def generate_activity_md(
         since_ref = since
 
     if closed_prs.size > 0 and not data.until_is_git_ref:
-        until = f"master@{{{data.until_dt:%Y-%m-%d}}}"
+        until = f"{ref_branch}@{{{data.until_dt:%Y-%m-%d}}}"
         closest_date_stop = closed_prs.loc[
             abs(
                 pd.to_datetime(closed_prs["closedAt"], utc=True)
