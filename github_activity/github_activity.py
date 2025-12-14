@@ -134,7 +134,8 @@ def get_activity(
     -------
     query_data : pandas DataFrame
         A munged collection of data returned from your query. This
-        will be a combination of issues and PRs.
+        will be a combination of issues and PRs. The DataFrame has a
+        `bot_users` attribute containing the set of detected bot usernames.
     """
 
     org, repo = _parse_target(target)
@@ -206,6 +207,7 @@ def get_activity(
     # Query for both opened and closed issues/PRs in this window
     print(f"Running search query:\n{search_query}\n\n", file=sys.stderr)
     query_data = []
+    all_bot_users = set()
     for activity_type in ["created", "closed"]:
         ii_search_query = (
             search_query + f" {activity_type}:{since_dt_str}..{until_dt_str}"
@@ -213,6 +215,8 @@ def get_activity(
         qu = GitHubGraphQlQuery(ii_search_query, auth=auth)
         qu.request()
         query_data.append(qu.data)
+        # Collect bot users from each query
+        all_bot_users.update(qu.bot_users)
 
     query_data = (
         pd.concat(query_data).drop_duplicates(subset=["id"]).reset_index(drop=True)
@@ -223,9 +227,12 @@ def get_activity(
     query_data.until_dt_str = until_dt_str
     query_data.since_is_git_ref = since_is_git_ref
     query_data.until_is_git_ref = until_is_git_ref
+    # Restore bot_users in attrs (lost during concat)
+    query_data.attrs["bot_users"] = all_bot_users
 
     if cache:
         _cache_data(query_data, cache)
+
     return query_data
 
 
@@ -462,7 +469,7 @@ def generate_activity_md(
     data["contributors"] = [[]] * len(data)
 
     # Get bot users from GraphQL data (stored in DataFrame attrs)
-    bot_users = data.attrs.get("bot_users", set())
+    bot_users = data.attrs["bot_users"]
 
     def ignored_user(username):
         if username in bot_users:
@@ -490,12 +497,19 @@ def generate_activity_md(
         # - merger
         # - reviewers
 
-        item_contributors.author = row.author
+        # Only add author if they're not a bot
+        if not ignored_user(row.author):
+            item_contributors.author = row.author
 
         if row.kind == "pr":
             for committer in filter_ignored(row.committers):
                 item_contributors.add(committer)
-            if row.mergedBy and row.mergedBy != row.author:
+            # Only add merger if they're not a bot and not the author
+            if (
+                row.mergedBy
+                and row.mergedBy != row.author
+                and not ignored_user(row.mergedBy)
+            ):
                 item_contributors.add(row.mergedBy)
             for reviewer in filter_ignored(row.reviewers):
                 item_contributors.add(reviewer)

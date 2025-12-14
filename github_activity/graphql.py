@@ -47,6 +47,7 @@ commits_query = """\
                 committer {
                   user {
                     login
+                    __typename
                   }
                 }
                 authors(first: 10) {
@@ -54,6 +55,7 @@ commits_query = """\
                     node {
                       user {
                         login
+                        __typename
                       }
                     }
                   }
@@ -140,6 +142,7 @@ class GitHubGraphQlQuery:
           variable `GITHUB_ACCESS_TOKEN` will be tried.
         """
         self.query = query
+        self.bot_users = set()  # Store detected bot usernames
 
         # Authentication
         token = auth or os.environ.get("GITHUB_ACCESS_TOKEN")
@@ -149,7 +152,7 @@ class GitHubGraphQlQuery:
                 "--auth flag or must be used to pass a Personal Access Token "
                 "needed by the GitHub API. You can generate a token at "
                 "https://github.com/settings/tokens/new. Note that while "
-                "working with a public repository, you don’t need to set any "
+                "working with a public repository, you don't need to set any "
                 "scopes on the token you create."
             )
         self.auth = TokenAuth(token)
@@ -240,9 +243,7 @@ class GitHubGraphQlQuery:
         # Extract bot users from raw data before DataFrame conversion
         def is_bot(user_dict):
             """Check if a GraphQL user object represents a bot account."""
-            if not user_dict:
-                return False
-            return user_dict.get("__typename") == "Bot"
+            return user_dict and user_dict.get("__typename") == "Bot"
 
         bot_users = set()
         for item in self.issues_and_or_prs:
@@ -272,10 +273,29 @@ class GitHubGraphQlQuery:
                     if is_bot(comment_author):
                         bot_users.add(comment_author["login"])
 
+            # Check commit authors and committers
+            commits = item.get("commits")
+            if commits:
+                for commit_edge in commits.get("edges", []):
+                    commit = commit_edge["node"]["commit"]
+                    # Check committer
+                    committer = commit.get("committer")
+                    if committer and committer.get("user"):
+                        if is_bot(committer["user"]):
+                            bot_users.add(committer["user"]["login"])
+                    # Check authors
+                    authors = commit.get("authors")
+                    if authors:
+                        for author_edge in authors.get("edges", []):
+                            author_user = author_edge["node"].get("user")
+                            if author_user and is_bot(author_user):
+                                bot_users.add(author_user["login"])
+
         # Create a dataframe of the issues and/or PRs
         self.data = pd.DataFrame(self.issues_and_or_prs)
-        # Store bot users in DataFrame metadata (attrs dict)
+        # Store bot users in DataFrame attrs and as instance attribute
         self.data.attrs["bot_users"] = bot_users
+        self.bot_users = bot_users
 
         # Add some extra fields
         def get_login(user):
