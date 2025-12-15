@@ -216,7 +216,7 @@ def get_activity(
         qu.request()
         query_data.append(qu.data)
         # Collect bot users from each query
-        all_bot_users.update(qu.bot_users)
+        all_bot_users.update(qu.data.attrs.get("bot_users", set()))
 
     query_data = (
         pd.concat(query_data).drop_duplicates(subset=["id"]).reset_index(drop=True)

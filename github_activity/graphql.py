@@ -293,9 +293,7 @@ class GitHubGraphQlQuery:
 
         # Create a dataframe of the issues and/or PRs
         self.data = pd.DataFrame(self.issues_and_or_prs)
-        # Store bot users in DataFrame attrs and as instance attribute
         self.data.attrs["bot_users"] = bot_users
-        self.bot_users = bot_users
 
         # Add some extra fields
         def get_login(user):
