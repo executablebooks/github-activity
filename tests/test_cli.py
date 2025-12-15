@@ -141,3 +141,34 @@ def test_contributor_sorting(tmpdir, file_regression):
     run(cmd.split(), check=True)
     md = path_output.read_text()
     file_regression.check(md, extension=".md")
+
+
+@mark.integration
+def test_bot_filtering(file_regression):
+    """Test that bot users are detected and filtered from output."""
+    from github_activity.github_activity import get_activity, generate_activity_md
+
+    # Use jupyter-book/mystmd because it's a small release, and know theres bot activity
+    data = get_activity(
+        target="jupyter-book/mystmd",
+        since="mystmd@1.6.5",
+        until="mystmd@1.6.6",
+    )
+
+    # Verify bot_users attrs exists and was preserved (catches the concat bug)
+    assert "bot_users" in data.attrs, "bot_users should be in DataFrame attrs"
+
+    # Verify we actually detected some bots
+    assert len(data.attrs["bot_users"]) > 0, (
+        "Should have detected bot users in this release"
+    )
+
+    # Generate markdown and save as regression baseline
+    md = generate_activity_md(
+        target="jupyter-book/mystmd",
+        since="mystmd@1.6.5",
+        until="mystmd@1.6.6",
+    )
+
+    # Use this regression test to make sure no bots are in the output
+    file_regression.check(md, extension=".md")
