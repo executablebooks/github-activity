@@ -477,7 +477,8 @@ def generate_activity_md(
     bot_users = data.attrs["bot_users"]
 
     def ignored_user(username):
-        if not username:
+        # Handle None, empty strings, and non-string types (like NaN)
+        if not username or not isinstance(username, str):
             return False
 
         # First check against GraphQL-detected bot users
@@ -566,17 +567,19 @@ def generate_activity_md(
             item_commenters_counts >= comment_response_cutoff
         ].index.tolist()
         for person in item_commenters_counts:
-            all_contributors.add(person)
+            # Filter out NaN values and non-strings
+            if isinstance(person, str):
+                all_contributors.add(person)
 
         # record contributor list (ordered, unique)
         data.at[ix, "contributors"] = list(item_contributors)
 
     comment_contributor_counts = pd.Series(comment_helpers).value_counts()
-    all_contributors |= set(
-        comment_contributor_counts[
-            comment_contributor_counts >= comment_others_cutoff
-        ].index.tolist()
-    )
+    # Filter out NaN values and non-strings
+    comment_contributors = comment_contributor_counts[
+        comment_contributor_counts >= comment_others_cutoff
+    ].index.tolist()
+    all_contributors |= set(c for c in comment_contributors if isinstance(c, str))
 
     # Filter the PRs by branch (or ref) if given
     if branch is not None:
@@ -615,7 +618,9 @@ def generate_activity_md(
     closed_prs = closed_prs.query("state != 'CLOSED'")
 
     # Add any contributors to a merged PR to our contributors list
-    all_contributors |= set(closed_prs["contributors"].explode().unique().tolist())
+    # Filter out NaN values and non-strings
+    pr_contributors = closed_prs["contributors"].explode().unique().tolist()
+    all_contributors |= set(c for c in pr_contributors if isinstance(c, str))
 
     # Define categories for a few labels
     if tags is None:
