@@ -92,60 +92,12 @@ def test_cli_nonexistent_branch(tmpdir):
     assert "Merged PRs" not in md
 
 
-def test_pr_split(tmpdir, file_regression):
-    """Test that PRs are properly split by tags/prefixes."""
-    path_tmp = Path(tmpdir)
-    path_output = path_tmp.joinpath("out.md")
+def test_changelog_features(file_regression):
+    """Combined test for multiple changelog features to minimize API calls.
 
-    url = "https://github.com/executablebooks/github-activity"
-
-    # Test PR tag/prefix splitting using recent consecutive releases
-    cmd = f"github-activity {url} -s v1.0.2 -u v1.0.3 -o {path_output}"
-    run(cmd.split(), check=True)
-    md = path_output.read_text()
-    md = md.split("## Contributors to this release")[0]
-    file_regression.check(md, extension=".md")
-
-
-def test_cli_all(tmpdir, file_regression):
-    """Test that a full changelog is created"""
-    path_tmp = Path(tmpdir)
-    path_output = path_tmp.joinpath("out.md")
-    # Use recent consecutive releases to reduce API calls
-    cmd = f"github-activity executablebooks/github-activity -s v1.0.2 -u v1.0.3 -o {path_output}"
-    run(cmd.split(), check=True)
-    md = path_output.read_text()
-    file_regression.check(md, extension=".md")
-
-
-def test_cli_ignore_user(tmpdir):
-    """Test that a full changelog is created"""
-    path_tmp = Path(tmpdir)
-    path_output = path_tmp.joinpath("out.md")
-    # Add end date to limit query range
-    cmd = f"github-activity executablebooks/github-activity --ignore-contributor choldgraf -s v1.0.2 -u v1.0.3 -o {path_output}"
-    run(cmd.split(), check=True)
-    md = path_output.read_text()
-    assert "@choldgraf" not in md
-
-
-def test_contributor_sorting(tmpdir, file_regression):
-    """Test that PR author appears first, then rest of contributors, sorted"""
-    path_tmp = Path(tmpdir)
-    path_output = path_tmp.joinpath("out.md")
-
-    org, repo = ("executablebooks", "github-activity")
-
-    # Test contributor sorting using recent consecutive releases
-    cmd = f"github-activity {org}/{repo} -s v0.2.0 -u v0.3.0 -o {path_output}"
-    run(cmd.split(), check=True)
-    md = path_output.read_text()
-    file_regression.check(md, extension=".md")
-
-
-def test_bot_filtering(file_regression):
-    """Test that bot users are detected and filtered from output."""
-    from github_activity.github_activity import get_activity, generate_activity_md
+    This tests a few things in one regression test.
+    """
+    from github_activity.github_activity import generate_activity_md
 
     # This is a release that has dependabot activity, so we test that it no longer
     # shows up in the changelog. It *will* show up in the release below because it's
@@ -155,26 +107,31 @@ def test_bot_filtering(file_regression):
     repo = "github-activity"
     since = "v1.0.2"
     until = "v1.1.0"
-    data = get_activity(
+
+    # Test general changelog structure with a regression test
+    md_full = generate_activity_md(
         target=f"{org}/{repo}",
         since=since,
         until=until,
+        ignored_contributors=["choldgraf"],
     )
+    file_regression.check(md_full, basename="test_cli_all", extension=".md")
 
-    # Verify bot_users attrs exists and was preserved (catches the concat bug)
-    assert "bot_users" in data.attrs, "bot_users should be in DataFrame attrs"
+    # Test that PRs are split into multiple sections
+    md_split = md_full.split("## Contributors to this release")[0]
+    file_regression.check(md_split, basename="test_pr_split", extension=".md")
 
-    # Verify we actually detected some bots
-    assert len(data.attrs["bot_users"]) > 0, (
-        "Should have detected bot users in this release"
+    # Test that contributor sorting works, minus @choldgraf since we filtered him out (sorry Chris)
+    assert (
+        "- Allow excluding certain usernames from changelog [#128](https://github.com/executablebooks/github-activity/pull/128) ([@stefanv](https://github.com/stefanv), [@bsipocz](https://github.com/bsipocz), [@nabobalis](https://github.com/nabobalis))"
+        in md_full
+    ), "Contributors should be sorted as expected"
+
+    # Test that ignored usernames are ignored
+    assert "choldgraf" not in md_full.lower(), (
+        "Ignored contributor should not appear in output"
     )
-
-    # Generate markdown and save as regression baseline
-    md = generate_activity_md(
-        target=f"{org}/{repo}",
-        since=since,
-        until=until,
+    # Test that bots are removed
+    assert "dependabot" not in md_full.lower(), (
+        "Bot user dependabot should not appear in output"
     )
-
-    # Use this regression test to make sure no bots are in the output
-    file_regression.check(md, extension=".md")
