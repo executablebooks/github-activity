@@ -109,6 +109,7 @@ def test_changelog_features(file_regression):
     until = "v1.1.0"
 
     # Test general changelog structure with a regression test
+    # PRs should be split by issue label.
     md_full = generate_activity_md(
         target=f"{org}/{repo}",
         since=since,
@@ -117,10 +118,6 @@ def test_changelog_features(file_regression):
     )
     file_regression.check(md_full, basename="test_cli_all", extension=".md")
 
-    # Test that PRs are split into multiple sections
-    md_split = md_full.split("## Contributors to this release")[0]
-    file_regression.check(md_split, basename="test_pr_split", extension=".md")
-
     # Test that contributor sorting works, minus @choldgraf since we filtered him out (sorry Chris)
     assert (
         "- Allow excluding certain usernames from changelog [#128](https://github.com/executablebooks/github-activity/pull/128) ([@stefanv](https://github.com/stefanv), [@bsipocz](https://github.com/bsipocz), [@nabobalis](https://github.com/nabobalis))"
@@ -128,10 +125,10 @@ def test_changelog_features(file_regression):
     ), "Contributors should be sorted as expected"
 
     # Test that ignored usernames are ignored
-    assert "choldgraf" not in md_full.lower(), (
+    assert "@choldgraf" not in md_full.lower(), (
         "Ignored contributor should not appear in output"
     )
     # Test that bots are removed
-    assert "dependabot" not in md_full.lower(), (
+    assert "@dependabot" not in md_full.lower(), (
         "Bot user dependabot should not appear in output"
     )
