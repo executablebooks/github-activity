@@ -172,3 +172,26 @@ def test_bot_filtering(file_regression):
 
     # Use this regression test to make sure no bots are in the output
     file_regression.check(md, extension=".md")
+
+
+def test_invalid_repository_error():
+    """Test that invalid repository names produce clear error messages."""
+    from github_activity.github_activity import get_activity
+    import pytest
+
+    # Test with an invalid repository name
+    with pytest.raises(ValueError) as exc_info:
+        get_activity(
+            target="invalid-org/nonexistent-repo-12345",
+            since="2021-01-01",
+            until="2021-01-15",
+        )
+
+    # Verify the error message mentions the repository
+    error_message = str(exc_info.value)
+    assert "repository" in error_message.lower(), (
+        f"Error should mention repository, got: {error_message}"
+    )
+    assert "invalid-org/nonexistent-repo-12345" in error_message, (
+        f"Error should include the repo name, got: {error_message}"
+    )

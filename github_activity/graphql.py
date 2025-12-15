@@ -195,16 +195,42 @@ class GitHubGraphQlQuery:
                 auth=self.auth,
             )
             if ii_request.status_code != 200:
+                # Check for common error cases and provide helpful messages
+                if ii_request.status_code == 403:
+                    try:
+                        error_data = ii_request.json()
+                        error_message = error_data.get("message", "")
+                        if "rate limit" in error_message.lower():
+                            raise Exception(
+                                f"GitHub API rate limit exceeded. {error_message}\n"
+                                "Please wait before making more requests, or use an authentication token with higher rate limits."
+                            )
+                        else:
+                            # Generic 403 - likely a permissions issue
+                            raise Exception(
+                                f"GitHub API access forbidden. {error_message}\n"
+                                "This usually means your authentication token doesn't have the required permissions.\n"
+                                "Please check that your token has the necessary scopes for this repository."
+                            )
+                    except (ValueError, KeyError):
+                        pass
                 raise Exception(
                     "Query failed to run by returning code of {}. {}".format(
                         ii_request.status_code, ii_gql_query
                     )
                 )
-            if "errors" in ii_request.json().keys():
+            errors = ii_request.json().get("errors")
+            if errors:
+                # Check for rate limit errors in GraphQL response
+                for error in errors:
+                    if error.get("type") == "RATE_LIMITED":
+                        error_message = error.get("message", "Rate limit exceeded")
+                        raise Exception(
+                            f"GitHub API rate limit exceeded. {error_message}\n"
+                            "Please wait before making more requests, or use an authentication token with higher rate limits."
+                        )
                 raise Exception(
-                    "Query failed to run with error {}. {}".format(
-                        ii_request.json()["errors"], ii_gql_query
-                    )
+                    "Query failed to run with error {}. {}".format(errors, ii_gql_query)
                 )
             self.last_request = ii_request
 
