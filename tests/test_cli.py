@@ -143,16 +143,22 @@ def test_contributor_sorting(tmpdir, file_regression):
     file_regression.check(md, extension=".md")
 
 
-@mark.integration
 def test_bot_filtering(file_regression):
     """Test that bot users are detected and filtered from output."""
     from github_activity.github_activity import get_activity, generate_activity_md
 
-    # Use jupyter-book/mystmd because it's a small release, and know theres bot activity
+    # This is a release that has dependabot activity, so we test that it no longer
+    # shows up in the changelog. It *will* show up in the release below because it's
+    # from before this feature was implemented.
+    # ref: https://github.com/executablebooks/github-activity/releases/tag/v1.1.0
+    org = "executablebooks"
+    repo = "github-activity"
+    since = "v1.0.2"
+    until = "v1.1.0"
     data = get_activity(
-        target="jupyter-book/mystmd",
-        since="mystmd@1.6.5",
-        until="mystmd@1.6.6",
+        target=f"{org}/{repo}",
+        since=since,
+        until=until,
     )
 
     # Verify bot_users attrs exists and was preserved (catches the concat bug)
@@ -165,9 +171,9 @@ def test_bot_filtering(file_regression):
 
     # Generate markdown and save as regression baseline
     md = generate_activity_md(
-        target="jupyter-book/mystmd",
-        since="mystmd@1.6.5",
-        until="mystmd@1.6.6",
+        target=f"{org}/{repo}",
+        since=since,
+        until=until,
     )
 
     # Use this regression test to make sure no bots are in the output
