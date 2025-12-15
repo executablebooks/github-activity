@@ -472,12 +472,31 @@ def generate_activity_md(
     bot_users = data.attrs["bot_users"]
 
     def ignored_user(username):
-        if username in bot_users:
+        if not username:
+            return False
+
+        # First check against GraphQL-detected bot users
+        # It is common for a bot to have `username` in GitHub and `username[bot]` in commits.
+        # So this accounts for that.
+        normalized_username = username.replace("[bot]", "")
+        if normalized_username in bot_users:
             return True
+
+        # Next use pattern-based fallback for bots not detected by GraphQL
+        username_lower = username.lower()
+        bot_patterns = [
+            "[bot]",  # e.g., github-actions[bot], codecov[bot]
+            "-bot",  # e.g., renovate-bot, release-bot, dependabot
+        ]
+        if any(pattern in username_lower for pattern in bot_patterns):
+            return True
+
+        # Check against user-specified ignored contributors
         if ignored_contributors and any(
             fnmatch.fnmatch(username, user) for user in ignored_contributors
         ):
             return True
+
         return False
 
     def filter_ignored(userlist):

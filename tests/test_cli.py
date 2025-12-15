@@ -143,7 +143,8 @@ def test_contributor_sorting(tmpdir, file_regression):
     file_regression.check(md, extension=".md")
 
 
-def test_bot_filtering(tmpdir):
+@mark.integration
+def test_bot_filtering(file_regression):
     """Test that bot users are detected and filtered from output."""
     from github_activity.github_activity import get_activity, generate_activity_md
 
@@ -157,14 +158,17 @@ def test_bot_filtering(tmpdir):
     # Verify bot_users attrs exists and was preserved (catches the concat bug)
     assert "bot_users" in data.attrs, "bot_users should be in DataFrame attrs"
 
-    # Generate markdown and verify no bots appear
+    # Verify we actually detected some bots
+    assert len(data.attrs["bot_users"]) > 0, (
+        "Should have detected bot users in this release"
+    )
+
+    # Generate markdown and save as regression baseline
     md = generate_activity_md(
         target="jupyter-book/mystmd",
         since="mystmd@1.6.5",
         until="mystmd@1.6.6",
     )
 
-    # Ensure changeset-bot is not anywhere in the output
-    assert "changeset-bot" not in md, (
-        "changeset-bot should not appear anywhere in output"
-    )
+    # Use this regression test to make sure no bots are in the output
+    file_regression.check(md, extension=".md")
