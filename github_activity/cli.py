@@ -253,7 +253,6 @@ def main():
         else:
             print(md)
     except ValueError as e:
-        # Handle cases where no activity is found
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
