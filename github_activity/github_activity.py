@@ -139,6 +139,7 @@ def get_activity(
     """
 
     org, repo = _parse_target(target)
+
     if repo:
         # We have org/repo
         search_query = f"repo:{org}/{repo}"
@@ -191,6 +192,10 @@ def get_activity(
             "scopes on the token you create. Alternatively, you may log-in "
             "via the GitHub CLI (`gh auth login`)."
         )
+
+    # Validate repository exists early if a specific repo was provided
+    if repo:
+        _validate_repository_exists(org, repo, auth)
 
     # Figure out dates for our query
     since_dt, since_is_git_ref = _get_datetime_and_type(org, repo, since, auth)
@@ -865,6 +870,32 @@ def _parse_target(target):
             f"Invalid target. Target should be of the form org/repo or a GitHub URL. Got {target}"
         )
     return org, repo
+
+
+def _validate_repository_exists(org, repo, token):
+    """Validate that a repository exists on GitHub.
+
+    Parameters
+    ----------
+    org : str
+        The organization or user name
+    repo : str
+        The repository name
+    token : str
+        GitHub authentication token
+
+    Raises
+    ------
+    ValueError
+        If the repository does not exist or is not accessible
+    """
+    auth = TokenAuth(token)
+    repo_url = f"https://api.github.com/repos/{org}/{repo}"
+    response = requests.head(repo_url, auth=auth)
+    if response.status_code == 404:
+        raise ValueError(
+            f"Repository '{org}/{repo}' not found. Please check the repository name."
+        )
 
 
 def _get_datetime_and_type(org, repo, datetime_or_git_ref, auth):
