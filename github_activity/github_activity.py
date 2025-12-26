@@ -471,7 +471,6 @@ def generate_activity_md(
         )
 
     # Filter the PRs by branch (or ref) if given
-    # Do this early, before processing contributors, so we only process relevant data
     if branch is not None:
         index_names = data[
             (data["kind"] == "pr") & (data["baseRefName"] != branch)
