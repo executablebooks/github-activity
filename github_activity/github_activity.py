@@ -467,11 +467,7 @@ def generate_activity_md(
     # This happens when the repository has no issues/PRs in the date range
     if data.empty:
         raise ValueError(
-            f"No activity found for {org}/{repo} between {since} and {until}.\n"
-            f"This could mean:\n"
-            f"  - No issues or pull requests were created or closed in this period\n"
-            f"  - The repository had no activity during these dates\n"
-            f"  - The date range or filters are too restrictive"
+            f"No activity found for {org}/{repo} between {since} and {until}."
         )
 
     # Filter the PRs by branch (or ref) if given
