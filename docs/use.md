@@ -41,8 +41,20 @@ github-activity jupyter/notebook -s 6.0.0 -u 6.0.1 -o sample_notebook_activity.m
 
 You can find the [resulting markdown here](sample_notebook_activity).
 
-```{tip}
-For repositories that use multiple branches, it may be necessary to filter PRs by a branch name.  This can be done using the `--branch` parameter in the CLI.   Other git references can be used as well in place of a branch name.
+## Filter pull requests by branch
+
+Many repositories work with multiple active branches (e.g., `main`, `develop`, feature branches). When generating a changelog for a specific release, you typically only want to include pull requests that were merged into the release branch.
+
+Use the `--branch` (or `-b`) parameter to filter pull requests by their target branch:
+
+```bash
+github-activity org/repo --since v1.0.0 --until v2.0.0 --branch main
+```
+
+This will **only include pull requests that targeted the `main` branch**, excluding any PRs merged to other branches like `develop` or feature branches.
+
+```{note}
+You can use any git reference (tag, commit hash, etc.) in place of a branch name.
 ```
 
 ## Choose a date or a tag to filter activity
@@ -217,7 +229,7 @@ This is not as well-documented as the CLI, but should have most functionality av
 
 For generating markdown changelogs from Python, here's an example:
 
-```
+```python
 from github_activity import generate_activity_md
 
 markdown = generate_activity_md(
@@ -231,7 +243,7 @@ markdown = generate_activity_md(
     include_opened=True,
     strip_brackets=True,
     heading_level=1,
-    branch=None,
+    branch="main",  # Filter PRs by target branch (optional, use None for all branches)
 )
 
 # Print or save the markdown

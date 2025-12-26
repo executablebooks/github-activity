@@ -462,8 +462,27 @@ def generate_activity_md(
     data = get_activity(
         target, since=since, until=until, kind=kind, auth=auth, cache=False
     )
+
+    # Raise error if GitHub API returned no activity at all
+    # This happens when the repository has no issues/PRs in the date range
     if data.empty:
-        return
+        raise ValueError(
+            f"No activity found for {org}/{repo} between {since} and {until}."
+        )
+
+    # Filter the PRs by branch (or ref) if given
+    if branch is not None:
+        index_names = data[
+            (data["kind"] == "pr") & (data["baseRefName"] != branch)
+        ].index
+        data.drop(index_names, inplace=True)
+
+        # Raise error if branch filter removed all data
+        # This happens when PRs exist but none targeted the specified branch
+        if data.empty:
+            raise ValueError(
+                f"Found activity, but none for the --branch target specified for {org}/{repo} on branch '{branch}' between {since} and {until}.\n"
+            )
 
     # Collect authors of comments on issues/prs that they didn't open for our attribution list
     comment_response_cutoff = 6  # Comments on a single issue
@@ -580,15 +599,6 @@ def generate_activity_md(
         comment_contributor_counts >= comment_others_cutoff
     ].index.tolist()
     all_contributors |= set(c for c in comment_contributors if isinstance(c, str))
-
-    # Filter the PRs by branch (or ref) if given
-    if branch is not None:
-        index_names = data[
-            (data["kind"] == "pr") & (data["baseRefName"] != branch)
-        ].index
-        data.drop(index_names, inplace=True)
-        if data.empty:
-            return
 
     # Extract datetime strings from data attributes for pandas query
     since_dt_str = data.since_dt_str  # noqa: F841

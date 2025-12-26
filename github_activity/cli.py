@@ -123,7 +123,9 @@ parser.add_argument(
     "--branch",
     "-b",
     default=None,
-    help=("""The branch or reference name to filter pull requests by"""),
+    help=(
+        """Filter pull requests by their target branch. Only PRs merged into this branch will be included. """
+    ),
 )
 parser.add_argument(
     "--all",
@@ -223,31 +225,36 @@ def main():
         ignored_contributors=args.ignore_contributor,
     )
 
-    if args.all:
-        md = generate_all_activity_md(args.target, **common_kwargs)
+    # Wrap in a try/except so we don't have an ugly stack trace if there's an error
+    try:
+        if args.all:
+            md = generate_all_activity_md(args.target, **common_kwargs)
 
-    else:
-        md = generate_activity_md(
-            args.target,
-            since=args.since,
-            until=args.until,
-            heading_level=args.heading_level,
-            **common_kwargs,
-        )
+        else:
+            md = generate_activity_md(
+                args.target,
+                since=args.since,
+                until=args.until,
+                heading_level=args.heading_level,
+                **common_kwargs,
+            )
 
-    if not md:
-        return
+        if not md:
+            return
 
-    if args.output:
-        output = os.path.abspath(args.output)
-        output_dir = os.path.dirname(output)
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        with open(args.output, "w") as ff:
-            ff.write(md)
-        print(f"Finished writing markdown to: {args.output}", file=sys.stderr)
-    else:
-        print(md)
+        if args.output:
+            output = os.path.abspath(args.output)
+            output_dir = os.path.dirname(output)
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
+            with open(args.output, "w") as ff:
+                ff.write(md)
+            print(f"Finished writing markdown to: {args.output}", file=sys.stderr)
+        else:
+            print(md)
+    except ValueError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
