@@ -36,7 +36,7 @@
 ### Contributors to this release
 
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
-See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
 
 ([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2025-04-11&to=2025-12-09&type=c))
 
@@ -108,7 +108,7 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ### Contributors to this release
 
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
-See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
 
 ([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2023-02-13&to=2025-04-11&type=c))
 
@@ -135,7 +135,7 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ### Contributors to this release
 
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
-See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
 
 ([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2021-12-01&to=2023-02-13&type=c))
 
@@ -163,7 +163,7 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ### Contributors to this release
 
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
-See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
 
 ([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2021-02-20&to=2021-12-01&type=c))
 
@@ -198,7 +198,7 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ### Contributors to this release
 
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
-See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
 
 ([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2020-08-31&to=2021-02-20&type=c))
 
@@ -213,7 +213,7 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ### Contributors to this release
 
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
-See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
 
 ([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2020-08-07&to=2020-08-31&type=c))
 
@@ -237,7 +237,7 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ### Contributors to this release
 
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
-See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
 
 ([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2020-04-25&to=2020-08-07&type=c))
 
@@ -274,7 +274,7 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ### Contributors to this release
 
 The following people contributed discussions, new ideas, code and documentation contributions, and review.
-See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
 
 ([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2015-01-01&to=2020-04-25&type=c))
 
