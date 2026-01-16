@@ -800,7 +800,7 @@ def generate_activity_md(
     md += [
         "",
         "The following people contributed discussions, new ideas, code and documentation contributions, and review.",
-        "See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).",
+        "See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).",
         "",
     ]
     md += [f"([GitHub contributors page for this release]({gh_contributors_link}))"]
