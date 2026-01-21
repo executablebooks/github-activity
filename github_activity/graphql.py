@@ -323,7 +323,7 @@ class GitHubGraphQlQuery:
 
         # Add some extra fields
         def get_login(user):
-            return user["login"] if not pd.isna(user) else user
+            return user["login"] if pd.notna(user) else user
 
         self.data["author"] = self.data["author"].map(get_login)
         self.data["mergedBy"] = self.data["mergedBy"].map(get_login)
