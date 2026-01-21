@@ -550,7 +550,7 @@ def generate_activity_md(
                 item_contributors.add(committer)
             # Only add merger if they're not a bot and not the author
             if (
-                row.mergedBy
+                pd.notna(row.mergedBy)
                 and row.mergedBy != row.author
                 and not ignored_user(row.mergedBy)
             ):
