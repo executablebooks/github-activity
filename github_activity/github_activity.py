@@ -413,7 +413,7 @@ def generate_activity_md(
         repository will be used. Can also be a URL to a GitHub org or repo.
     since : string | None
         Return issues/PRs with activity since this date or git reference. Can be
-        any string that is parsed with dateutil.parser.parse. If None, the date
+        any string that is parsed with dateutil.parser.parse. If None, the tag
         of the latest release will be used.
     until : string | None
         Return issues/PRs with activity until this date or git reference. Can be
@@ -452,11 +452,11 @@ def generate_activity_md(
     """
     org, repo = _parse_target(target)
 
-    # If no since parameter is given, find the name of the latest release
-    # using the _local_ git repostory
+    # If no since parameter is given, default to the tag of the latest GitHub
+    # release, and otherwise fallback to the latest _local_ git tag.
     # TODO: Check that local repo matches org/repo
     if since is None:
-        since = _get_latest_release_date(org, repo)
+        since = _get_latest_release_tag(org, repo)
 
     # Grab the data according to our query
     data = get_activity(
@@ -951,22 +951,32 @@ def _get_datetime_from_git_ref(org, repo, ref, token):
     return dateutil.parser.parse(response.json()["commit"]["committer"]["date"])
 
 
-def _get_latest_release_date(org, repo):
-    """Return the latest release date for a given repository by querying the local repo."""
-    cmd = ["gh", "release", "view", "-R", f"{org}/{repo}", "--json", "name,publishedAt"]
-    print(f"Auto-detecting latest release date for: {org}/{repo}")
+def _get_latest_release_tag(org, repo):
+    """Return the latest GitHub Release associated tag for a given
+    repository."""
+    cmd = [
+        "gh",
+        "release",
+        "view",
+        "-R",
+        f"{org}/{repo}",
+        "--json",
+        "tagName,name,publishedAt",
+    ]
+    print(f"Auto-detecting latest release tag for: {org}/{repo}")
     print(f"Running command: {' '.join(cmd)}")
     out = run(cmd, stdout=PIPE)
     try:
         json = out.stdout.decode()
         release_data = loads(json)
-        print(
-            f"Using release date for release {release_data['name']} on {release_data['publishedAt']}"
-        )
-        return release_data["publishedAt"]
+        tag = release_data["tagName"]
+        release = release_data["name"]
+        published_at = release_data["publishedAt"]
+        print(f"Using tag {tag} from release {release} published at {published_at}")
+        return tag
     except Exception as e:
-        print(f"Error getting latest release date for {org}/{repo}: {e}")
-        print("Reverting to using latest git tag...")
+        print(f"Error getting latest release tag for {org}/{repo}: {e}")
+        print("Reverting to using latest local git tag...")
         out = run("git describe --tags".split(), stdout=PIPE)
         tag = out.stdout.decode().rsplit("-", 2)[0]
         return tag
