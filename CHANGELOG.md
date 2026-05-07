@@ -1,8 +1,116 @@
 # Changelog
 
+## v1.1.6 - 2026-05-07
+
+### Bugs fixed
+
+- Default --since to latest GitHub Release's tag instead of publication date [#166](https://github.com/executablebooks/github-activity/pull/166) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+
+### Maintenance and upkeep improvements
+
+- maint: use pytest-cov, cleanup docs/requirements.txt, and reduce rate limiting issues in CI [#169](https://github.com/executablebooks/github-activity/pull/169) ([@consideRatio](https://github.com/consideRatio), [@choldgraf](https://github.com/choldgraf))
+- Required python 3.10+, up from 3.9 [#167](https://github.com/executablebooks/github-activity/pull/167) ([@consideRatio](https://github.com/consideRatio), [@nabobalis](https://github.com/nabobalis))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2026-01-21&to=2026-05-07&type=c))
+
+@choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2026-01-21..2026-05-07&type=Issues)) | @consideRatio ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3AconsideRatio+updated%3A2026-01-21..2026-05-07&type=Issues)) | @nabobalis ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Anabobalis+updated%3A2026-01-21..2026-05-07&type=Issues))
+
+## v1.1.5 - 2026-01-21
+
+### Bugs fixed
+
+- Handle a mergedBy NaN value [#165](https://github.com/executablebooks/github-activity/pull/165) ([@jasongrout](https://github.com/jasongrout), [@bsipocz](https://github.com/bsipocz), [@choldgraf](https://github.com/choldgraf), [@krassowski](https://github.com/krassowski), [@nabobalis](https://github.com/nabobalis))
+
+### Maintenance and upkeep improvements
+
+- update links to contributor definition [#163](https://github.com/executablebooks/github-activity/pull/163) ([@minrk](https://github.com/minrk), [@choldgraf](https://github.com/choldgraf))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2025-12-26&to=2026-01-21&type=c))
+
+@bsipocz ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Absipocz+updated%3A2025-12-26..2026-01-21&type=Issues)) | @choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2025-12-26..2026-01-21&type=Issues)) | @jasongrout ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Ajasongrout+updated%3A2025-12-26..2026-01-21&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Akrassowski+updated%3A2025-12-26..2026-01-21&type=Issues)) | @minrk ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Aminrk+updated%3A2025-12-26..2026-01-21&type=Issues)) | @nabobalis ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Anabobalis+updated%3A2025-12-26..2026-01-21&type=Issues))
+
+## v1.1.4 - 2025-12-26
+
+### Bugs fixed
+
+- Improve branch filtering and raise error on empty dataframes [#162](https://github.com/executablebooks/github-activity/pull/162) ([@choldgraf](https://github.com/choldgraf), [@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2025-12-26&to=2025-12-26&type=c))
+
+@choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2025-12-26..2025-12-26&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Ajtpio+updated%3A2025-12-26..2025-12-26&type=Issues))
+
+## v1.1.3 - 2025-12-26
+
+### Maintenance and upkeep improvements
+
+- Consolidate tests a bit [#159](https://github.com/executablebooks/github-activity/pull/159) ([@choldgraf](https://github.com/choldgraf))
+- Add more helpful error messages [#158](https://github.com/executablebooks/github-activity/pull/158) ([@choldgraf](https://github.com/choldgraf))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2025-12-15&to=2025-12-26&type=c))
+
+@choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2025-12-15..2025-12-26&type=Issues)) | @stefanv ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Astefanv+updated%3A2025-12-15..2025-12-26&type=Issues))
+
+## v1.1.2 - 2025-12-15
+
+### New features added
+
+- Properly handle `branch`, default to `main` [#154](https://github.com/executablebooks/github-activity/pull/154) ([@jtpio](https://github.com/jtpio), [@bsipocz](https://github.com/bsipocz), [@choldgraf](https://github.com/choldgraf))
+
+### Bugs fixed
+
+- Ensure bots propagate through concat [#156](https://github.com/executablebooks/github-activity/pull/156) ([@choldgraf](https://github.com/choldgraf))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2025-12-09&to=2025-12-15&type=c))
+
+@bsipocz ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Absipocz+updated%3A2025-12-09..2025-12-15&type=Issues)) | @choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2025-12-09..2025-12-15&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Ajtpio+updated%3A2025-12-09..2025-12-15&type=Issues))
+
+## v1.1.1 - 2025-12-09
+
+### Bugs fixed
+
+- Handle the case when `ignored_contributors` is `None` [#152](https://github.com/executablebooks/github-activity/pull/152) ([@jtpio](https://github.com/jtpio), [@bsipocz](https://github.com/bsipocz), [@choldgraf](https://github.com/choldgraf))
+
+### Documentation improvements
+
+- Release instructions [#150](https://github.com/executablebooks/github-activity/pull/150) ([@choldgraf](https://github.com/choldgraf))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2025-12-09&to=2025-12-09&type=c))
+
+@bsipocz ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Absipocz+updated%3A2025-12-09..2025-12-09&type=Issues)) | @choldgraf ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Acholdgraf+updated%3A2025-12-09..2025-12-09&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Ajtpio+updated%3A2025-12-09..2025-12-09&type=Issues))
+
 ## v1.1.0 - 2025-12-09
 
-([full changelog](https://github.com/executablebooks/github-activity/compare/v1.0.3...3ffc68f920474d500c7150bde975e86c591a3184))
+([full changelog](https://github.com/executablebooks/github-activity/compare/v1.0.3...v1.1.0))
 
 ### Enhancements made
 
