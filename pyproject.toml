@@ -2,6 +2,7 @@
 requires = ["setuptools>=77", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
+
 [project]
 name = "github_activity"
 description = "Grab recent issue/PR activity from a GitHub repository and render it as markdown."
@@ -34,6 +35,7 @@ sphinx = [
 [project.scripts]
 github-activity = "github_activity.cli:main"
 
+
 [tool.setuptools]
 zip-safe = false
 include-package-data = true
@@ -53,7 +55,6 @@ dependencies = { file = "requirements.txt" }
 fallback_version = "0.0.0"
 
 [tool.tbump]
-# Uncomment this if your project is hosted on GitHub:
 github_url = "https://github.com/executablebooks/github-activity"
 
 [tool.tbump.version]
