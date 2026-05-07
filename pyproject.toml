@@ -8,7 +8,7 @@ description = "Grab recent issue/PR activity from a GitHub repository and render
 # update verison with `tbump NEW_VERSION`
 version = "1.1.5"
 dynamic = ["readme", "dependencies"]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["Development", "Changelog"]
 authors = [
     { name = "Executable Books Project", email = "executablebooks@gmail.com" },
