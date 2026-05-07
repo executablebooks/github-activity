@@ -28,9 +28,10 @@ testing = [
     "pytest-regressions",
 ]
 sphinx = [
-    "sphinx",
     "myst_parser",
-    "sphinx_book_theme",
+    "sphinx>=5",
+    "sphinx-design",
+    "sphinx_book_theme>=1",
 ]
 
 [project.scripts]

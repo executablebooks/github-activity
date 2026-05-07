@@ -6,7 +6,6 @@ nox.options.reuse_existing_virtualenvs = True
 @nox.session
 def changelog(session):
     """Run github activity on this repository with the current repo."""
-    session.install("-r", "requirements.txt")
     session.install("-e", ".")
 
     # Run github activity and re-use the posargs
@@ -18,7 +17,6 @@ def changelog(session):
 def docs(session):
     """Run github activity on this repository with the current repo."""
     session.install("-e", ".[sphinx]")
-    session.install("-r", "docs/requirements.txt")
 
     if "live" in session.posargs:
         session.install("sphinx-autobuild")
@@ -38,7 +36,6 @@ def docs(session):
 @nox.session
 def test(session):
     """Run github activity on this repository with the current repo."""
-    session.install("-r", "requirements.txt")
     session.install("-e", ".[testing]")
 
     # Run github activity and re-use the posargs
