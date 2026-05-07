@@ -2,6 +2,7 @@
 requires = ["setuptools>=77", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
+
 [project]
 name = "github_activity"
 description = "Grab recent issue/PR activity from a GitHub repository and render it as markdown."
@@ -23,16 +24,19 @@ Source = "https://github.com/executablebooks/github-activity"
 [project.optional-dependencies]
 testing = [
     "pytest",
+    "pytest-cov",
     "pytest-regressions",
 ]
 sphinx = [
-    "sphinx",
     "myst_parser",
-    "sphinx_book_theme",
+    "sphinx>=5",
+    "sphinx-design",
+    "sphinx_book_theme>=1",
 ]
 
 [project.scripts]
 github-activity = "github_activity.cli:main"
+
 
 [tool.setuptools]
 zip-safe = false
@@ -52,8 +56,25 @@ dependencies = { file = "requirements.txt" }
 # only the file-finder
 fallback_version = "0.0.0"
 
+
+[tool.ruff.lint.per-file-ignores]
+"docs/conf.py" = ["E402"]
+
+
+# pytest is used for running Python based tests
+#
+# ref: https://docs.pytest.org/en/stable/
+#
+[tool.pytest.ini_options]
+addopts = "--verbose --color=yes --durations=10 --cov=github_activity"
+testpaths = ["tests"]
+
+
+[tool.coverage.run]
+patch = ["subprocess"]
+
+
 [tool.tbump]
-# Uncomment this if your project is hosted on GitHub:
 github_url = "https://github.com/executablebooks/github-activity"
 
 [tool.tbump.version]
@@ -81,6 +102,3 @@ search = 'version = "{current_version}"'
 [[tool.tbump.file]]
 src = "github_activity/__init__.py"
 search = '__version__ = "{current_version}"'
-
-[tool.ruff.lint.per-file-ignores]
-"docs/conf.py" = ["E402"]
