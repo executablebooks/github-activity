@@ -24,6 +24,7 @@ Source = "https://github.com/executablebooks/github-activity"
 [project.optional-dependencies]
 testing = [
     "pytest",
+    "pytest-cov",
     "pytest-regressions",
 ]
 sphinx = [
@@ -54,6 +55,24 @@ dependencies = { file = "requirements.txt" }
 # only the file-finder
 fallback_version = "0.0.0"
 
+
+[tool.ruff.lint.per-file-ignores]
+"docs/conf.py" = ["E402"]
+
+
+# pytest is used for running Python based tests
+#
+# ref: https://docs.pytest.org/en/stable/
+#
+[tool.pytest.ini_options]
+addopts = "--verbose --color=yes --durations=10 --cov=github_activity"
+testpaths = ["tests"]
+
+
+[tool.coverage.run]
+patch = ["subprocess"]
+
+
 [tool.tbump]
 github_url = "https://github.com/executablebooks/github-activity"
 
@@ -82,6 +101,3 @@ search = 'version = "{current_version}"'
 [[tool.tbump.file]]
 src = "github_activity/__init__.py"
 search = '__version__ = "{current_version}"'
-
-[tool.ruff.lint.per-file-ignores]
-"docs/conf.py" = ["E402"]

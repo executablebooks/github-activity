@@ -42,5 +42,5 @@ def test(session):
     session.install("-e", ".[testing]")
 
     # Run github activity and re-use the posargs
-    cmd = ["pytest", "--verbose", "--durations=10"] + session.posargs
+    cmd = ["pytest"] + session.posargs
     session.run(*cmd)
