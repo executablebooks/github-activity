@@ -344,9 +344,13 @@ class GitHubGraphQlQuery:
             """map review graph to unique list of reviewers"""
             if pd.isna(reviews) or not reviews:
                 return []
-            return sorted(
-                set([review["node"]["author"]["login"] for review in reviews["edges"]])
-            )
+            reviewers = {
+                review["node"]["author"]["login"]
+                for review in reviews["edges"]
+                if review.get("node", {}).get("author")
+                and review["node"]["author"].get("login")
+            }
+            return sorted(reviewers)
 
         self.data["reviewers"] = self.data["reviews"].map(get_reviewers)
 
