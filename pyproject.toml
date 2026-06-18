@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 name = "github_activity"
 description = "Grab recent issue/PR activity from a GitHub repository and render it as markdown."
 # update verison with `tbump NEW_VERSION`
-version = "1.1.6"
+version = "1.1.7"
 dynamic = ["readme", "dependencies"]
 requires-python = ">=3.10"
 keywords = ["Development", "Changelog"]
@@ -78,7 +78,7 @@ patch = ["subprocess"]
 github_url = "https://github.com/executablebooks/github-activity"
 
 [tool.tbump.version]
-current = "1.1.6"
+current = "1.1.7"
 
 regex = '''
   (?P<major>\d+)
