@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.1.7 - 2025-06-18
+
+### Bugs fixed
+
+- Fix reviews from users removed from GitHub breaking generation [#172](https://github.com/executablebooks/github-activity/pull/172) ([@krassowski](https://github.com/krassowski), [@Yann-P](https://github.com/Yann-P), [@consideRatio](https://github.com/consideRatio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/executablebooks/github-activity/graphs/contributors?from=2026-05-07&to=2026-06-18&type=c))
+
+@consideRatio ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3AconsideRatio+updated%3A2026-05-07..2026-06-18&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3Akrassowski+updated%3A2026-05-07..2026-06-18&type=Issues)) | @Yann-P ([activity](https://github.com/search?q=repo%3Aexecutablebooks%2Fgithub-activity+involves%3AYann-P+updated%3A2026-05-07..2026-06-18&type=Issues))
+
 ## v1.1.6 - 2026-05-07
 
 ### Bugs fixed
