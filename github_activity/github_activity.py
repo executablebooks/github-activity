@@ -605,8 +605,13 @@ def generate_activity_md(
     until_dt_str = data.until_dt_str  # noqa: F841
 
     # Separate into closed and opened
-    closed = data.query("closedAt >= @since_dt_str and closedAt <= @until_dt_str")
-    opened = data.query("createdAt >= @since_dt_str and createdAt <= @until_dt_str")
+    # Git-ref --since is exclusive of the tagged merge; a date --since is inclusive.
+    if data.since_is_git_ref:
+        closed = data.query("closedAt > @since_dt_str and closedAt <= @until_dt_str")
+        opened = data.query("createdAt > @since_dt_str and createdAt <= @until_dt_str")
+    else:
+        closed = data.query("closedAt >= @since_dt_str and closedAt <= @until_dt_str")
+        opened = data.query("createdAt >= @since_dt_str and createdAt <= @until_dt_str")
 
     # Separate into PRs and issues
     closed_prs = closed.query("kind == 'pr'")
