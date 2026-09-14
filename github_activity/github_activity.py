@@ -944,7 +944,7 @@ def _get_datetime_from_git_ref(org, repo, ref, token):
     except requests.exceptions.HTTPError:
         try:
             data = response.json()
-            print(f"\n!! GitHub error: {data['message']}\n")
+            print(f"\n!! GitHub error: {data['message']}\n", file=sys.stderr)
         except Exception:
             pass
         raise
@@ -963,8 +963,8 @@ def _get_latest_release_tag(org, repo):
         "--json",
         "tagName,name,publishedAt",
     ]
-    print(f"Auto-detecting latest release tag for: {org}/{repo}")
-    print(f"Running command: {' '.join(cmd)}")
+    print(f"Auto-detecting latest release tag for: {org}/{repo}", file=sys.stderr)
+    print(f"Running command: {' '.join(cmd)}", file=sys.stderr)
     out = run(cmd, stdout=PIPE)
     try:
         json = out.stdout.decode()
@@ -972,11 +972,16 @@ def _get_latest_release_tag(org, repo):
         tag = release_data["tagName"]
         release = release_data["name"]
         published_at = release_data["publishedAt"]
-        print(f"Using tag {tag} from release {release} published at {published_at}")
+        print(
+            f"Using tag {tag} from release {release} published at {published_at}",
+            file=sys.stderr,
+        )
         return tag
     except Exception as e:
-        print(f"Error getting latest release tag for {org}/{repo}: {e}")
-        print("Reverting to using latest local git tag...")
+        print(
+            f"Error getting latest release tag for {org}/{repo}: {e}", file=sys.stderr
+        )
+        print("Reverting to using latest local git tag...", file=sys.stderr)
         out = run("git describe --tags".split(), stdout=PIPE)
         tag = out.stdout.decode().rsplit("-", 2)[0]
         return tag
