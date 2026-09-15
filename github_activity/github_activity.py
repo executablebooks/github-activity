@@ -97,6 +97,16 @@ TAGS_METADATA_BASE = OrderedDict(
 )
 
 
+def _activity_window_masks(data, since_dt_str, until_dt_str, since_is_git_ref):
+    """Return closed/opened masks; a git-ref ``since`` is exclusive, a date inclusive."""
+    lower = ">" if since_is_git_ref else ">="
+    closed = data.eval(f"closedAt {lower} @since_dt_str and closedAt <= @until_dt_str")
+    opened = data.eval(
+        f"createdAt {lower} @since_dt_str and createdAt <= @until_dt_str"
+    )
+    return closed, opened
+
+
 def get_activity(
     target, since, until=None, repo=None, kind=None, auth=None, cache=None
 ):
@@ -226,6 +236,15 @@ def get_activity(
     query_data = (
         pd.concat(query_data).drop_duplicates(subset=["id"]).reset_index(drop=True)
     )
+
+    # GitHub's search range is inclusive. Apply our public window semantics here
+    # so callers of get_activity() and generate_activity_md() see the same data.
+    if not query_data.empty:
+        closed, opened = _activity_window_masks(
+            query_data, since_dt_str, until_dt_str, since_is_git_ref
+        )
+        query_data = query_data[closed | opened].reset_index(drop=True)
+
     query_data.since_dt = since_dt
     query_data.until_dt = until_dt
     query_data.since_dt_str = since_dt_str
@@ -600,13 +619,10 @@ def generate_activity_md(
     ].index.tolist()
     all_contributors |= set(c for c in comment_contributors if isinstance(c, str))
 
-    # Extract datetime strings from data attributes for pandas query
-    since_dt_str = data.since_dt_str  # noqa: F841
-    until_dt_str = data.until_dt_str  # noqa: F841
-
-    # Separate into closed and opened
-    closed = data.query("closedAt >= @since_dt_str and closedAt <= @until_dt_str")
-    opened = data.query("createdAt >= @since_dt_str and createdAt <= @until_dt_str")
+    closed_mask, opened_mask = _activity_window_masks(
+        data, data.since_dt_str, data.until_dt_str, data.since_is_git_ref
+    )
+    closed, opened = data[closed_mask], data[opened_mask]
 
     # Separate into PRs and issues
     closed_prs = closed.query("kind == 'pr'")
