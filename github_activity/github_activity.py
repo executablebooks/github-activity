@@ -10,9 +10,7 @@ import subprocess
 import sys
 from collections import OrderedDict
 from json import loads
-from subprocess import CalledProcessError
-from subprocess import PIPE
-from subprocess import run
+from subprocess import PIPE, CalledProcessError, run
 from tempfile import TemporaryDirectory
 
 import dateutil.parser
@@ -24,7 +22,6 @@ import requests
 from .auth import TokenAuth
 from .cache import _cache_data
 from .graphql import GitHubGraphQlQuery
-
 
 # The tags and description to use in creating subsets of PRs
 TAGS_METADATA_BASE = OrderedDict(
@@ -175,7 +172,9 @@ def get_activity(
     if auth is None:
         # Attempt to use the gh cli if installed
         try:
-            p = run(["gh", "auth", "token"], text=True, capture_output=True)
+            p = run(
+                ["gh", "auth", "token"], text=True, capture_output=True, check=False
+            )
             auth = p.stdout.strip()
         except CalledProcessError:
             print(
@@ -270,7 +269,7 @@ def generate_all_activity_md(
     include_opened=False,
     strip_brackets=False,
     branch=None,
-    ignored_contributors: list[str] = None,
+    ignored_contributors: list[str] | None = None,
 ):
     """Generate a full markdown changelog of GitHub activity of a repo based on release tags.
 
@@ -316,10 +315,12 @@ def generate_all_activity_md(
     # Get the sha and tag name for each tag in the target repo
     with TemporaryDirectory() as td:
         subprocess.run(
-            shlex.split(f"git clone https://github.com/{target} repo"), cwd=td
+            shlex.split(f"git clone https://github.com/{target} repo"),
+            cwd=td,
+            check=False,
         )
         repo = os.path.join(td, "repo")
-        subprocess.run(shlex.split("git fetch origin --tags"), cwd=repo)
+        subprocess.run(shlex.split("git fetch origin --tags"), cwd=repo, check=False)
 
         cmd = 'git log --tags --simplify-by-decoration --pretty="format:%h | %D"'
         data = (
@@ -402,8 +403,7 @@ class ContributorSet:
     def __iter__(self):
         if self.author:
             yield self.author
-        for item in sorted(self.other - {self.author}):
-            yield item
+        yield from sorted(self.other - {self.author})
 
 
 def generate_activity_md(
@@ -418,7 +418,7 @@ def generate_activity_md(
     strip_brackets=False,
     heading_level=1,
     branch=None,
-    ignored_contributors: list[str] = None,
+    ignored_contributors: list[str] | None = None,
 ):
     """Generate a markdown changelog of GitHub activity within a date window.
 
@@ -536,12 +536,10 @@ def generate_activity_md(
             return True
 
         # Check against user-specified ignored contributors
-        if ignored_contributors and any(
-            fnmatch.fnmatch(username, user) for user in ignored_contributors
-        ):
-            return True
-
-        return False
+        return bool(
+            ignored_contributors
+            and any(fnmatch.fnmatch(username, user) for user in ignored_contributors)
+        )
 
     def filter_ignored(userlist):
         return {user for user in userlist if not ignored_user(user)}
@@ -617,7 +615,7 @@ def generate_activity_md(
     comment_contributors = comment_contributor_counts[
         comment_contributor_counts >= comment_others_cutoff
     ].index.tolist()
-    all_contributors |= set(c for c in comment_contributors if isinstance(c, str))
+    all_contributors |= {c for c in comment_contributors if isinstance(c, str)}
 
     closed_mask, opened_mask = _activity_window_masks(
         data, data.since_dt_str, data.until_dt_str, data.since_is_git_ref
@@ -646,7 +644,7 @@ def generate_activity_md(
     # Add any contributors to a merged PR to our contributors list
     # Filter out NaN values and non-strings
     pr_contributors = closed_prs["contributors"].explode().unique().tolist()
-    all_contributors |= set(c for c in pr_contributors if isinstance(c, str))
+    all_contributors |= {c for c in pr_contributors if isinstance(c, str)}
 
     # Define categories for a few labels
     if tags is None:
@@ -660,7 +658,7 @@ def generate_activity_md(
     tags_metadata = {key: val for key, val in TAGS_METADATA_BASE.items() if key in tags}
 
     # Initialize our tags with empty metadata
-    for key, vals in tags_metadata.items():
+    for vals in tags_metadata.values():
         vals.update(
             {
                 "mask": None,
@@ -673,14 +671,18 @@ def generate_activity_md(
     # Track which PRs have already been assigned to prevent duplicates
     assigned_prs = set()
 
-    for kind, kindmeta in tags_metadata.items():
+    for kindmeta in tags_metadata.values():
         # First find the PRs based on tag
         mask = closed_prs["labels"].map(
-            lambda a: any(ii == jj for ii in kindmeta["tags"] for jj in a)
+            lambda a, kindmeta=kindmeta: any(
+                ii == jj for ii in kindmeta["tags"] for jj in a
+            )
         )
         # Now find PRs based on prefix
         mask_pre = closed_prs["title"].map(
-            lambda title: any(f"{ipre}:" in title for ipre in kindmeta["pre"])
+            lambda title, kindmeta=kindmeta: any(
+                f"{ipre}:" in title for ipre in kindmeta["pre"]
+            )
         )
         mask = mask | mask_pre
 
@@ -705,31 +707,31 @@ def generate_activity_md(
 
     # Add some optional kinds of PRs / issues
     tags_metadata.update(
-        dict(others={"description": other_description, "md": [], "data": others})
+        {"others": {"description": other_description, "md": [], "data": others}}
     )
     if include_issues:
         tags_metadata.update(
-            dict(
-                closed_issues={
+            {
+                "closed_issues": {
                     "description": "Closed issues",
                     "md": [],
                     "data": closed_issues,
                 }
-            )
+            }
         )
         if include_opened:
             tags_metadata.update(
-                dict(
-                    opened_issues={
+                {
+                    "opened_issues": {
                         "description": "Opened issues",
                         "md": [],
                         "data": opened_issues,
                     }
-                )
+                }
             )
     if include_opened:
         tags_metadata.update(
-            dict(opened_prs={"description": "Opened PRs", "md": [], "data": opened_prs})
+            {"opened_prs": {"description": "Opened PRs", "md": [], "data": opened_prs}}
         )
 
     # Generate the markdown
@@ -737,7 +739,7 @@ def generate_activity_md(
 
     extra_head = "#" * (heading_level - 1)
 
-    for kind, items in prs.items():
+    for items in prs.values():
         n_orgs = len(items["data"]["org"].unique())
         for org, idata in items["data"].groupby("org"):
             if n_orgs > 1:
@@ -794,7 +796,7 @@ def generate_activity_md(
         "",
         f"([full changelog]({changelog_url}))",
     ]
-    for kind, info in prs.items():
+    for info in prs.values():
         if len(info["md"]) > 0:
             md += [""]
             md.append(f"{extra_head}## {info['description']}")
@@ -943,9 +945,7 @@ def _get_datetime_and_type(org, repo, datetime_or_git_ref, auth):
             return (dt, False)
         except Exception:
             raise ValueError(
-                "{0} not found as a ref or valid date format".format(
-                    datetime_or_git_ref
-                )
+                f"{datetime_or_git_ref} not found as a ref or valid date format"
             )
 
 
@@ -981,7 +981,7 @@ def _get_latest_release_tag(org, repo):
     ]
     print(f"Auto-detecting latest release tag for: {org}/{repo}", file=sys.stderr)
     print(f"Running command: {' '.join(cmd)}", file=sys.stderr)
-    out = run(cmd, stdout=PIPE)
+    out = run(cmd, stdout=PIPE, check=False)
     try:
         json = out.stdout.decode()
         release_data = loads(json)
@@ -998,6 +998,6 @@ def _get_latest_release_tag(org, repo):
             f"Error getting latest release tag for {org}/{repo}: {e}", file=sys.stderr
         )
         print("Reverting to using latest local git tag...", file=sys.stderr)
-        out = run("git describe --tags".split(), stdout=PIPE)
+        out = run(["git", "describe", "--tags"], stdout=PIPE, check=False)
         tag = out.stdout.decode().rsplit("-", 2)[0]
         return tag

@@ -58,7 +58,7 @@ def _mock_get_activity_dependencies(
             self.data = pd.DataFrame(rows)
             self.data.attrs["bot_users"] = set()
 
-        request = lambda self: None  # noqa: E731
+        request = lambda self: None
 
     monkeypatch.setattr(
         "github_activity.github_activity.GitHubGraphQlQuery",
@@ -117,12 +117,12 @@ def test_empty_activity(monkeypatch, api):
     _mock_get_activity_dependencies(
         monkeypatch, [], since_dt, until_dt, since_is_git_ref=False
     )
-    kwargs = dict(
-        target="jupyterhub/action-k3s-helm",
-        since="2022-08-21",
-        until="2022-08-22",
-        auth="test-token",
-    )
+    kwargs = {
+        "target": "jupyterhub/action-k3s-helm",
+        "since": "2022-08-21",
+        "until": "2022-08-22",
+        "auth": "test-token",
+    }
 
     if api is get_activity:
         assert api(**kwargs).empty
