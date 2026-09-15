@@ -1,0 +1,35 @@
+# Run the test suite against the live GitHub API once a week, to catch
+# changes on GitHub's side that the recorded cassettes can't show.
+name: live-api
+
+on:
+  schedule:
+    # Mondays at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    if: github.repository == 'executablebooks/github-activity'
+    runs-on: ubuntu-24.04
+    env:
+      GITHUB_ACCESS_TOKEN: "${{ github.token }}"
+      # Identical requests are only sent once, so the run fits within the
+      # GITHUB_TOKEN rate limit, see tests/conftest.py
+      GITHUB_ACTIVITY_LIVE_TESTS: "1"
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[testing]"
+
+      - name: Run tests
+        run: pytest

@@ -1,0 +1,580 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+    method: HEAD
+    uri: https://api.github.com/repos/executablebooks/github-activity
+  response:
+    body:
+      string: ''
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:27:49 GMT
+      ETag:
+      - W/"a3d17a6aecba37ebbcb1fc08712cc37d8db7039f6311f9374639af62bf04dcf3"
+      Last-Modified:
+      - Tue, 15 Sep 2026 21:15:16 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - C38A:A93EB:DAA0B7:2D31DB7:6AA9B855
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4958'
+      X-RateLimit-Reset:
+      - '1789510186'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '42'
+      X-XSS-Protection:
+      - '0'
+      content-length:
+      - '0'
+      x-accepted-github-permissions:
+      - metadata=read
+      x-github-api-version-selected:
+      - '2022-11-28'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+    method: GET
+    uri: https://api.github.com/repos/executablebooks/github-activity/commits/2021-01-01
+  response:
+    body:
+      string: '{"message":"No commit found for SHA: 2021-01-01","documentation_url":"https://docs.github.com/rest/commits/commits#get-a-commit","status":"422"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Length:
+      - '144'
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:27:49 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - 2225:207C2C:D362FF:2BCC835:6AA9B855
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4877'
+      X-RateLimit-Reset:
+      - '1789510078'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '123'
+      X-XSS-Protection:
+      - '0'
+      x-accepted-github-permissions:
+      - contents=read
+      x-github-api-version-selected:
+      - '2022-11-28'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 422
+      message: Unprocessable Entity
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+    method: GET
+    uri: https://api.github.com/repos/executablebooks/github-activity/commits/2021-01-15
+  response:
+    body:
+      string: '{"message":"No commit found for SHA: 2021-01-15","documentation_url":"https://docs.github.com/rest/commits/commits#get-a-commit","status":"422"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Length:
+      - '144'
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:27:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - 7F8D:3D99D6:D7B812:2CAECE8:6AA9B856
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4876'
+      X-RateLimit-Reset:
+      - '1789510078'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '124'
+      X-XSS-Protection:
+      - '0'
+      x-accepted-github-permissions:
+      - contents=read
+      x-github-api-version-selected:
+      - '2022-11-28'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 422
+      message: Unprocessable Entity
+- request:
+    body: '{"query": "{\n  search(first: 50, query: \"repo:executablebooks/github-activity
+      type:issue created:2021-01-01T00:00:00Z..2021-01-15T00:00:00Z\", type: ISSUE)
+      {\n    issueCount\n    pageInfo {\n        endCursor\n        hasNextPage\n    }\n    nodes
+      {\n      ... on PullRequest {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n        mergedBy {\n          login\n          __typename\n        }\n        mergeCommit
+      {\n          oid\n        }\n        baseRefName\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n                commits(first:
+      100) {\n          edges {\n            node {\n              commit {\n                committer
+      {\n                  user {\n                    login\n                    __typename\n                  }\n                }\n                authors(first:
+      10) {\n                  edges {\n                    node {\n                      user
+      {\n                        login\n                        __typename\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n\n                reviews(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n      ...
+      on Issue {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n    }\n  }\n}\n"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2841'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"search":{"issueCount":1,"pageInfo":{"endCursor":"Y3Vyc29yOjE=","hasNextPage":false},"nodes":[{"state":"OPEN","id":"MDU6SXNzdWU3ODI4ODAzNDA=","title":"Duplication
+        of tag definitions","url":"https://github.com/executablebooks/github-activity/issues/41","createdAt":"2021-01-10T18:40:40Z","updatedAt":"2021-02-27T21:26:07Z","closedAt":null,"labels":{"edges":[]},"number":41,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2021-01-11T12:38:13Z","updatedAt":"2021-01-11T12:38:13Z","url":"https://github.com/executablebooks/github-activity/issues/41#issuecomment-757925534","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2021-02-27T21:25:39Z","updatedAt":"2021-02-27T21:25:39Z","url":"https://github.com/executablebooks/github-activity/issues/41#issuecomment-787150067","author":{"login":"choldgraf","__typename":"User"}}}]}}]}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:27:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 906F:1D9C88:D3F211:2BFBD32:6AA9B856
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '2386'
+      X-RateLimit-Reset:
+      - '1789510879'
+      X-RateLimit-Resource:
+      - graphql
+      X-RateLimit-Used:
+      - '2614'
+      X-XSS-Protection:
+      - '0'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "{\n  search(first: 50, query: \"repo:executablebooks/github-activity
+      type:pr created:2021-01-01T00:00:00Z..2021-01-15T00:00:00Z\", type: ISSUE) {\n    issueCount\n    pageInfo
+      {\n        endCursor\n        hasNextPage\n    }\n    nodes {\n      ... on
+      PullRequest {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n        mergedBy {\n          login\n          __typename\n        }\n        mergeCommit
+      {\n          oid\n        }\n        baseRefName\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n                commits(first:
+      100) {\n          edges {\n            node {\n              commit {\n                committer
+      {\n                  user {\n                    login\n                    __typename\n                  }\n                }\n                authors(first:
+      10) {\n                  edges {\n                    node {\n                      user
+      {\n                        login\n                        __typename\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n\n                reviews(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n      ...
+      on Issue {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n    }\n  }\n}\n"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2838'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: "{\"data\":{\"search\":{\"issueCount\":1,\"pageInfo\":{\"endCursor\":\"Y3Vyc29yOjE=\",\"hasNextPage\":false},\"nodes\":[{\"state\":\"MERGED\",\"id\":\"MDExOlB1bGxSZXF1ZXN0NTUyMzI3NDk5\",\"title\":\"\U0001F41B
+        FIX: tags like 'doctor' would trigger 'doc' tag\",\"url\":\"https://github.com/executablebooks/github-activity/pull/40\",\"createdAt\":\"2021-01-10T18:34:58Z\",\"updatedAt\":\"2021-01-11T12:37:01Z\",\"closedAt\":\"2021-01-11T12:36:49Z\",\"labels\":{\"edges\":[]},\"number\":40,\"authorAssociation\":\"COLLABORATOR\",\"author\":{\"login\":\"consideRatio\",\"__typename\":\"User\"},\"reactions\":{\"totalCount\":0},\"mergedBy\":{\"login\":\"choldgraf\",\"__typename\":\"User\"},\"mergeCommit\":{\"oid\":\"c740a454def057304556675ce7694dc0f2eb6c88\"},\"baseRefName\":\"master\",\"comments\":{\"edges\":[{\"node\":{\"authorAssociation\":\"MEMBER\",\"createdAt\":\"2021-01-11T12:37:01Z\",\"updatedAt\":\"2021-01-11T12:37:01Z\",\"url\":\"https://github.com/executablebooks/github-activity/pull/40#issuecomment-757924981\",\"author\":{\"login\":\"choldgraf\",\"__typename\":\"User\"}}}]},\"commits\":{\"edges\":[{\"node\":{\"commit\":{\"committer\":{\"user\":{\"login\":\"consideRatio\",\"__typename\":\"User\"}},\"authors\":{\"edges\":[{\"node\":{\"user\":{\"login\":\"consideRatio\",\"__typename\":\"User\"}}}]}}}}]},\"reviews\":{\"edges\":[]}}]}}}"
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:27:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 438C:1A1CE5:D80D47:2CAFCDD:6AA9B857
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '2334'
+      X-RateLimit-Reset:
+      - '1789510879'
+      X-RateLimit-Resource:
+      - graphql
+      X-RateLimit-Used:
+      - '2666'
+      X-XSS-Protection:
+      - '0'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "{\n  search(first: 50, query: \"repo:executablebooks/github-activity
+      type:issue closed:2021-01-01T00:00:00Z..2021-01-15T00:00:00Z\", type: ISSUE)
+      {\n    issueCount\n    pageInfo {\n        endCursor\n        hasNextPage\n    }\n    nodes
+      {\n      ... on PullRequest {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n        mergedBy {\n          login\n          __typename\n        }\n        mergeCommit
+      {\n          oid\n        }\n        baseRefName\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n                commits(first:
+      100) {\n          edges {\n            node {\n              commit {\n                committer
+      {\n                  user {\n                    login\n                    __typename\n                  }\n                }\n                authors(first:
+      10) {\n                  edges {\n                    node {\n                      user
+      {\n                        login\n                        __typename\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n\n                reviews(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n      ...
+      on Issue {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n    }\n  }\n}\n"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2840'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"search":{"issueCount":0,"pageInfo":{"endCursor":null,"hasNextPage":false},"nodes":[]}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:27:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - C225:1D9C88:D3FA19:2BFD816:6AA9B857
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '2282'
+      X-RateLimit-Reset:
+      - '1789510879'
+      X-RateLimit-Resource:
+      - graphql
+      X-RateLimit-Used:
+      - '2718'
+      X-XSS-Protection:
+      - '0'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "{\n  search(first: 50, query: \"repo:executablebooks/github-activity
+      type:pr closed:2021-01-01T00:00:00Z..2021-01-15T00:00:00Z\", type: ISSUE) {\n    issueCount\n    pageInfo
+      {\n        endCursor\n        hasNextPage\n    }\n    nodes {\n      ... on
+      PullRequest {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n        mergedBy {\n          login\n          __typename\n        }\n        mergeCommit
+      {\n          oid\n        }\n        baseRefName\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n                commits(first:
+      100) {\n          edges {\n            node {\n              commit {\n                committer
+      {\n                  user {\n                    login\n                    __typename\n                  }\n                }\n                authors(first:
+      10) {\n                  edges {\n                    node {\n                      user
+      {\n                        login\n                        __typename\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n\n                reviews(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n      ...
+      on Issue {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n    }\n  }\n}\n"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2837'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: "{\"data\":{\"search\":{\"issueCount\":1,\"pageInfo\":{\"endCursor\":\"Y3Vyc29yOjE=\",\"hasNextPage\":false},\"nodes\":[{\"state\":\"MERGED\",\"id\":\"MDExOlB1bGxSZXF1ZXN0NTUyMzI3NDk5\",\"title\":\"\U0001F41B
+        FIX: tags like 'doctor' would trigger 'doc' tag\",\"url\":\"https://github.com/executablebooks/github-activity/pull/40\",\"createdAt\":\"2021-01-10T18:34:58Z\",\"updatedAt\":\"2021-01-11T12:37:01Z\",\"closedAt\":\"2021-01-11T12:36:49Z\",\"labels\":{\"edges\":[]},\"number\":40,\"authorAssociation\":\"COLLABORATOR\",\"author\":{\"login\":\"consideRatio\",\"__typename\":\"User\"},\"reactions\":{\"totalCount\":0},\"mergedBy\":{\"login\":\"choldgraf\",\"__typename\":\"User\"},\"mergeCommit\":{\"oid\":\"c740a454def057304556675ce7694dc0f2eb6c88\"},\"baseRefName\":\"master\",\"comments\":{\"edges\":[{\"node\":{\"authorAssociation\":\"MEMBER\",\"createdAt\":\"2021-01-11T12:37:01Z\",\"updatedAt\":\"2021-01-11T12:37:01Z\",\"url\":\"https://github.com/executablebooks/github-activity/pull/40#issuecomment-757924981\",\"author\":{\"login\":\"choldgraf\",\"__typename\":\"User\"}}}]},\"commits\":{\"edges\":[{\"node\":{\"commit\":{\"committer\":{\"user\":{\"login\":\"consideRatio\",\"__typename\":\"User\"}},\"authors\":{\"edges\":[{\"node\":{\"user\":{\"login\":\"consideRatio\",\"__typename\":\"User\"}}}]}}}}]},\"reviews\":{\"edges\":[]}}]}}}"
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:27:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - E357:22D75A:DB2D22:2D5D9B7:6AA9B858
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '2230'
+      X-RateLimit-Reset:
+      - '1789510879'
+      X-RateLimit-Resource:
+      - graphql
+      X-RateLimit-Used:
+      - '2770'
+      X-XSS-Protection:
+      - '0'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+version: 1

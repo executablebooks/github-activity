@@ -171,12 +171,12 @@ def load_config_and_defaults(args):
             setattr(args, argname, config.get(configname, ARG_DEFAULTS.get(configname)))
 
 
-def main():
+def main(argv=None):
     if not _git_installed_check():
         print("git is required to run github-activity", file=sys.stderr)
         sys.exit(1)
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.target and args._target:
         raise ValueError(
             "target cannot be passed as both a positional and keyword argument"

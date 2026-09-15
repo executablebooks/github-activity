@@ -322,6 +322,11 @@ class GitHubGraphQlQuery:
         self.data = pd.DataFrame(self.issues_and_or_prs)
         self.data.attrs["bot_users"] = bot_users
 
+        # Issues don't have the PR only fields, so make sure the columns always exist
+        for column in ["mergedBy", "mergeCommit", "baseRefName", "reviews", "commits"]:
+            if column not in self.data:
+                self.data[column] = None
+
         # Add some extra fields
         def get_login(user):
             return user["login"] if pd.notna(user) else user
