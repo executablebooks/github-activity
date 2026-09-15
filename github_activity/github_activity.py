@@ -212,25 +212,29 @@ def get_activity(
     since_dt_str = f"{since_dt:%Y-%m-%dT%H:%M:%SZ}"
     until_dt_str = f"{until_dt:%Y-%m-%dT%H:%M:%SZ}"
 
+    # GitHub App requests using user access tokens return no nodes for mixed
+    # issue/PR searches, so we search for each kind separately.
+    kinds = ["issue", "pr"]
     if kind:
-        allowed_kinds = ["issue", "pr"]
-        if kind not in allowed_kinds:
-            raise ValueError(f"Kind must be one of {allowed_kinds}, got {kind}")
-        search_query += f" type:{kind}"
+        if kind not in kinds:
+            raise ValueError(f"Kind must be one of {kinds}, got {kind}")
+        kinds = [kind]
 
     # Query for both opened and closed issues/PRs in this window
     print(f"Running search query:\n{search_query}\n\n", file=sys.stderr)
     query_data = []
     all_bot_users = set()
     for activity_type in ["created", "closed"]:
-        ii_search_query = (
-            search_query + f" {activity_type}:{since_dt_str}..{until_dt_str}"
-        )
-        qu = GitHubGraphQlQuery(ii_search_query, auth=auth)
-        qu.request()
-        query_data.append(qu.data)
-        # Collect bot users from each query
-        all_bot_users.update(qu.data.attrs.get("bot_users", set()))
+        for ii_kind in kinds:
+            ii_search_query = (
+                search_query
+                + f" type:{ii_kind} {activity_type}:{since_dt_str}..{until_dt_str}"
+            )
+            qu = GitHubGraphQlQuery(ii_search_query, auth=auth)
+            qu.request()
+            query_data.append(qu.data)
+            # Collect bot users from each query
+            all_bot_users.update(qu.data.attrs.get("bot_users", set()))
 
     query_data = (
         pd.concat(query_data).drop_duplicates(subset=["id"]).reset_index(drop=True)

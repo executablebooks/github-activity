@@ -1,0 +1,689 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+    method: HEAD
+    uri: https://api.github.com/repos/executablebooks/github-activity
+  response:
+    body:
+      string: ''
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:28:02 GMT
+      ETag:
+      - W/"a3d17a6aecba37ebbcb1fc08712cc37d8db7039f6311f9374639af62bf04dcf3"
+      Last-Modified:
+      - Tue, 15 Sep 2026 21:15:16 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - ECDE:3694C9:2AEBAD:8E8D08:6AA9B862
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4955'
+      X-RateLimit-Reset:
+      - '1789510186'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '45'
+      X-XSS-Protection:
+      - '0'
+      content-length:
+      - '0'
+      x-accepted-github-permissions:
+      - metadata=read
+      x-github-api-version-selected:
+      - '2022-11-28'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+    method: GET
+    uri: https://api.github.com/repos/executablebooks/github-activity/commits/v1.0.2
+  response:
+    body:
+      string: '{"sha":"333712d1e6f70e1d79a8b7a51884fb301522c64d","node_id":"C_kwDODJbnsNoAKDMzMzcxMmQxZTZmNzBlMWQ3OWE4YjdhNTE4ODRmYjMwMTUyMmM2NGQ","commit":{"author":{"name":"Erik
+        Sundell","email":"erik.i.sundell@gmail.com","date":"2025-04-11T22:23:28Z"},"committer":{"name":"GitHub","email":"noreply@github.com","date":"2025-04-11T22:23:28Z"},"message":"Merge
+        pull request #117 from consideRatio/pr/cl102\n\nAdd changelog for v1.0.2","tree":{"sha":"fe306160c6e93a6cb778a2fdf68c7508f8dd3375","url":"https://api.github.com/repos/executablebooks/github-activity/git/trees/fe306160c6e93a6cb778a2fdf68c7508f8dd3375"},"url":"https://api.github.com/repos/executablebooks/github-activity/git/commits/333712d1e6f70e1d79a8b7a51884fb301522c64d","comment_count":0,"verification":{"verified":true,"reason":"valid","signature":"-----BEGIN
+        PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJn+ZZgCRC1aQ7uu5UhlAAA5ucQAFdf9w0Nj+SCXLcBvzQjitNN\nGzoQwT/SHcsFjx7+TFy20WQz5eLDmnKHT8H41IV7+c588U4w8OhOXhJKMuA1dnfP\ndPfswo9X1dQWjk2cnFf053U71kwTxbGZAXQBW3Ct3pcE1bG1GGCigJHnsKVLNB05\nQp4QkTIZ6X7bJ92nra4Ju2UVvTaAnyZIvmVcULhkKT6voTCEU5qA2eo9115JDXLM\nGOG/X+U+MwDLthyKicIAqrk+CjquYsjBrXuvdPMrxoHHu1HMAofyVXFe3GzMU8Vw\nRl/p+GvMeHswvie0wGfy44FMfag1/f3VNP3jZpwaV8s4W4XeMWG9SNRr1m/kGgrB\n3lVl4lz3dDTY+uuK0/WoYUuwBPWQpujIeXiVFYO1wLDKvHDYO26ZB/Lq+WECXVVO\nDq7Lpv+wV1namq+kAno5qAtgr5ba7zvgyhiqPC2c1/2TIcy6kJnEeQmiFwWghmkE\nZ1B7VoQiCU1ebCAgQFfL2fX5WgIAe8PGCAsg873pHFHGu16xF2Mo8mUC00b6ojZ0\nifizhAHZkHSwdl3xt7pInQielMy64UDEn7Y3k6imHJqX6R6ZZqdvFSzUZPHRCeUh\nXzrEf/OBBJbHtcOJzvCGqNGTcekFnbDgBPp9OYlQlWeGAG4HsAf7nJS8xVOJ6BX1\nlKSoOnoY1TsHIxWr6ZKA\n=sU4t\n-----END
+        PGP SIGNATURE-----\n","payload":"tree fe306160c6e93a6cb778a2fdf68c7508f8dd3375\nparent
+        37cd1da9cbf045bec91adb2ce256e6d728b16468\nparent 3f3827f5892931f7b4b8facc2a8fabad21c6ac40\nauthor
+        Erik Sundell <erik.i.sundell@gmail.com> 1744410208 +0200\ncommitter GitHub
+        <noreply@github.com> 1744410208 +0200\n\nMerge pull request #117 from consideRatio/pr/cl102\n\nAdd
+        changelog for v1.0.2","verified_at":"2025-04-11T22:24:03Z"}},"url":"https://api.github.com/repos/executablebooks/github-activity/commits/333712d1e6f70e1d79a8b7a51884fb301522c64d","html_url":"https://github.com/executablebooks/github-activity/commit/333712d1e6f70e1d79a8b7a51884fb301522c64d","comments_url":"https://api.github.com/repos/executablebooks/github-activity/commits/333712d1e6f70e1d79a8b7a51884fb301522c64d/comments","author":{"login":"consideRatio","id":3837114,"node_id":"MDQ6VXNlcjM4MzcxMTQ=","avatar_url":"https://avatars.githubusercontent.com/u/3837114?v=4","gravatar_id":"","url":"https://api.github.com/users/consideRatio","html_url":"https://github.com/consideRatio","followers_url":"https://api.github.com/users/consideRatio/followers","following_url":"https://api.github.com/users/consideRatio/following{/other_user}","gists_url":"https://api.github.com/users/consideRatio/gists{/gist_id}","starred_url":"https://api.github.com/users/consideRatio/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/consideRatio/subscriptions","organizations_url":"https://api.github.com/users/consideRatio/orgs","repos_url":"https://api.github.com/users/consideRatio/repos","events_url":"https://api.github.com/users/consideRatio/events{/privacy}","received_events_url":"https://api.github.com/users/consideRatio/received_events","type":"User","user_view_type":"public","site_admin":false},"committer":{"login":"web-flow","id":19864447,"node_id":"MDQ6VXNlcjE5ODY0NDQ3","avatar_url":"https://avatars.githubusercontent.com/u/19864447?v=4","gravatar_id":"","url":"https://api.github.com/users/web-flow","html_url":"https://github.com/web-flow","followers_url":"https://api.github.com/users/web-flow/followers","following_url":"https://api.github.com/users/web-flow/following{/other_user}","gists_url":"https://api.github.com/users/web-flow/gists{/gist_id}","starred_url":"https://api.github.com/users/web-flow/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/web-flow/subscriptions","organizations_url":"https://api.github.com/users/web-flow/orgs","repos_url":"https://api.github.com/users/web-flow/repos","events_url":"https://api.github.com/users/web-flow/events{/privacy}","received_events_url":"https://api.github.com/users/web-flow/received_events","type":"User","user_view_type":"public","site_admin":false},"parents":[{"sha":"37cd1da9cbf045bec91adb2ce256e6d728b16468","url":"https://api.github.com/repos/executablebooks/github-activity/commits/37cd1da9cbf045bec91adb2ce256e6d728b16468","html_url":"https://github.com/executablebooks/github-activity/commit/37cd1da9cbf045bec91adb2ce256e6d728b16468"},{"sha":"3f3827f5892931f7b4b8facc2a8fabad21c6ac40","url":"https://api.github.com/repos/executablebooks/github-activity/commits/3f3827f5892931f7b4b8facc2a8fabad21c6ac40","html_url":"https://github.com/executablebooks/github-activity/commit/3f3827f5892931f7b4b8facc2a8fabad21c6ac40"}],"stats":{"total":8,"additions":7,"deletions":1},"files":[{"sha":"0461e78258cb68ed02947ec4da4b88848040ee9d","filename":"CHANGELOG.md","status":"modified","additions":7,"deletions":1,"changes":8,"blob_url":"https://github.com/executablebooks/github-activity/blob/333712d1e6f70e1d79a8b7a51884fb301522c64d/CHANGELOG.md","raw_url":"https://github.com/executablebooks/github-activity/raw/333712d1e6f70e1d79a8b7a51884fb301522c64d/CHANGELOG.md","contents_url":"https://api.github.com/repos/executablebooks/github-activity/contents/CHANGELOG.md?ref=333712d1e6f70e1d79a8b7a51884fb301522c64d","patch":"@@
+        -1,8 +1,14 @@\n # Changelog\n \n+## v1.0.2 - 2025-04-12\n+\n+### Continuous
+        integration improvements\n+\n+- Fix another issue in the publish workflow
+        [#116](https://github.com/executablebooks/github-activity/pull/116) ([@consideRatio](https://github.com/consideRatio))\n+\n
+        ## v1.0.1 - 2025-04-11\n \n-### Maintenance and upkeep improvements\n+###
+        Continuous integration improvements\n \n - Fix publish workflow failure [#114](https://github.com/executablebooks/github-activity/pull/114)
+        ([@consideRatio](https://github.com/consideRatio))\n "}]}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:28:03 GMT
+      ETag:
+      - W/"4981c233c08c24be62c967f8a020932dbbf595172c14e2b85538c9551f451356"
+      Last-Modified:
+      - Fri, 11 Apr 2025 22:23:28 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - 3740:19F0BD:1426ACD:4266776:6AA9B863
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4871'
+      X-RateLimit-Reset:
+      - '1789510078'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '129'
+      X-XSS-Protection:
+      - '0'
+      content-length:
+      - '6031'
+      x-accepted-github-permissions:
+      - contents=read
+      x-github-api-version-selected:
+      - '2022-11-28'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+    method: GET
+    uri: https://api.github.com/repos/executablebooks/github-activity/commits/v1.1.0
+  response:
+    body:
+      string: '{"sha":"f034c969420430c63c00d9358d540728d2406e22","node_id":"C_kwDODJbnsNoAKGYwMzRjOTY5NDIwNDMwYzYzYzAwZDkzNThkNTQwNzI4ZDI0MDZlMjI","commit":{"author":{"name":"choldgraf","email":"choldgraf@gmail.com","date":"2025-12-09T16:50:50Z"},"committer":{"name":"choldgraf","email":"choldgraf@gmail.com","date":"2025-12-09T16:50:50Z"},"message":"Bump
+        to 1.1.0","tree":{"sha":"ef996b4d598a24e2d65e448df15a268710ed0a47","url":"https://api.github.com/repos/executablebooks/github-activity/git/trees/ef996b4d598a24e2d65e448df15a268710ed0a47"},"url":"https://api.github.com/repos/executablebooks/github-activity/git/commits/f034c969420430c63c00d9358d540728d2406e22","comment_count":0,"verification":{"verified":false,"reason":"unsigned","signature":null,"payload":null,"verified_at":null}},"url":"https://api.github.com/repos/executablebooks/github-activity/commits/f034c969420430c63c00d9358d540728d2406e22","html_url":"https://github.com/executablebooks/github-activity/commit/f034c969420430c63c00d9358d540728d2406e22","comments_url":"https://api.github.com/repos/executablebooks/github-activity/commits/f034c969420430c63c00d9358d540728d2406e22/comments","author":{"login":"choldgraf","id":1839645,"node_id":"MDQ6VXNlcjE4Mzk2NDU=","avatar_url":"https://avatars.githubusercontent.com/u/1839645?v=4","gravatar_id":"","url":"https://api.github.com/users/choldgraf","html_url":"https://github.com/choldgraf","followers_url":"https://api.github.com/users/choldgraf/followers","following_url":"https://api.github.com/users/choldgraf/following{/other_user}","gists_url":"https://api.github.com/users/choldgraf/gists{/gist_id}","starred_url":"https://api.github.com/users/choldgraf/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/choldgraf/subscriptions","organizations_url":"https://api.github.com/users/choldgraf/orgs","repos_url":"https://api.github.com/users/choldgraf/repos","events_url":"https://api.github.com/users/choldgraf/events{/privacy}","received_events_url":"https://api.github.com/users/choldgraf/received_events","type":"User","user_view_type":"public","site_admin":false},"committer":{"login":"choldgraf","id":1839645,"node_id":"MDQ6VXNlcjE4Mzk2NDU=","avatar_url":"https://avatars.githubusercontent.com/u/1839645?v=4","gravatar_id":"","url":"https://api.github.com/users/choldgraf","html_url":"https://github.com/choldgraf","followers_url":"https://api.github.com/users/choldgraf/followers","following_url":"https://api.github.com/users/choldgraf/following{/other_user}","gists_url":"https://api.github.com/users/choldgraf/gists{/gist_id}","starred_url":"https://api.github.com/users/choldgraf/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/choldgraf/subscriptions","organizations_url":"https://api.github.com/users/choldgraf/orgs","repos_url":"https://api.github.com/users/choldgraf/repos","events_url":"https://api.github.com/users/choldgraf/events{/privacy}","received_events_url":"https://api.github.com/users/choldgraf/received_events","type":"User","user_view_type":"public","site_admin":false},"parents":[{"sha":"c607ec8d102816349a68204840a7c3165a71de24","url":"https://api.github.com/repos/executablebooks/github-activity/commits/c607ec8d102816349a68204840a7c3165a71de24","html_url":"https://github.com/executablebooks/github-activity/commit/c607ec8d102816349a68204840a7c3165a71de24"}],"stats":{"total":6,"additions":3,"deletions":3},"files":[{"sha":"e914d18c7b21e9225322cf4cd70e02f4a7493a51","filename":"github_activity/__init__.py","status":"modified","additions":1,"deletions":1,"changes":2,"blob_url":"https://github.com/executablebooks/github-activity/blob/f034c969420430c63c00d9358d540728d2406e22/github_activity%2F__init__.py","raw_url":"https://github.com/executablebooks/github-activity/raw/f034c969420430c63c00d9358d540728d2406e22/github_activity%2F__init__.py","contents_url":"https://api.github.com/repos/executablebooks/github-activity/contents/github_activity%2F__init__.py?ref=f034c969420430c63c00d9358d540728d2406e22","patch":"@@
+        -1,4 +1,4 @@\n-__version__ = \"1.0.3\"\n+__version__ = \"1.1.0\"\n __all__
+        = [\"get_activity\", \"generate_activity_md\"]\n \n from .github_activity
+        import get_activity, generate_activity_md"},{"sha":"6c2cb84d876e0852784b7f3c4b72d2a643173d05","filename":"pyproject.toml","status":"modified","additions":2,"deletions":2,"changes":4,"blob_url":"https://github.com/executablebooks/github-activity/blob/f034c969420430c63c00d9358d540728d2406e22/pyproject.toml","raw_url":"https://github.com/executablebooks/github-activity/raw/f034c969420430c63c00d9358d540728d2406e22/pyproject.toml","contents_url":"https://api.github.com/repos/executablebooks/github-activity/contents/pyproject.toml?ref=f034c969420430c63c00d9358d540728d2406e22","patch":"@@
+        -6,7 +6,7 @@ build-backend = \"setuptools.build_meta\"\n name = \"github_activity\"\n
+        description = \"Grab recent issue/PR activity from a GitHub repository and
+        render it as markdown.\"\n # update verison with `tbump NEW_VERSION`\n-version
+        = \"1.0.3\"\n+version = \"1.1.0\"\n dynamic = [\"readme\", \"dependencies\"]\n
+        requires-python = \">=3.9\"\n keywords = [\"Development\", \"Changelog\"]\n@@
+        -57,7 +57,7 @@ fallback_version = \"0.0.0\"\n github_url = \"https://github.com/executablebooks/github-activity\"\n
+        \n [tool.tbump.version]\n-current = \"1.0.3\"\n+current = \"1.1.0\"\n \n regex
+        = ''''''\n   (?P<major>\\d+)"}]}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:28:04 GMT
+      ETag:
+      - W/"10dc13897da26de88f92239d35e8d02438088ef89d94a40759a753f40023ff13"
+      Last-Modified:
+      - Tue, 09 Dec 2025 16:50:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - 7A77:29CC8E:D5C6F3:2C5E0C3:6AA9B863
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4870'
+      X-RateLimit-Reset:
+      - '1789510078'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '130'
+      X-XSS-Protection:
+      - '0'
+      content-length:
+      - '5362'
+      x-accepted-github-permissions:
+      - contents=read
+      x-github-api-version-selected:
+      - '2022-11-28'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "{\n  search(first: 50, query: \"repo:executablebooks/github-activity
+      type:issue created:2025-04-11T22:23:28Z..2025-12-09T16:50:50Z\", type: ISSUE)
+      {\n    issueCount\n    pageInfo {\n        endCursor\n        hasNextPage\n    }\n    nodes
+      {\n      ... on PullRequest {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n        mergedBy {\n          login\n          __typename\n        }\n        mergeCommit
+      {\n          oid\n        }\n        baseRefName\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n                commits(first:
+      100) {\n          edges {\n            node {\n              commit {\n                committer
+      {\n                  user {\n                    login\n                    __typename\n                  }\n                }\n                authors(first:
+      10) {\n                  edges {\n                    node {\n                      user
+      {\n                        login\n                        __typename\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n\n                reviews(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n      ...
+      on Issue {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n    }\n  }\n}\n"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2841'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"search":{"issueCount":9,"pageInfo":{"endCursor":"Y3Vyc29yOjk=","hasNextPage":false},"nodes":[{"state":"CLOSED","id":"I_kwDODJbnsM7dPNiy","title":"Chris
+        is making a release even though tests are failing because they pass locally","url":"https://github.com/executablebooks/github-activity/issues/148","createdAt":"2025-12-09T16:41:56Z","updatedAt":"2025-12-09T17:01:09Z","closedAt":"2025-12-09T16:43:43Z","labels":{"edges":[]},"number":148,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-09T16:43:37Z","updatedAt":"2025-12-09T16:43:37Z","url":"https://github.com/executablebooks/github-activity/issues/148#issuecomment-3633217170","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"CONTRIBUTOR","createdAt":"2025-12-09T17:01:09Z","updatedAt":"2025-12-09T17:01:09Z","url":"https://github.com/executablebooks/github-activity/issues/148#issuecomment-3633300130","author":{"login":"jtpio","__typename":"User"}}}]}},{"state":"CLOSED","id":"I_kwDODJbnsM7cB2vs","title":"Use
+        GraphQL API to differentiate bot vs. human PR authors instead of hard-coding
+        names","url":"https://github.com/executablebooks/github-activity/issues/145","createdAt":"2025-12-03T18:49:51Z","updatedAt":"2025-12-04T02:03:46Z","closedAt":"2025-12-04T02:03:46Z","labels":{"edges":[]},"number":145,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-12-03T19:54:03Z","updatedAt":"2025-12-03T19:54:03Z","url":"https://github.com/executablebooks/github-activity/issues/145#issuecomment-3608586930","author":{"login":"stefanv","__typename":"User"}}}]}},{"state":"OPEN","id":"I_kwDODJbnsM7ZyAM_","title":"Feature
+        request: Include stats for new contributors in generated changelog","url":"https://github.com/executablebooks/github-activity/issues/142","createdAt":"2025-11-22T03:24:23Z","updatedAt":"2025-11-22T03:24:23Z","closedAt":null,"labels":{"edges":[{"node":{"name":"enhancement"}}]},"number":142,"authorAssociation":"NONE","author":{"login":"RRosio","__typename":"User"},"reactions":{"totalCount":3},"comments":{"edges":[]}},{"state":"CLOSED","id":"I_kwDODJbnsM7KbutX","title":"BUG:
+        List of contributors is incorrect","url":"https://github.com/executablebooks/github-activity/issues/131","createdAt":"2025-09-09T02:00:12Z","updatedAt":"2026-01-20T18:28:53Z","closedAt":"2026-01-20T18:28:53Z","labels":{"edges":[{"node":{"name":"bug"}}]},"number":131,"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-09-25T17:37:00Z","updatedAt":"2025-09-25T17:37:00Z","url":"https://github.com/executablebooks/github-activity/issues/131#issuecomment-3335208041","author":{"login":"minrk","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-09-25T17:39:30Z","updatedAt":"2025-09-25T17:39:30Z","url":"https://github.com/executablebooks/github-activity/issues/131#issuecomment-3335215627","author":{"login":"minrk","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-25T17:47:15Z","updatedAt":"2025-09-25T17:47:15Z","url":"https://github.com/executablebooks/github-activity/issues/131#issuecomment-3335238754","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2026-01-20T18:28:53Z","updatedAt":"2026-01-20T18:28:53Z","url":"https://github.com/executablebooks/github-activity/issues/131#issuecomment-3774346251","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"OPEN","id":"I_kwDODJbnsM7B-MbZ","title":"Create
+        a re-usable GitHub Workflow to publish releases attached to a tag using this
+        tool","url":"https://github.com/executablebooks/github-activity/issues/129","createdAt":"2025-07-22T23:01:54Z","updatedAt":"2025-07-22T23:01:54Z","closedAt":null,"labels":{"edges":[]},"number":129,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":1},"comments":{"edges":[]}},{"state":"CLOSED","id":"I_kwDODJbnsM66Y8Oc","title":"Add
+        a \"reviewed by\" to each item in the changelog report, listing each reviewer
+        of a merged PR","url":"https://github.com/executablebooks/github-activity/issues/126","createdAt":"2025-06-07T14:44:19Z","updatedAt":"2025-06-09T16:19:27Z","closedAt":"2025-06-09T16:19:27Z","labels":{"edges":[{"node":{"name":"documentation"}}]},"number":126,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"CONTRIBUTOR","createdAt":"2025-06-07T14:52:58Z","updatedAt":"2025-06-07T14:52:58Z","url":"https://github.com/executablebooks/github-activity/issues/126#issuecomment-2952599145","author":{"login":"manics","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-06-07T15:12:09Z","updatedAt":"2025-06-07T15:12:09Z","url":"https://github.com/executablebooks/github-activity/issues/126#issuecomment-2952637522","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-06-07T16:17:54Z","updatedAt":"2025-06-07T16:18:28Z","url":"https://github.com/executablebooks/github-activity/issues/126#issuecomment-2952722410","author":{"login":"choldgraf","__typename":"User"}}}]}},{"state":"CLOSED","id":"I_kwDODJbnsM63ShIM","title":"Detect
+        the date of the latest github release rather than the last tag","url":"https://github.com/executablebooks/github-activity/issues/124","createdAt":"2025-05-19T21:41:33Z","updatedAt":"2025-06-07T15:58:10Z","closedAt":"2025-06-07T15:58:10Z","labels":{"edges":[{"node":{"name":"enhancement"}}]},"number":124,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[]}},{"state":"OPEN","id":"I_kwDODJbnsM62d6qW","title":"Find
+        a new home for this repository","url":"https://github.com/executablebooks/github-activity/issues/123","createdAt":"2025-05-13T21:39:39Z","updatedAt":"2025-05-13T21:39:39Z","closedAt":null,"labels":{"edges":[]},"number":123,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":1},"comments":{"edges":[]}},{"state":"CLOSED","id":"I_kwDODJbnsM6yX_pA","title":"\"how
+        we define contributors\" link in output no longer resolves","url":"https://github.com/executablebooks/github-activity/issues/121","createdAt":"2025-04-14T10:31:25Z","updatedAt":"2025-04-14T13:04:23Z","closedAt":"2025-04-14T13:04:21Z","labels":{"edges":[{"node":{"name":"bug"}}]},"number":121,"authorAssociation":"COLLABORATOR","author":{"login":"minrk","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-04-14T11:53:19Z","updatedAt":"2025-04-14T11:53:19Z","url":"https://github.com/executablebooks/github-activity/issues/121#issuecomment-2801459164","author":{"login":"consideRatio","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-04-14T12:49:53Z","updatedAt":"2025-04-14T12:49:53Z","url":"https://github.com/executablebooks/github-activity/issues/121#issuecomment-2801607887","author":{"login":"minrk","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-04-14T13:04:21Z","updatedAt":"2025-04-14T13:04:21Z","url":"https://github.com/executablebooks/github-activity/issues/121#issuecomment-2801648616","author":{"login":"consideRatio","__typename":"User"}}}]}}]}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:28:04 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 93EC:201AE0:DA0333:2D220C5:6AA9B864
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '1762'
+      X-RateLimit-Reset:
+      - '1789510879'
+      X-RateLimit-Resource:
+      - graphql
+      X-RateLimit-Used:
+      - '3238'
+      X-XSS-Protection:
+      - '0'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "{\n  search(first: 50, query: \"repo:executablebooks/github-activity
+      type:pr created:2025-04-11T22:23:28Z..2025-12-09T16:50:50Z\", type: ISSUE) {\n    issueCount\n    pageInfo
+      {\n        endCursor\n        hasNextPage\n    }\n    nodes {\n      ... on
+      PullRequest {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n        mergedBy {\n          login\n          __typename\n        }\n        mergeCommit
+      {\n          oid\n        }\n        baseRefName\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n                commits(first:
+      100) {\n          edges {\n            node {\n              commit {\n                committer
+      {\n                  user {\n                    login\n                    __typename\n                  }\n                }\n                authors(first:
+      10) {\n                  edges {\n                    node {\n                      user
+      {\n                        login\n                        __typename\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n\n                reviews(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n      ...
+      on Issue {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n    }\n  }\n}\n"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2838'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"search":{"issueCount":23,"pageInfo":{"endCursor":"Y3Vyc29yOjIz","hasNextPage":false},"nodes":[{"state":"MERGED","id":"PR_kwDODJbnsM639glW","title":"RLS:
+        v1.1.0","url":"https://github.com/executablebooks/github-activity/pull/149","createdAt":"2025-12-09T16:43:03Z","updatedAt":"2025-12-09T16:43:42Z","closedAt":"2025-12-09T16:43:42Z","labels":{"edges":[]},"number":149,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"3058c1286a037645e988492779f8ac5f5cfb4632"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM63A9n3","title":"Add
+        `pytz` to requirements","url":"https://github.com/executablebooks/github-activity/pull/147","createdAt":"2025-12-04T09:27:46Z","updatedAt":"2025-12-04T16:37:14Z","closedAt":"2025-12-04T16:33:42Z","labels":{"edges":[{"node":{"name":"bug"}}]},"number":147,"authorAssociation":"CONTRIBUTOR","author":{"login":"jtpio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"3ffc68f920474d500c7150bde975e86c591a3184"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"CONTRIBUTOR","createdAt":"2025-12-04T09:43:08Z","updatedAt":"2025-12-04T09:43:08Z","url":"https://github.com/executablebooks/github-activity/pull/147#issuecomment-3611138982","author":{"login":"jtpio","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-04T16:37:14Z","updatedAt":"2025-12-04T16:37:14Z","url":"https://github.com/executablebooks/github-activity/pull/147#issuecomment-3613138180","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"jtpio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"nabobalis","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM626xrM","title":"Use
+        GraphQL API for bot detection","url":"https://github.com/executablebooks/github-activity/pull/146","createdAt":"2025-12-03T20:41:25Z","updatedAt":"2025-12-04T02:03:50Z","closedAt":"2025-12-04T02:03:45Z","labels":{"edges":[]},"number":146,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"stefanv","__typename":"User"},"mergeCommit":{"oid":"7e3a545345a2703bf79a90f7c7b90eb0e3611046"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-03T20:44:16Z","updatedAt":"2025-12-03T20:44:16Z","url":"https://github.com/executablebooks/github-activity/pull/146#issuecomment-3608767494","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-03T22:39:00Z","updatedAt":"2025-12-03T22:39:00Z","url":"https://github.com/executablebooks/github-activity/pull/146#issuecomment-3609145696","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-12-04T02:03:50Z","updatedAt":"2025-12-04T02:03:50Z","url":"https://github.com/executablebooks/github-activity/pull/146#issuecomment-3609643972","author":{"login":"stefanv","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM62bGEx","title":"Update
+        test suite to use fewer GitHub API calls","url":"https://github.com/executablebooks/github-activity/pull/144","createdAt":"2025-12-01T19:06:38Z","updatedAt":"2025-12-03T19:13:22Z","closedAt":"2025-12-03T19:13:22Z","labels":{"edges":[]},"number":144,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"89a921b5a21618841666799318349ec863b81448"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-12-01T19:40:16Z","updatedAt":"2025-12-01T19:40:16Z","url":"https://github.com/executablebooks/github-activity/pull/144#issuecomment-3598536455","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-01T22:24:33Z","updatedAt":"2025-12-01T22:24:33Z","url":"https://github.com/executablebooks/github-activity/pull/144#issuecomment-3599221851","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-03T19:13:17Z","updatedAt":"2025-12-03T19:13:17Z","url":"https://github.com/executablebooks/github-activity/pull/144#issuecomment-3608420986","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM62QfzK","title":"Bump
+        actions/checkout from 5 to 6 in the actions group","url":"https://github.com/executablebooks/github-activity/pull/143","createdAt":"2025-12-01T05:42:08Z","updatedAt":"2025-12-01T14:39:18Z","closedAt":"2025-12-01T14:39:10Z","labels":{"edges":[{"node":{"name":"dependencies"}},{"node":{"name":"github_actions"}}]},"number":143,"authorAssociation":"CONTRIBUTOR","author":{"login":"dependabot","__typename":"Bot"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"40f0335911f61937a02d5a16f828d2e7d631b626"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-01T14:39:05Z","updatedAt":"2025-12-01T14:39:05Z","url":"https://github.com/executablebooks/github-activity/pull/143#issuecomment-3596895834","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"dependabot[bot]","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6relOk","title":"MAINT:
+        group the dependabot updates into one PR","url":"https://github.com/executablebooks/github-activity/pull/141","createdAt":"2025-10-01T05:25:01Z","updatedAt":"2025-12-01T14:49:05Z","closedAt":"2025-10-01T05:29:29Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":141,"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"2a62fd546ace04fb69eee9901039710578448bc3"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-10-01T05:29:25Z","updatedAt":"2025-10-01T05:29:25Z","url":"https://github.com/executablebooks/github-activity/pull/141#issuecomment-3354807933","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"bsipocz","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rei2u","title":"Bump
+        actions/checkout from 4 to 5","url":"https://github.com/executablebooks/github-activity/pull/140","createdAt":"2025-10-01T05:21:21Z","updatedAt":"2025-10-01T05:22:39Z","closedAt":"2025-10-01T05:22:30Z","labels":{"edges":[{"node":{"name":"dependencies"}},{"node":{"name":"github_actions"}}]},"number":140,"authorAssociation":"CONTRIBUTOR","author":{"login":"dependabot","__typename":"Bot"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"dd34ec2e6733c348d408ee928c9cd9f74ee17229"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"dependabot[bot]","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6reiza","title":"Bump
+        actions/setup-python from 5 to 6","url":"https://github.com/executablebooks/github-activity/pull/139","createdAt":"2025-10-01T05:21:18Z","updatedAt":"2025-10-01T05:29:50Z","closedAt":"2025-10-01T05:29:43Z","labels":{"edges":[{"node":{"name":"dependencies"}},{"node":{"name":"github_actions"}}]},"number":139,"authorAssociation":"CONTRIBUTOR","author":{"login":"dependabot","__typename":"Bot"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"64f982651479ff98577f1774fadb5c9e6f4e0bfc"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"dependabot[bot]","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"bsipocz","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rbjSi","title":"Expose
+        GitHub API call error","url":"https://github.com/executablebooks/github-activity/pull/138","createdAt":"2025-09-30T22:04:03Z","updatedAt":"2025-12-01T19:40:00Z","closedAt":"2025-12-01T19:40:00Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":138,"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"cdb6572c4bc7db2c4adbfe3f8e2b019026c63fa6"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rZoKz","title":"Update
+        pre-commit to use Ruff; update versions and add a few rules","url":"https://github.com/executablebooks/github-activity/pull/137","createdAt":"2025-09-30T18:40:36Z","updatedAt":"2025-12-01T14:45:35Z","closedAt":"2025-12-01T14:45:35Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":137,"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"748c4c6ca95f10b405bd42c351c78f856d464fc0"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-01T14:45:29Z","updatedAt":"2025-12-01T14:45:29Z","url":"https://github.com/executablebooks/github-activity/pull/137#issuecomment-3596937495","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"CLOSED","id":"PR_kwDODJbnsM6rZdb7","title":"Use
+        CI token for testing","url":"https://github.com/executablebooks/github-activity/pull/136","createdAt":"2025-09-30T18:25:24Z","updatedAt":"2025-09-30T18:50:59Z","closedAt":"2025-09-30T18:50:59Z","labels":{"edges":[]},"number":136,"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":null,"mergeCommit":null,"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"CLOSED","id":"PR_kwDODJbnsM6rL8o4","title":"Add
+        a token to avoid rate limits on tests","url":"https://github.com/executablebooks/github-activity/pull/135","createdAt":"2025-09-29T20:53:49Z","updatedAt":"2025-12-01T14:49:04Z","closedAt":"2025-09-30T01:53:28Z","labels":{"edges":[]},"number":135,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":null,"mergeCommit":null,"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-29T21:54:24Z","updatedAt":"2025-09-29T21:54:24Z","url":"https://github.com/executablebooks/github-activity/pull/135#issuecomment-3349184848","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-30T01:53:26Z","updatedAt":"2025-09-30T01:53:26Z","url":"https://github.com/executablebooks/github-activity/pull/135#issuecomment-3349649974","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rLmPr","title":"Change
+        token to readonly PAT so we don''t hit rate limits","url":"https://github.com/executablebooks/github-activity/pull/134","createdAt":"2025-09-29T20:19:10Z","updatedAt":"2025-09-30T01:53:09Z","closedAt":"2025-09-30T01:53:09Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":134,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"65dd7bdea3f896d7912ebe280787b3a9a3492e81"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-29T21:17:54Z","updatedAt":"2025-09-29T21:17:54Z","url":"https://github.com/executablebooks/github-activity/pull/134#issuecomment-3349091645","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-30T01:53:05Z","updatedAt":"2025-09-30T01:53:05Z","url":"https://github.com/executablebooks/github-activity/pull/134#issuecomment-3349649490","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}},{"node":{"user":{"login":"bsipocz","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rJne9","title":"Fix
+        tests and move contributing docs into our docs","url":"https://github.com/executablebooks/github-activity/pull/133","createdAt":"2025-09-29T17:18:05Z","updatedAt":"2025-09-29T20:01:28Z","closedAt":"2025-09-29T20:01:28Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":133,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"199b098d66f2633758980d80f1bc2a1b8ec38939"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6qjl4m","title":"add
+        pyproject.toml","url":"https://github.com/executablebooks/github-activity/pull/132","createdAt":"2025-09-25T17:32:12Z","updatedAt":"2025-09-29T17:08:37Z","closedAt":"2025-09-29T17:08:37Z","labels":{"edges":[]},"number":132,"authorAssociation":"COLLABORATOR","author":{"login":"minrk","__typename":"User"},"reactions":{"totalCount":1},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"1b6a873860cee4b83d116f15af96b6ad008fb586"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-25T20:15:05Z","updatedAt":"2025-09-25T20:15:05Z","url":"https://github.com/executablebooks/github-activity/pull/132#issuecomment-3335788933","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"minrk","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"minrk","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6h58-F","title":"Ensure
+        PRs only show up once per changelog","url":"https://github.com/executablebooks/github-activity/pull/130","createdAt":"2025-08-03T21:36:21Z","updatedAt":"2025-09-08T20:46:15Z","closedAt":"2025-09-08T20:46:02Z","labels":{"edges":[{"node":{"name":"bug"}}]},"number":130,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"8dda65716c7e8aedad486b561f809c3c1ff9e1ee"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"nabobalis","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6gJcdX","title":"Allow
+        excluding certain usernames from changelog","url":"https://github.com/executablebooks/github-activity/pull/128","createdAt":"2025-07-22T21:14:30Z","updatedAt":"2025-09-30T18:20:50Z","closedAt":"2025-07-23T21:16:46Z","labels":{"edges":[{"node":{"name":"enhancement"}}]},"number":128,"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"stefanv","__typename":"User"},"mergeCommit":{"oid":"5b3f082f03ae01651f257c827180e10091d7bda3"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-07-22T22:19:55Z","updatedAt":"2025-07-22T22:19:55Z","url":"https://github.com/executablebooks/github-activity/pull/128#issuecomment-3104992297","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-07-22T22:59:35Z","updatedAt":"2025-07-22T22:59:35Z","url":"https://github.com/executablebooks/github-activity/pull/128#issuecomment-3105066617","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-07-22T23:27:02Z","updatedAt":"2025-07-22T23:27:02Z","url":"https://github.com/executablebooks/github-activity/pull/128#issuecomment-3105104819","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-08T18:14:31Z","updatedAt":"2025-09-08T18:14:31Z","url":"https://github.com/executablebooks/github-activity/pull/128#issuecomment-3267390258","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}},{"node":{"user":{"login":"bsipocz","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"nabobalis","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6ZhXmS","title":"[DOC]
+        Clarify some intended functionality in docs","url":"https://github.com/executablebooks/github-activity/pull/127","createdAt":"2025-06-07T15:57:26Z","updatedAt":"2025-06-10T10:51:53Z","closedAt":"2025-06-09T16:19:26Z","labels":{"edges":[]},"number":127,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"faa4f4e1e5de5ecbff2dc33fa7408bef1dd9fec6"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-06-09T13:46:08Z","updatedAt":"2025-06-09T13:46:08Z","url":"https://github.com/executablebooks/github-activity/pull/127#issuecomment-2955844867","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-06-09T16:19:44Z","updatedAt":"2025-06-09T16:19:44Z","url":"https://github.com/executablebooks/github-activity/pull/127#issuecomment-2956271998","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}},{"node":{"user":{"login":"manics","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}},{"node":{"user":{"login":"manics","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"CONTRIBUTOR","author":{"login":"manics","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"CONTRIBUTOR","author":{"login":"manics","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6WzJjH","title":"Use
+        latest github release first instead of github tag","url":"https://github.com/executablebooks/github-activity/pull/125","createdAt":"2025-05-19T23:54:00Z","updatedAt":"2025-09-09T01:03:02Z","closedAt":"2025-06-07T15:58:09Z","labels":{"edges":[]},"number":125,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"c6e278f53ddf1faafa8ddfa460698325ecbc5840"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"nabobalis","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6Sd1ey","title":"make
+        sure generated anchor links resolve","url":"https://github.com/executablebooks/github-activity/pull/122","createdAt":"2025-04-14T10:43:03Z","updatedAt":"2025-04-14T19:48:40Z","closedAt":"2025-04-14T11:46:28Z","labels":{"edges":[{"node":{"name":"documentation"}}]},"number":122,"authorAssociation":"COLLABORATOR","author":{"login":"minrk","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"a9d85f49e246f751c1699ea99c7ef9f9058c9874"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"minrk","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"minrk","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"minrk","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6SUpKy","title":"Add
+        changelog for v1.0.3","url":"https://github.com/executablebooks/github-activity/pull/120","createdAt":"2025-04-11T22:31:01Z","updatedAt":"2025-04-11T22:31:25Z","closedAt":"2025-04-11T22:31:25Z","labels":{"edges":[{"node":{"name":"documentation"}}]},"number":120,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"7992169618baa6cf63308a26e03fd20782c97509"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"consideRatio","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"consideRatio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6SUo5a","title":"ci:
+        fix github action tag in publish workflow","url":"https://github.com/executablebooks/github-activity/pull/119","createdAt":"2025-04-11T22:29:33Z","updatedAt":"2025-04-11T22:29:56Z","closedAt":"2025-04-11T22:29:55Z","labels":{"edges":[{"node":{"name":"ci"}}]},"number":119,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"9da313addfc470f213f2c71ecccc9ebcdd325444"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"consideRatio","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"consideRatio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6SUoyL","title":"ci:
+        fix location of dependabot.yaml","url":"https://github.com/executablebooks/github-activity/pull/118","createdAt":"2025-04-11T22:28:56Z","updatedAt":"2025-04-11T22:29:11Z","closedAt":"2025-04-11T22:29:11Z","labels":{"edges":[{"node":{"name":"ci"}}]},"number":118,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"9ffeaceb40f87576fca55543a8d7bcbc31c30eaf"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"consideRatio","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"consideRatio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}}]}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:28:06 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - B21A:3D99D6:D805CA:2CBEF45:6AA9B865
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '1710'
+      X-RateLimit-Reset:
+      - '1789510879'
+      X-RateLimit-Resource:
+      - graphql
+      X-RateLimit-Used:
+      - '3290'
+      X-XSS-Protection:
+      - '0'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "{\n  search(first: 50, query: \"repo:executablebooks/github-activity
+      type:issue closed:2025-04-11T22:23:28Z..2025-12-09T16:50:50Z\", type: ISSUE)
+      {\n    issueCount\n    pageInfo {\n        endCursor\n        hasNextPage\n    }\n    nodes
+      {\n      ... on PullRequest {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n        mergedBy {\n          login\n          __typename\n        }\n        mergeCommit
+      {\n          oid\n        }\n        baseRefName\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n                commits(first:
+      100) {\n          edges {\n            node {\n              commit {\n                committer
+      {\n                  user {\n                    login\n                    __typename\n                  }\n                }\n                authors(first:
+      10) {\n                  edges {\n                    node {\n                      user
+      {\n                        login\n                        __typename\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n\n                reviews(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n      ...
+      on Issue {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n    }\n  }\n}\n"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2840'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"search":{"issueCount":7,"pageInfo":{"endCursor":"Y3Vyc29yOjc=","hasNextPage":false},"nodes":[{"state":"CLOSED","id":"I_kwDODJbnsM7dPNiy","title":"Chris
+        is making a release even though tests are failing because they pass locally","url":"https://github.com/executablebooks/github-activity/issues/148","createdAt":"2025-12-09T16:41:56Z","updatedAt":"2025-12-09T17:01:09Z","closedAt":"2025-12-09T16:43:43Z","labels":{"edges":[]},"number":148,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-09T16:43:37Z","updatedAt":"2025-12-09T16:43:37Z","url":"https://github.com/executablebooks/github-activity/issues/148#issuecomment-3633217170","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"CONTRIBUTOR","createdAt":"2025-12-09T17:01:09Z","updatedAt":"2025-12-09T17:01:09Z","url":"https://github.com/executablebooks/github-activity/issues/148#issuecomment-3633300130","author":{"login":"jtpio","__typename":"User"}}}]}},{"state":"CLOSED","id":"I_kwDODJbnsM7cB2vs","title":"Use
+        GraphQL API to differentiate bot vs. human PR authors instead of hard-coding
+        names","url":"https://github.com/executablebooks/github-activity/issues/145","createdAt":"2025-12-03T18:49:51Z","updatedAt":"2025-12-04T02:03:46Z","closedAt":"2025-12-04T02:03:46Z","labels":{"edges":[]},"number":145,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-12-03T19:54:03Z","updatedAt":"2025-12-03T19:54:03Z","url":"https://github.com/executablebooks/github-activity/issues/145#issuecomment-3608586930","author":{"login":"stefanv","__typename":"User"}}}]}},{"state":"CLOSED","id":"I_kwDODJbnsM66Y8Oc","title":"Add
+        a \"reviewed by\" to each item in the changelog report, listing each reviewer
+        of a merged PR","url":"https://github.com/executablebooks/github-activity/issues/126","createdAt":"2025-06-07T14:44:19Z","updatedAt":"2025-06-09T16:19:27Z","closedAt":"2025-06-09T16:19:27Z","labels":{"edges":[{"node":{"name":"documentation"}}]},"number":126,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"CONTRIBUTOR","createdAt":"2025-06-07T14:52:58Z","updatedAt":"2025-06-07T14:52:58Z","url":"https://github.com/executablebooks/github-activity/issues/126#issuecomment-2952599145","author":{"login":"manics","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-06-07T15:12:09Z","updatedAt":"2025-06-07T15:12:09Z","url":"https://github.com/executablebooks/github-activity/issues/126#issuecomment-2952637522","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-06-07T16:17:54Z","updatedAt":"2025-06-07T16:18:28Z","url":"https://github.com/executablebooks/github-activity/issues/126#issuecomment-2952722410","author":{"login":"choldgraf","__typename":"User"}}}]}},{"state":"CLOSED","id":"I_kwDODJbnsM63ShIM","title":"Detect
+        the date of the latest github release rather than the last tag","url":"https://github.com/executablebooks/github-activity/issues/124","createdAt":"2025-05-19T21:41:33Z","updatedAt":"2025-06-07T15:58:10Z","closedAt":"2025-06-07T15:58:10Z","labels":{"edges":[{"node":{"name":"enhancement"}}]},"number":124,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[]}},{"state":"CLOSED","id":"I_kwDODJbnsM6yX_pA","title":"\"how
+        we define contributors\" link in output no longer resolves","url":"https://github.com/executablebooks/github-activity/issues/121","createdAt":"2025-04-14T10:31:25Z","updatedAt":"2025-04-14T13:04:23Z","closedAt":"2025-04-14T13:04:21Z","labels":{"edges":[{"node":{"name":"bug"}}]},"number":121,"authorAssociation":"COLLABORATOR","author":{"login":"minrk","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-04-14T11:53:19Z","updatedAt":"2025-04-14T11:53:19Z","url":"https://github.com/executablebooks/github-activity/issues/121#issuecomment-2801459164","author":{"login":"consideRatio","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-04-14T12:49:53Z","updatedAt":"2025-04-14T12:49:53Z","url":"https://github.com/executablebooks/github-activity/issues/121#issuecomment-2801607887","author":{"login":"minrk","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-04-14T13:04:21Z","updatedAt":"2025-04-14T13:04:21Z","url":"https://github.com/executablebooks/github-activity/issues/121#issuecomment-2801648616","author":{"login":"consideRatio","__typename":"User"}}}]}},{"state":"CLOSED","id":"I_kwDODJbnsM6kJFV8","title":"Make
+        the list of bot users configurable","url":"https://github.com/executablebooks/github-activity/issues/100","createdAt":"2024-12-21T08:34:33Z","updatedAt":"2025-07-23T21:16:47Z","closedAt":"2025-07-23T21:16:47Z","labels":{"edges":[]},"number":100,"authorAssociation":"CONTRIBUTOR","author":{"login":"jtpio","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[]}},{"state":"CLOSED","id":"I_kwDODJbnsM5oI5uw","title":"Project''s
+        missing RELEASE.md and CHANGELOG.md equivalents","url":"https://github.com/executablebooks/github-activity/issues/88","createdAt":"2023-06-08T06:21:26Z","updatedAt":"2025-04-11T22:38:29Z","closedAt":"2025-04-11T22:38:27Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":88,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-04-11T22:38:28Z","updatedAt":"2025-04-11T22:38:28Z","url":"https://github.com/executablebooks/github-activity/issues/88#issuecomment-2798125715","author":{"login":"consideRatio","__typename":"User"}}}]}}]}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:28:07 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 72E1:2016A4:D34FF6:2BC1BC8:6AA9B867
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '1658'
+      X-RateLimit-Reset:
+      - '1789510879'
+      X-RateLimit-Resource:
+      - graphql
+      X-RateLimit-Used:
+      - '3342'
+      X-XSS-Protection:
+      - '0'
+      content-length:
+      - '6092'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "{\n  search(first: 50, query: \"repo:executablebooks/github-activity
+      type:pr closed:2025-04-11T22:23:28Z..2025-12-09T16:50:50Z\", type: ISSUE) {\n    issueCount\n    pageInfo
+      {\n        endCursor\n        hasNextPage\n    }\n    nodes {\n      ... on
+      PullRequest {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n        mergedBy {\n          login\n          __typename\n        }\n        mergeCommit
+      {\n          oid\n        }\n        baseRefName\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n                commits(first:
+      100) {\n          edges {\n            node {\n              commit {\n                committer
+      {\n                  user {\n                    login\n                    __typename\n                  }\n                }\n                authors(first:
+      10) {\n                  edges {\n                    node {\n                      user
+      {\n                        login\n                        __typename\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n\n                reviews(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n      ...
+      on Issue {\n                state\n        id\n        title\n        url\n        createdAt\n        updatedAt\n        closedAt\n        labels(first:
+      10) {\n            edges {\n                node {\n                    name\n                }\n            }\n        }\n        number\n        authorAssociation\n        author
+      {\n          login\n          __typename\n        }\n        reactions(content:
+      THUMBS_UP) {\n          totalCount\n        }\n\n                comments(last:
+      100) {\n          edges {\n            node {\n              authorAssociation\n              createdAt\n              updatedAt\n              url\n              author
+      {\n                login\n                __typename\n              }\n            }\n          }\n        }\n\n      }\n    }\n  }\n}\n"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2837'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"search":{"issueCount":24,"pageInfo":{"endCursor":"Y3Vyc29yOjI0","hasNextPage":false},"nodes":[{"state":"MERGED","id":"PR_kwDODJbnsM639glW","title":"RLS:
+        v1.1.0","url":"https://github.com/executablebooks/github-activity/pull/149","createdAt":"2025-12-09T16:43:03Z","updatedAt":"2025-12-09T16:43:42Z","closedAt":"2025-12-09T16:43:42Z","labels":{"edges":[]},"number":149,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"3058c1286a037645e988492779f8ac5f5cfb4632"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM63A9n3","title":"Add
+        `pytz` to requirements","url":"https://github.com/executablebooks/github-activity/pull/147","createdAt":"2025-12-04T09:27:46Z","updatedAt":"2025-12-04T16:37:14Z","closedAt":"2025-12-04T16:33:42Z","labels":{"edges":[{"node":{"name":"bug"}}]},"number":147,"authorAssociation":"CONTRIBUTOR","author":{"login":"jtpio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"3ffc68f920474d500c7150bde975e86c591a3184"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"CONTRIBUTOR","createdAt":"2025-12-04T09:43:08Z","updatedAt":"2025-12-04T09:43:08Z","url":"https://github.com/executablebooks/github-activity/pull/147#issuecomment-3611138982","author":{"login":"jtpio","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-04T16:37:14Z","updatedAt":"2025-12-04T16:37:14Z","url":"https://github.com/executablebooks/github-activity/pull/147#issuecomment-3613138180","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"jtpio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"nabobalis","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM626xrM","title":"Use
+        GraphQL API for bot detection","url":"https://github.com/executablebooks/github-activity/pull/146","createdAt":"2025-12-03T20:41:25Z","updatedAt":"2025-12-04T02:03:50Z","closedAt":"2025-12-04T02:03:45Z","labels":{"edges":[]},"number":146,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"stefanv","__typename":"User"},"mergeCommit":{"oid":"7e3a545345a2703bf79a90f7c7b90eb0e3611046"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-03T20:44:16Z","updatedAt":"2025-12-03T20:44:16Z","url":"https://github.com/executablebooks/github-activity/pull/146#issuecomment-3608767494","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-03T22:39:00Z","updatedAt":"2025-12-03T22:39:00Z","url":"https://github.com/executablebooks/github-activity/pull/146#issuecomment-3609145696","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-12-04T02:03:50Z","updatedAt":"2025-12-04T02:03:50Z","url":"https://github.com/executablebooks/github-activity/pull/146#issuecomment-3609643972","author":{"login":"stefanv","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM62bGEx","title":"Update
+        test suite to use fewer GitHub API calls","url":"https://github.com/executablebooks/github-activity/pull/144","createdAt":"2025-12-01T19:06:38Z","updatedAt":"2025-12-03T19:13:22Z","closedAt":"2025-12-03T19:13:22Z","labels":{"edges":[]},"number":144,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"89a921b5a21618841666799318349ec863b81448"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-12-01T19:40:16Z","updatedAt":"2025-12-01T19:40:16Z","url":"https://github.com/executablebooks/github-activity/pull/144#issuecomment-3598536455","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-01T22:24:33Z","updatedAt":"2025-12-01T22:24:33Z","url":"https://github.com/executablebooks/github-activity/pull/144#issuecomment-3599221851","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-03T19:13:17Z","updatedAt":"2025-12-03T19:13:17Z","url":"https://github.com/executablebooks/github-activity/pull/144#issuecomment-3608420986","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM62QfzK","title":"Bump
+        actions/checkout from 5 to 6 in the actions group","url":"https://github.com/executablebooks/github-activity/pull/143","createdAt":"2025-12-01T05:42:08Z","updatedAt":"2025-12-01T14:39:18Z","closedAt":"2025-12-01T14:39:10Z","labels":{"edges":[{"node":{"name":"dependencies"}},{"node":{"name":"github_actions"}}]},"number":143,"authorAssociation":"CONTRIBUTOR","author":{"login":"dependabot","__typename":"Bot"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"40f0335911f61937a02d5a16f828d2e7d631b626"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-01T14:39:05Z","updatedAt":"2025-12-01T14:39:05Z","url":"https://github.com/executablebooks/github-activity/pull/143#issuecomment-3596895834","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"dependabot[bot]","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6relOk","title":"MAINT:
+        group the dependabot updates into one PR","url":"https://github.com/executablebooks/github-activity/pull/141","createdAt":"2025-10-01T05:25:01Z","updatedAt":"2025-12-01T14:49:05Z","closedAt":"2025-10-01T05:29:29Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":141,"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"2a62fd546ace04fb69eee9901039710578448bc3"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-10-01T05:29:25Z","updatedAt":"2025-10-01T05:29:25Z","url":"https://github.com/executablebooks/github-activity/pull/141#issuecomment-3354807933","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"bsipocz","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rei2u","title":"Bump
+        actions/checkout from 4 to 5","url":"https://github.com/executablebooks/github-activity/pull/140","createdAt":"2025-10-01T05:21:21Z","updatedAt":"2025-10-01T05:22:39Z","closedAt":"2025-10-01T05:22:30Z","labels":{"edges":[{"node":{"name":"dependencies"}},{"node":{"name":"github_actions"}}]},"number":140,"authorAssociation":"CONTRIBUTOR","author":{"login":"dependabot","__typename":"Bot"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"dd34ec2e6733c348d408ee928c9cd9f74ee17229"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"dependabot[bot]","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6reiza","title":"Bump
+        actions/setup-python from 5 to 6","url":"https://github.com/executablebooks/github-activity/pull/139","createdAt":"2025-10-01T05:21:18Z","updatedAt":"2025-10-01T05:29:50Z","closedAt":"2025-10-01T05:29:43Z","labels":{"edges":[{"node":{"name":"dependencies"}},{"node":{"name":"github_actions"}}]},"number":139,"authorAssociation":"CONTRIBUTOR","author":{"login":"dependabot","__typename":"Bot"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"64f982651479ff98577f1774fadb5c9e6f4e0bfc"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"dependabot[bot]","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"bsipocz","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rbjSi","title":"Expose
+        GitHub API call error","url":"https://github.com/executablebooks/github-activity/pull/138","createdAt":"2025-09-30T22:04:03Z","updatedAt":"2025-12-01T19:40:00Z","closedAt":"2025-12-01T19:40:00Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":138,"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"cdb6572c4bc7db2c4adbfe3f8e2b019026c63fa6"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rZoKz","title":"Update
+        pre-commit to use Ruff; update versions and add a few rules","url":"https://github.com/executablebooks/github-activity/pull/137","createdAt":"2025-09-30T18:40:36Z","updatedAt":"2025-12-01T14:45:35Z","closedAt":"2025-12-01T14:45:35Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":137,"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"748c4c6ca95f10b405bd42c351c78f856d464fc0"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-12-01T14:45:29Z","updatedAt":"2025-12-01T14:45:29Z","url":"https://github.com/executablebooks/github-activity/pull/137#issuecomment-3596937495","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"CLOSED","id":"PR_kwDODJbnsM6rZdb7","title":"Use
+        CI token for testing","url":"https://github.com/executablebooks/github-activity/pull/136","createdAt":"2025-09-30T18:25:24Z","updatedAt":"2025-09-30T18:50:59Z","closedAt":"2025-09-30T18:50:59Z","labels":{"edges":[]},"number":136,"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":null,"mergeCommit":null,"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"CLOSED","id":"PR_kwDODJbnsM6rL8o4","title":"Add
+        a token to avoid rate limits on tests","url":"https://github.com/executablebooks/github-activity/pull/135","createdAt":"2025-09-29T20:53:49Z","updatedAt":"2025-12-01T14:49:04Z","closedAt":"2025-09-30T01:53:28Z","labels":{"edges":[]},"number":135,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":null,"mergeCommit":null,"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-29T21:54:24Z","updatedAt":"2025-09-29T21:54:24Z","url":"https://github.com/executablebooks/github-activity/pull/135#issuecomment-3349184848","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-30T01:53:26Z","updatedAt":"2025-09-30T01:53:26Z","url":"https://github.com/executablebooks/github-activity/pull/135#issuecomment-3349649974","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rLmPr","title":"Change
+        token to readonly PAT so we don''t hit rate limits","url":"https://github.com/executablebooks/github-activity/pull/134","createdAt":"2025-09-29T20:19:10Z","updatedAt":"2025-09-30T01:53:09Z","closedAt":"2025-09-30T01:53:09Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":134,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"65dd7bdea3f896d7912ebe280787b3a9a3492e81"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-29T21:17:54Z","updatedAt":"2025-09-29T21:17:54Z","url":"https://github.com/executablebooks/github-activity/pull/134#issuecomment-3349091645","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-30T01:53:05Z","updatedAt":"2025-09-30T01:53:05Z","url":"https://github.com/executablebooks/github-activity/pull/134#issuecomment-3349649490","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}},{"node":{"user":{"login":"bsipocz","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6rJne9","title":"Fix
+        tests and move contributing docs into our docs","url":"https://github.com/executablebooks/github-activity/pull/133","createdAt":"2025-09-29T17:18:05Z","updatedAt":"2025-09-29T20:01:28Z","closedAt":"2025-09-29T20:01:28Z","labels":{"edges":[{"node":{"name":"maintenance"}}]},"number":133,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"199b098d66f2633758980d80f1bc2a1b8ec38939"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6qjl4m","title":"add
+        pyproject.toml","url":"https://github.com/executablebooks/github-activity/pull/132","createdAt":"2025-09-25T17:32:12Z","updatedAt":"2025-09-29T17:08:37Z","closedAt":"2025-09-29T17:08:37Z","labels":{"edges":[]},"number":132,"authorAssociation":"COLLABORATOR","author":{"login":"minrk","__typename":"User"},"reactions":{"totalCount":1},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"1b6a873860cee4b83d116f15af96b6ad008fb586"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-25T20:15:05Z","updatedAt":"2025-09-25T20:15:05Z","url":"https://github.com/executablebooks/github-activity/pull/132#issuecomment-3335788933","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"minrk","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"minrk","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6h58-F","title":"Ensure
+        PRs only show up once per changelog","url":"https://github.com/executablebooks/github-activity/pull/130","createdAt":"2025-08-03T21:36:21Z","updatedAt":"2025-09-08T20:46:15Z","closedAt":"2025-09-08T20:46:02Z","labels":{"edges":[{"node":{"name":"bug"}}]},"number":130,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"bsipocz","__typename":"User"},"mergeCommit":{"oid":"8dda65716c7e8aedad486b561f809c3c1ff9e1ee"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"nabobalis","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6gJcdX","title":"Allow
+        excluding certain usernames from changelog","url":"https://github.com/executablebooks/github-activity/pull/128","createdAt":"2025-07-22T21:14:30Z","updatedAt":"2025-09-30T18:20:50Z","closedAt":"2025-07-23T21:16:46Z","labels":{"edges":[{"node":{"name":"enhancement"}}]},"number":128,"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"stefanv","__typename":"User"},"mergeCommit":{"oid":"5b3f082f03ae01651f257c827180e10091d7bda3"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-07-22T22:19:55Z","updatedAt":"2025-07-22T22:19:55Z","url":"https://github.com/executablebooks/github-activity/pull/128#issuecomment-3104992297","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","createdAt":"2025-07-22T22:59:35Z","updatedAt":"2025-07-22T22:59:35Z","url":"https://github.com/executablebooks/github-activity/pull/128#issuecomment-3105066617","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-07-22T23:27:02Z","updatedAt":"2025-07-22T23:27:02Z","url":"https://github.com/executablebooks/github-activity/pull/128#issuecomment-3105104819","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-09-08T18:14:31Z","updatedAt":"2025-09-08T18:14:31Z","url":"https://github.com/executablebooks/github-activity/pull/128#issuecomment-3267390258","author":{"login":"bsipocz","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}},{"node":{"user":{"login":"bsipocz","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"stefanv","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"stefanv","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"bsipocz","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"stefanv","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"nabobalis","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6ZhXmS","title":"[DOC]
+        Clarify some intended functionality in docs","url":"https://github.com/executablebooks/github-activity/pull/127","createdAt":"2025-06-07T15:57:26Z","updatedAt":"2025-06-10T10:51:53Z","closedAt":"2025-06-09T16:19:26Z","labels":{"edges":[]},"number":127,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"faa4f4e1e5de5ecbff2dc33fa7408bef1dd9fec6"},"baseRefName":"main","comments":{"edges":[{"node":{"authorAssociation":"MEMBER","createdAt":"2025-06-09T13:46:08Z","updatedAt":"2025-06-09T13:46:08Z","url":"https://github.com/executablebooks/github-activity/pull/127#issuecomment-2955844867","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","createdAt":"2025-06-09T16:19:44Z","updatedAt":"2025-06-09T16:19:44Z","url":"https://github.com/executablebooks/github-activity/pull/127#issuecomment-2956271998","author":{"login":"choldgraf","__typename":"User"}}}]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}},{"node":{"user":{"login":"manics","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}},{"node":{"user":{"login":"manics","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":null},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"CONTRIBUTOR","author":{"login":"manics","__typename":"User"}}},{"node":{"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"}}},{"node":{"authorAssociation":"CONTRIBUTOR","author":{"login":"manics","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6WzJjH","title":"Use
+        latest github release first instead of github tag","url":"https://github.com/executablebooks/github-activity/pull/125","createdAt":"2025-05-19T23:54:00Z","updatedAt":"2025-09-09T01:03:02Z","closedAt":"2025-06-07T15:58:09Z","labels":{"edges":[]},"number":125,"authorAssociation":"MEMBER","author":{"login":"choldgraf","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"choldgraf","__typename":"User"},"mergeCommit":{"oid":"c6e278f53ddf1faafa8ddfa460698325ecbc5840"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}},{"node":{"commit":{"committer":{"user":{"login":"choldgraf","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"choldgraf","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"nabobalis","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6Sd1ey","title":"make
+        sure generated anchor links resolve","url":"https://github.com/executablebooks/github-activity/pull/122","createdAt":"2025-04-14T10:43:03Z","updatedAt":"2025-04-14T19:48:40Z","closedAt":"2025-04-14T11:46:28Z","labels":{"edges":[{"node":{"name":"documentation"}}]},"number":122,"authorAssociation":"COLLABORATOR","author":{"login":"minrk","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"a9d85f49e246f751c1699ea99c7ef9f9058c9874"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"minrk","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"minrk","__typename":"User"}}}]}}}}]},"reviews":{"edges":[{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"minrk","__typename":"User"}}},{"node":{"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"}}}]}},{"state":"MERGED","id":"PR_kwDODJbnsM6SUpKy","title":"Add
+        changelog for v1.0.3","url":"https://github.com/executablebooks/github-activity/pull/120","createdAt":"2025-04-11T22:31:01Z","updatedAt":"2025-04-11T22:31:25Z","closedAt":"2025-04-11T22:31:25Z","labels":{"edges":[{"node":{"name":"documentation"}}]},"number":120,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"7992169618baa6cf63308a26e03fd20782c97509"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"consideRatio","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"consideRatio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6SUo5a","title":"ci:
+        fix github action tag in publish workflow","url":"https://github.com/executablebooks/github-activity/pull/119","createdAt":"2025-04-11T22:29:33Z","updatedAt":"2025-04-11T22:29:56Z","closedAt":"2025-04-11T22:29:55Z","labels":{"edges":[{"node":{"name":"ci"}}]},"number":119,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"9da313addfc470f213f2c71ecccc9ebcdd325444"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"consideRatio","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"consideRatio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6SUoyL","title":"ci:
+        fix location of dependabot.yaml","url":"https://github.com/executablebooks/github-activity/pull/118","createdAt":"2025-04-11T22:28:56Z","updatedAt":"2025-04-11T22:29:11Z","closedAt":"2025-04-11T22:29:11Z","labels":{"edges":[{"node":{"name":"ci"}}]},"number":118,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"9ffeaceb40f87576fca55543a8d7bcbc31c30eaf"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"consideRatio","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"consideRatio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}},{"state":"MERGED","id":"PR_kwDODJbnsM6SUnIq","title":"Add
+        changelog for v1.0.2","url":"https://github.com/executablebooks/github-activity/pull/117","createdAt":"2025-04-11T22:21:36Z","updatedAt":"2025-04-11T22:23:29Z","closedAt":"2025-04-11T22:23:29Z","labels":{"edges":[{"node":{"name":"documentation"}}]},"number":117,"authorAssociation":"COLLABORATOR","author":{"login":"consideRatio","__typename":"User"},"reactions":{"totalCount":0},"mergedBy":{"login":"consideRatio","__typename":"User"},"mergeCommit":{"oid":"333712d1e6f70e1d79a8b7a51884fb301522c64d"},"baseRefName":"main","comments":{"edges":[]},"commits":{"edges":[{"node":{"commit":{"committer":{"user":{"login":"consideRatio","__typename":"User"}},"authors":{"edges":[{"node":{"user":{"login":"consideRatio","__typename":"User"}}}]}}}}]},"reviews":{"edges":[]}}]}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 15 Sep 2026 21:28:09 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - github.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 114F:2C9A:D53F55:2C393C1:6AA9B868
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '1606'
+      X-RateLimit-Reset:
+      - '1789510879'
+      X-RateLimit-Resource:
+      - graphql
+      X-RateLimit-Used:
+      - '3394'
+      X-XSS-Protection:
+      - '0'
+      x-github-edge-region:
+      - iad
+    status:
+      code: 200
+      message: OK
+version: 1
