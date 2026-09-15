@@ -2,14 +2,14 @@ import argparse
 import json
 import os
 import sys
-from subprocess import PIPE
-from subprocess import run
+from subprocess import PIPE, run
 
-from .git import _git_installed_check
-from .git import _git_toplevel_path
-from .github_activity import _parse_target
-from .github_activity import generate_activity_md
-from .github_activity import generate_all_activity_md
+from .git import _git_installed_check, _git_toplevel_path
+from .github_activity import (
+    _parse_target,
+    generate_activity_md,
+    generate_all_activity_md,
+)
 
 DESCRIPTION = "Generate a markdown changelog of GitHub activity within a date window."
 
@@ -191,7 +191,7 @@ def main():
     if not args.target:
         err = "Could not automatically detect remote, and none was given."
         try:
-            out = run("git remote -v".split(), stdout=PIPE)
+            out = run(["git", "remote", "-v"], stdout=PIPE, check=False)
             remotes = out.stdout.decode().split("\n")
             remotes = [ii for ii in remotes if ii]
             remotes = {
@@ -214,16 +214,16 @@ def main():
         except Exception:
             raise ValueError(err)
 
-    common_kwargs = dict(
-        kind=args.kind,
-        auth=args.auth,
-        tags=tags,
-        include_issues=bool(args.include_issues),
-        include_opened=bool(args.include_opened),
-        strip_brackets=bool(args.strip_brackets),
-        branch=args.branch,
-        ignored_contributors=args.ignore_contributor,
-    )
+    common_kwargs = {
+        "kind": args.kind,
+        "auth": args.auth,
+        "tags": tags,
+        "include_issues": bool(args.include_issues),
+        "include_opened": bool(args.include_opened),
+        "strip_brackets": bool(args.strip_brackets),
+        "branch": args.branch,
+        "ignored_contributors": args.ignore_contributor,
+    }
 
     # Wrap in a try/except so we don't have an ugly stack trace if there's an error
     try:

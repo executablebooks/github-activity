@@ -175,12 +175,12 @@ class GitHubGraphQlQuery:
         self.issues_and_or_prs = []
         for ii in range(n_pages):
             github_search_query = [
-                "first: %s" % n_per_page,
-                'query: "%s"' % self.query,
+                f"first: {n_per_page}",
+                f'query: "{self.query}"',
                 "type: ISSUE",
             ]
             if ii != 0:
-                github_search_query.append('after: "%s"' % pageInfo["endCursor"])
+                github_search_query.append(f'after: "{pageInfo["endCursor"]}"')
 
             ii_gql_query = self.gql_template.format(
                 query=", ".join(github_search_query),
@@ -215,9 +215,7 @@ class GitHubGraphQlQuery:
                     except (ValueError, KeyError):
                         pass
                 raise Exception(
-                    "Query failed to run by returning code of {}. {}".format(
-                        ii_request.status_code, ii_gql_query
-                    )
+                    f"Query failed to run by returning code of {ii_request.status_code}. {ii_gql_query}"
                 )
             errors = ii_request.json().get("errors")
             if errors:
@@ -230,7 +228,7 @@ class GitHubGraphQlQuery:
                             "Please wait before making more requests, or use an authentication token with higher rate limits."
                         )
                 raise Exception(
-                    "Query failed to run with error {}. {}".format(errors, ii_gql_query)
+                    f"Query failed to run with error {errors}. {ii_gql_query}"
                 )
             self.last_request = ii_request
 
@@ -306,9 +304,12 @@ class GitHubGraphQlQuery:
                     commit = commit_edge["node"]["commit"]
                     # Check committer
                     committer = commit.get("committer")
-                    if committer and committer.get("user"):
-                        if is_bot(committer["user"]):
-                            bot_users.add(committer["user"]["login"])
+                    if (
+                        committer
+                        and committer.get("user")
+                        and is_bot(committer["user"])
+                    ):
+                        bot_users.add(committer["user"]["login"])
                     # Check authors
                     authors = commit.get("authors")
                     if authors:

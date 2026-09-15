@@ -1,4 +1,4 @@
 __version__ = "1.1.7"
-__all__ = ["get_activity", "generate_activity_md"]
+__all__ = ["generate_activity_md", "get_activity"]
 
-from .github_activity import get_activity, generate_activity_md
+from .github_activity import generate_activity_md, get_activity

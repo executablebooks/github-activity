@@ -136,8 +136,9 @@ def test_changelog_features(file_regression):
 
 def test_invalid_repository_error():
     """Test that invalid repository names produce clear error messages."""
-    from github_activity.github_activity import get_activity
     import pytest
+
+    from github_activity.github_activity import get_activity
 
     # Test with an invalid repository name
     with pytest.raises(ValueError) as exc_info:

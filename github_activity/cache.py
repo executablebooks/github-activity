@@ -19,7 +19,7 @@ def _cache_data(query_data, path_cache):
         path_repo_cache.mkdir(parents=True, exist_ok=True)
 
         # First pull issues
-        def _categorize_item(item):
+        def _categorize_item(item, repo=repo):
             if f"{repo}/issues" in item:
                 out = "issue"
             else:

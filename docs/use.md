@@ -266,7 +266,7 @@ df = get_activity(
     until="2023-12-31",
     auth="your-github-token",
     kind=None,
-    cache=None
+    cache=None,
 )
 ```
 
@@ -277,5 +277,5 @@ There are some helper functions for this. For example, to extract nested comment
 from github_activity import get_activity, extract_comments
 
 df = get_activity(...)
-comments_df = extract_comments(df['comments'])
+comments_df = extract_comments(df["comments"])
 ```
