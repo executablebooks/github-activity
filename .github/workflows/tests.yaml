@@ -25,22 +25,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.14"
 
-      # ref: https://github.com/pre-commit/action
-      - uses: pre-commit/action@v3.0.1
+      # ref: https://github.com/j178/prek-action
+      - uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
       - name: Help message if pre-commit fail
         if: ${{ failure() }}
         run: |
-          echo "You can install pre-commit hooks to automatically run formatting"
-          echo "on each commit with:"
-          echo "    pre-commit install"
+          echo "You can install pre-commit hooks (with prek or pre-commit) to"
+          echo "automatically run formatting on each commit with:"
+          echo "    prek install"
           echo "or you can run by hand on staged files with"
-          echo "    pre-commit run"
+          echo "    prek run"
           echo "or after-the-fact on already committed files with"
-          echo "    pre-commit run --all-files"
+          echo "    prek run --all-files"
 
   tests:
     runs-on: ubuntu-24.04
