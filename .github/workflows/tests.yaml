@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v7
 
       # ref: https://github.com/j178/prek-action
-      - uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
+      - uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
       - name: Help message if pre-commit fail
         if: ${{ failure() }}
         run: |
