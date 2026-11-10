@@ -156,3 +156,32 @@ def test_invalid_repository_error():
     assert "invalid-org/nonexistent-repo-12345" in error_message, (
         f"Error should include the repo name, got: {error_message}"
     )
+
+
+def test_normalize_tags():
+    """--tags accepts comma-separated strings, JSON lists, and None."""
+    from github_activity.cli import _normalize_tags
+
+    assert _normalize_tags(None) is None
+    assert _normalize_tags("bug,docs") == ["bug", "docs"]
+    assert _normalize_tags("bug, enhancement ") == ["bug", "enhancement"]
+    assert _normalize_tags(["bug", " docs "]) == ["bug", "docs"]
+
+
+def test_config_list_tags(tmp_path, monkeypatch):
+    """A JSON list of tags in .githubactivity.json must not crash.
+
+    Regression test: config-provided lists used to reach
+    ``args.tags.split(",")`` and die with
+    ``AttributeError: 'list' object has no attribute 'split'``.
+    """
+    from github_activity import cli
+
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / ".githubactivity.json").write_text('{"tags": ["bug", "docs"]}')
+    run(["git", "init", "-q", str(repo)], check=True)
+    monkeypatch.chdir(repo)
+    args = cli.parser.parse_args([])
+    cli.load_config_and_defaults(args)
+    assert cli._normalize_tags(args.tags) == ["bug", "docs"]
