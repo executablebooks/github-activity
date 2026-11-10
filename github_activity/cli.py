@@ -171,6 +171,21 @@ def load_config_and_defaults(args):
             setattr(args, argname, config.get(configname, ARG_DEFAULTS.get(configname)))
 
 
+def _normalize_tags(tags):
+    """Return the --tags value as a clean list of tag names.
+
+    The CLI takes a comma-separated string (e.g. ``--tags bug,docs``)
+    while ``.githubactivity.json`` naturally provides a JSON list
+    (e.g. ``{"tags": ["bug", "docs"]}``); both forms are accepted and
+    surrounding whitespace is stripped. ``None`` stays ``None`` (all tags).
+    """
+    if tags is None:
+        return None
+    if isinstance(tags, str):
+        tags = tags.split(",")
+    return [tag.strip() for tag in tags]
+
+
 def main():
     if not _git_installed_check():
         print("git is required to run github-activity", file=sys.stderr)
@@ -186,7 +201,7 @@ def main():
 
     load_config_and_defaults(args)
 
-    tags = args.tags.split(",") if args.tags is not None else args.tags
+    tags = _normalize_tags(args.tags)
     # Automatically detect the target from remotes if we haven't had one passed.
     if not args.target:
         err = "Could not automatically detect remote, and none was given."
