@@ -1,5 +1,7 @@
 import os
 import sys
+from datetime import datetime, timedelta
+from itertools import count
 
 import numpy as np
 import pandas as pd
@@ -127,7 +129,7 @@ gql_template = """\
 
 # Define our query object that we'll re-use for github search
 class GitHubGraphQlQuery:
-    def __init__(self, query, display_progress=True, auth=None):
+    def __init__(self, query, display_progress=True, auth=None, *, window=None):
         """Run a GitHub GraphQL query and return the issue/PR data from it.
 
         Parameters
@@ -140,8 +142,11 @@ class GitHubGraphQlQuery:
         auth : string | None
           An authentication token for GitHub. If None, then the environment
           variable `GITHUB_ACCESS_TOKEN` will be tried.
+        window : tuple | None
+          A created or closed date qualifier and its inclusive UTC timestamps.
         """
         self.query = query
+        self.window = window
         self.bot_users = set()  # Store detected bot usernames
 
         # Authentication
@@ -160,23 +165,36 @@ class GitHubGraphQlQuery:
         self.gql_template = gql_template
         self.display_progress = display_progress
 
-    def request(self, n_pages=100, n_per_page=50):
+    def request(self, n_pages=None, n_per_page=50):
         """Make a request to the GitHub GraphQL API.
 
         This generates an attribute `self.data` with a pandas
         DataFrame of the issue / PR activity corresponding to
-        the query you ran.
+        the query you ran. An explicit n_pages limits the number of pages
+        fetched from the original search.
         """
+        self.issues_and_or_prs = []
+        self._request_pages(self.window, n_pages, n_per_page)
+        if not self.issues_and_or_prs:
+            self.data = pd.DataFrame()
+            return
+        self._build_dataframe()
+
+    def _request_pages(self, window, n_pages, n_per_page):
+        query = self.query
+        if window:
+            field, start, end = window
+            query += f" {field}:{start}..{end}"
 
         # NOTE: This main search query has a type, but the query string also has a type.
         # ref ("search"): https://developer.github.com/v4/query/#connections
         # Collect paginated issues
         pageInfo = None
-        self.issues_and_or_prs = []
-        for ii in range(n_pages):
+        pages = count() if n_pages is None else range(n_pages)
+        for ii in pages:
             github_search_query = [
                 f"first: {n_per_page}",
-                f'query: "{self.query}"',
+                f'query: "{query}"',
                 "type: ISSUE",
             ]
             if ii != 0:
@@ -237,13 +255,31 @@ class GitHubGraphQlQuery:
             if ii == 0:
                 if json["issueCount"] == 0:
                     print("Found no entries for query.", file=sys.stderr)
-                    self.data = pd.DataFrame()
                     return
 
-                n_pages = int(np.ceil(json["issueCount"] / n_per_page))
+                if n_pages is None and json["issueCount"] > 1000:
+                    if not window or start >= end:
+                        raise ValueError(
+                            f"GitHub search exceeds its 1,000-result limit for {query!r}. "
+                            "Narrow the search to retrieve all results."
+                        )
+                    first = datetime.fromisoformat(start.removesuffix("Z"))
+                    last = datetime.fromisoformat(end.removesuffix("Z"))
+                    middle = (first + (last - first) // 2).replace(microsecond=0)
+                    # Both ends are inclusive and GitHub timestamps have second precision.
+                    next_second = middle + timedelta(seconds=1)
+                    self._request_pages(
+                        (field, start, f"{middle.isoformat()}Z"), None, n_per_page
+                    )
+                    self._request_pages(
+                        (field, f"{next_second.isoformat()}Z", end), None, n_per_page
+                    )
+                    return
+
+                total_pages = int(np.ceil(json["issueCount"] / n_per_page))
                 print(
                     "Found {} items, which will take {} pages".format(
-                        json["issueCount"], n_pages
+                        json["issueCount"], total_pages
                     ),
                     file=sys.stderr,
                 )
@@ -251,7 +287,7 @@ class GitHubGraphQlQuery:
                     total=json["issueCount"],
                     desc="Downloading:",
                     unit="issues",
-                    disable=n_pages == 1 or not self.display_progress,
+                    disable=total_pages == 1 or not self.display_progress,
                 )
 
             # Add the JSON to the raw data list
@@ -264,6 +300,7 @@ class GitHubGraphQlQuery:
             if not pageInfo["hasNextPage"]:
                 break
 
+    def _build_dataframe(self):
         # Extract bot users from raw data before DataFrame conversion
         def is_bot(user_dict):
             """Check if a GraphQL user object represents a bot account."""
