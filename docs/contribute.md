@@ -11,6 +11,25 @@ This will install the local version of the package and run the test suite.
 nox -s test
 ```
 
+The tests don't call the GitHub API.
+Instead they replay responses recorded with [`pytest-recording`](https://github.com/kiwicom/pytest-recording), which are stored in `tests/cassettes/`.
+
+If you change the requests github-activity makes, the tests will fail with `CannotOverwriteExistingCassetteException`.
+Re-record the cassettes with a GitHub token (read-only access to public repositories is enough) and commit them:
+
+```bash
+GITHUB_ACCESS_TOKEN=... nox -s test -- --record-mode=rewrite
+```
+
+Tokens are filtered out of the recordings.
+
+Because the cassettes can't show changes on GitHub's side, the `live-api` workflow also runs the tests against the real GitHub API once a week.
+To do the same locally, run:
+
+```bash
+GITHUB_ACCESS_TOKEN=... GITHUB_ACTIVITY_LIVE_TESTS=1 nox -s test
+```
+
 ## Build the documentation
 
 The easiest way to build the documentation locally is using `nox`.

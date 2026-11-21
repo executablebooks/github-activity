@@ -25,6 +25,7 @@ Source = "https://github.com/executablebooks/github-activity"
 testing = [
     "pytest",
     "pytest-cov",
+    "pytest-recording",
     "pytest-regressions",
 ]
 sphinx = [
