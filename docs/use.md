@@ -70,6 +70,8 @@ Each of these accepts either:
 
 If no `-u` parameter is given, then all activity until today will be included.
 
+GitHub returns at most 1,000 results per search. If an activity window exceeds that limit, `github-activity` searches smaller time ranges automatically. If more than 1,000 items were created or closed within the same second, it reports the affected range and stops.
+
 (prefixes-and-tags)=
 
 ## Split PRs by tags and prefixes

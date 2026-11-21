@@ -223,10 +223,9 @@ def get_activity(
     query_data = []
     all_bot_users = set()
     for activity_type in ["created", "closed"]:
-        ii_search_query = (
-            search_query + f" {activity_type}:{since_dt_str}..{until_dt_str}"
+        qu = GitHubGraphQlQuery(
+            search_query, auth=auth, window=(activity_type, since_dt_str, until_dt_str)
         )
-        qu = GitHubGraphQlQuery(ii_search_query, auth=auth)
         qu.request()
         query_data.append(qu.data)
         # Collect bot users from each query
